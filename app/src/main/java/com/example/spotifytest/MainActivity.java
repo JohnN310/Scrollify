@@ -28,7 +28,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String CLIENT_ID = "d3136c06706142209a3c65aa74c6b9b7";
-    public static final String REDIRECT_URI = "spotify-sdk://auth";
+    public static final String REDIRECT_URI = "spotifytest://auth";
 
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
     public static final int AUTH_CODE_REQUEST_CODE = 1;
