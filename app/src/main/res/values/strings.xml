@@ -51,4 +51,7 @@
     <string name="login">Login</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="scrollify">Scrollify</string>
+    <string name="go_to_create_an_account">Create an Account</string>
+    <string name="go_to_create_account">Create Account</string>
+    <string name="top_tracks">Top Tracks</string>
 </resources>
