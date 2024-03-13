@@ -7,11 +7,17 @@ public class YourProfile {
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
+    private String personalToken;
 
     public YourProfile() {
         top5SongList = new ArrayList<>();
         top5ArtistList = new ArrayList<>();
         top5GenreList = new ArrayList<>();
+    }
+
+    public YourProfile(String token) {
+        this();
+        personalToken = token;
     }
 
     public List<Song> getTop5SongList() {

@@ -1,6 +1,6 @@
 package com.example.spotifytest;
 
-public class Genre {
+public class Genre implements Comparable<Genre> {
     String genreName;
     int personalGenreRank;
 
@@ -19,5 +19,16 @@ public class Genre {
 
     public String getGenreName() {
         return genreName;
+    }
+
+    @Override
+    public int compareTo(Genre o) {
+        Genre g = (Genre) o;
+        if (this.getPersonalGenreRank() < g.getPersonalGenreRank()) {
+            return 1;
+        } else if (this.getPersonalGenreRank() > g.getPersonalGenreRank()) {
+            return -1;
+        }
+        return 0;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.spotifytest;
 
-public class Song implements Comparable {
+public class Song implements Comparable<Song> {
     private String songName; //name of song
     private int numListens; //number of listens (total)
     private int yourListens; //number of listens (personal)
@@ -19,7 +19,7 @@ public class Song implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Song o) {
         Song comparedSong = (Song) o;
         int result = 0;
         if (this.personalSongRank < comparedSong.getPersonalSongRank()) {

@@ -1,6 +1,6 @@
 package com.example.spotifytest;
 
-public class Artist {
+public class Artist implements Comparable<Artist> {
     private String artistName;
     private int monthlyListeners; //number of monthly listeners the artist has
 
@@ -20,5 +20,15 @@ public class Artist {
 
     public int getPersonaArtistRank() {
         return personaArtistRank;
+    }
+
+    @Override
+    public int compareTo(Artist o) {
+        if (this.getPersonaArtistRank() < o.getPersonaArtistRank()) {
+            return 1;
+        } else if (this.getPersonaArtistRank() > o.getPersonaArtistRank()) {
+            return -1;
+        }
+        return 0;
     }
 }
