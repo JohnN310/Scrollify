@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class CreateAccount extends AppCompatActivity {
     Button go_to_login;
     Button connect_spotify_button;
@@ -17,9 +18,9 @@ public class CreateAccount extends AppCompatActivity {
     EditText inputName;
     EditText inputUsername;
     EditText inputPassword;
+    EditText inputConfirmPassword;
 
-    String newUsername;
-    String newPassword;
+
 
 
     @Override
@@ -31,6 +32,8 @@ public class CreateAccount extends AppCompatActivity {
         inputName = (EditText) findViewById(R.id.type_name);
         inputUsername = (EditText) findViewById(R.id.create_username);
         inputPassword = (EditText) findViewById(R.id.create_password);
+        inputConfirmPassword = (EditText) findViewById(R.id.confirm_password);
+
 
         go_to_login = (Button) findViewById(R.id.go_to_login);
         go_to_login.setOnClickListener(new View.OnClickListener() {
@@ -56,11 +59,22 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (inputName.getText().toString().equals("") || inputUsername.getText().toString().equals("") || inputPassword.getText().toString().equals("")) {
-                    Toast myToast = Toast.makeText(CreateAccount.this, "You must complete all fields!", Toast.LENGTH_SHORT);
-                    myToast.show();
+                if (inputName.getText().toString().equals("")) {
+                    Toast.makeText(CreateAccount.this, "You must enter your name!", Toast.LENGTH_SHORT).show();
+                } else if (inputUsername.getText().toString().equals("")) {
+                    Toast.makeText(CreateAccount.this, "You must create a username!", Toast.LENGTH_SHORT).show();
+                } else if (inputUsername.getText().toString().contains(" ")) {
+                    Toast.makeText(CreateAccount.this, "Your username cannot have spaces in it!", Toast.LENGTH_SHORT).show();
+                } else if (inputPassword.getText().toString().equals("")) {
+                    Toast.makeText(CreateAccount.this, "You must create a password!", Toast.LENGTH_SHORT).show();
+                } else if (inputPassword.getText().toString().length() < 6) {
+                    Toast.makeText(CreateAccount.this, "Your password is too short!", Toast.LENGTH_SHORT).show();
+                } else if (!inputPassword.getText().toString().equals(inputConfirmPassword.getText().toString())) {
+                    Toast.makeText(CreateAccount.this, "Your passwords don't match!", Toast.LENGTH_SHORT).show();
+                } else if (inputPassword.getText().toString().contains(" ")) {
+                    Toast.makeText(CreateAccount.this, "Your password cannot have spaces in it!", Toast.LENGTH_SHORT).show();
                 } else {
-                    setAccount(inputUsername.getText().toString(), inputPassword.getText().toString());
+                    setAccount(inputName.getText().toString(), inputUsername.getText().toString(), inputPassword.getText().toString());
                 }
 
             }
@@ -68,7 +82,7 @@ public class CreateAccount extends AppCompatActivity {
 
     }
 
-    public void setAccount(String username, String password) {
+    public void setAccount(String name, String username, String password) {
         return;
 
     }
