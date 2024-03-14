@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpotifyApiHelperActivity extends AppCompatActivity implements SpotifyApiHelper.SpotifyDataListener {
+public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements SpotifyApiHelper.SpotifyDataListener {
 
     private ListView listView;
     private SpotifyApiHelper spotifyApiHelper;
@@ -20,7 +20,7 @@ public class SpotifyApiHelperActivity extends AppCompatActivity implements Spoti
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.spotify_api_helper);
+        setContentView(R.layout.spotify_api_helper_songs);
 
         // Initialize ListView
         listView = findViewById(R.id.listView);
