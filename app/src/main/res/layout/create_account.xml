@@ -37,16 +37,29 @@
         tools:layout_editor_absoluteY="140dp" />
 
     <EditText
-        android:id="@+id/create_username"
+        android:id="@+id/type_name"
         android:layout_width="270sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
-        android:hint="@string/username"
+        android:hint="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/create_an_account_text"
+        android:textSize="22sp"/>
+
+    <EditText
+        android:id="@+id/create_username"
+        android:layout_width="270sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:hint="@string/username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/type_name"
         android:textSize="22sp"/>
 
     <EditText

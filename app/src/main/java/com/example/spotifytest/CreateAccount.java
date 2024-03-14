@@ -14,6 +14,7 @@ public class CreateAccount extends AppCompatActivity {
     Button go_to_login;
     Button connect_spotify_button;
     Button create_account;
+    EditText inputName;
     EditText inputUsername;
     EditText inputPassword;
 
@@ -27,6 +28,7 @@ public class CreateAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
 
+        inputName = (EditText) findViewById(R.id.type_name);
         inputUsername = (EditText) findViewById(R.id.create_username);
         inputPassword = (EditText) findViewById(R.id.create_password);
 
@@ -54,7 +56,7 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (inputUsername.getText().toString().equals("") || inputPassword.getText().toString().equals("")) {
+                if (inputName.getText().toString().equals("") || inputUsername.getText().toString().equals("") || inputPassword.getText().toString().equals("")) {
                     Toast myToast = Toast.makeText(CreateAccount.this, "You must complete all fields!", Toast.LENGTH_SHORT);
                     myToast.show();
                 } else {
