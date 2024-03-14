@@ -43,4 +43,16 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="create_an_account">Create An Account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="connect_to_spotify">Connect to Spotify</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">Login</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="scrollify">Scrollify</string>
+    <string name="go_to_create_an_account">Create an Account</string>
+    <string name="go_to_create_account">Create Account</string>
+    <string name="top_tracks">Top Tracks</string>
+    <string name="name">Name</string>
 </resources>
