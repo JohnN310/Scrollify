@@ -83,7 +83,18 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     public void setAccount(String name, String username, String password) {
-        return;
+        create_account = (Button) findViewById(R.id.create_account);
+        create_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent (CreateAccount.this, ProfilePage.class);
+                Bundle extras = new Bundle();
+                extras.putString("name", name);
+                extras.putString("username", username);
+                newIntent.putExtras(extras);
+                startActivity(newIntent);
+            }
+        });
 
     }
 
