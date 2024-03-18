@@ -63,4 +63,6 @@
     <string name="add_friend">Add Friend</string>
     <string name="see_invites">See Invites</string>
     <string name="information">Information</string>
+    <string name="log_out">Log Out</string>
+    <string name="delete_account">Delete Account</string>
 </resources>
