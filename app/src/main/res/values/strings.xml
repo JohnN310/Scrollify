@@ -55,4 +55,16 @@
     <string name="go_to_create_account">Create Account</string>
     <string name="top_tracks">Top Tracks</string>
     <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password_must_be_6_characters_or_more">Password must be 6 characters or more</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="change_password">Edit Password</string>
+    <string name="friends">Friends</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="see_invites">See Invites</string>
+    <string name="information">Information</string>
+    <string name="log_out">Log Out</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="token">Token</string>
+    <string name="code">Code</string>
 </resources>
