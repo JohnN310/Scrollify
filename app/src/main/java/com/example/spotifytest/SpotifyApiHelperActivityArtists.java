@@ -1,7 +1,71 @@
+//package com.example.spotifytest;
+//
+//import android.os.Bundle;
+//import android.widget.ArrayAdapter;
+//import android.widget.ListView;
+//import androidx.appcompat.app.AppCompatActivity;
+//
+//import org.json.JSONArray;
+//import org.json.JSONException;
+//import org.json.JSONObject;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//public class SpotifyApiHelperActivityArtists extends AppCompatActivity implements SpotifyApiHelperArtists.SpotifyDataListener {
+//
+//    private ListView listView;
+//    private SpotifyApiHelperArtists spotifyApiHelper;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.spotify_api_helper_artists);
+//
+//        // Initialize ListView
+//        listView = findViewById(R.id.listView);
+//
+//        // Initialize SpotifyApiHelper
+//        spotifyApiHelper = new SpotifyApiHelperArtists();
+//
+//        // Call method to fetch data from Spotify API
+//        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/artists?time_range=long_term&limit=5", "GET", null, listView);
+//    }
+//
+//    // Implement the method to handle data received from Spotify API
+//    @Override
+//    public void onDataReceived(JSONObject data) {
+//        try {
+//            JSONArray items = data.getJSONArray("items");
+//            List<String> artistNames = new ArrayList<>();
+//            for (int i = 0; i < items.length(); i++) {
+//                JSONObject artist = items.getJSONObject(i);
+//                String name = artist.getString("name");
+//                artistNames.add(name);
+//            }
+//            // Update ListView with artist names
+//            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, artistNames);
+//            listView.setAdapter(adapter);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    // Implement the method to handle errors
+//    @Override
+//    public void onError(String errorMessage) {
+//        // Handling of errors
+//    }
+//}
+
+
 package com.example.spotifytest;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,24 +76,27 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpotifyApiHelperActivityArtists extends AppCompatActivity implements SpotifyApiHelper.SpotifyDataListener {
+public class SpotifyApiHelperActivityArtists extends AppCompatActivity implements SpotifyApiHelperArtists.SpotifyDataListener {
 
     private ListView listView;
-    private SpotifyApiHelper spotifyApiHelper;
+    private SpotifyApiHelperArtists spotifyApiHelper;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_api_helper_artists);
 
+
         // Initialize ListView
         listView = findViewById(R.id.listView);
 
         // Initialize SpotifyApiHelper
-        spotifyApiHelper = new SpotifyApiHelper();
+        spotifyApiHelper = new SpotifyApiHelperArtists();
 
         // Call method to fetch data from Spotify API
-        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/artists?locale=en-US%2Cen%3Bq%3D0.9", "GET", null, listView);
+        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
     }
 
     // Implement the method to handle data received from Spotify API
@@ -37,19 +104,28 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
     public void onDataReceived(JSONObject data) {
         try {
             JSONArray items = data.getJSONArray("items");
-            List<String> artistNames = new ArrayList<>();
+            List<String> trackNames = new ArrayList<>();
             for (int i = 0; i < items.length(); i++) {
-                JSONObject artist = items.getJSONObject(i);
-                String name = artist.getString("name");
-                artistNames.add(name);
+                JSONObject track = items.getJSONObject(i);
+                String name = track.getString("name");
+                JSONArray artists = track.getJSONArray("artists");
+                StringBuilder artistNames = new StringBuilder();
+                for (int j = 0; j < artists.length(); j++) {
+                    if (j > 0) {
+                        artistNames.append(", ");
+                    }
+                    artistNames.append(artists.getJSONObject(j).getString("name"));
+                }
+                trackNames.add(artistNames.toString());
             }
-            // Update ListView with artist names
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, artistNames);
+            // Update ListView with track names
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, trackNames);
             listView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
 
     // Implement the method to handle errors
     @Override
