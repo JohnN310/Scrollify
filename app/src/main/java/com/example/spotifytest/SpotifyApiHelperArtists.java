@@ -131,12 +131,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SpotifyApiHelperArtists {
 
     // Your Spotify access token
-    private static final String TOKEN = "BQC4_gDS2NOmSn-YTXVV-Ne6TWpg4N2njVIp1eW5qWqRBcmulxUVYHwrBxT-G60FM4iA1W2LZjhiHzkJcYATUTaHdPCC2tiKuLN-RGQvlArAV4Pp2iNyOmpb3_L3Vm2pGN6l6YGLmXBDInmcQ0lWzZy4eVCGvi1LMx4_0qJCoicGO0lWSX_oN4hvKJ9tkrJ6cdXJxTDuo4-5Z0aqWIsXcTnKHDHvKRarPE_Od_BOnKY8H6xXcOjBVcxQlynLnCqBFaHBqLEYzDlwaMPEIbw5WRM5";
+    private static final String TOKEN = "BQC4pZ09lqXVQXlqUSHtYhbVwksTepiI-Xw3FaRq2qhFjkiGEEbudTZfxYyzRKMqsV5wMGUA2PkZuKHfSyHvTTb0i55Vkeo78YFOgP0zPZpcAeMeCsTio99ze4HfdX98uDcYQFBpmEYQ0RfBOjerm5Xg3ZUA1DBO6VAUShlqSklFmggJVdsy3tCT-CbWGN7wE2vnhVGQ7jVBKZuU_4BupYcS-Z3BLQA9_ZmLvKzrk9JQwL0Q8CL_vyH5uumtu1usVHpiRJ9xxPglrSP6c_uz4GU7";
 
     // Reference to ListView
     private ListView listView;
@@ -192,19 +194,31 @@ public class SpotifyApiHelperArtists {
             if (result != null) {
                 try {
                     JSONArray items = result.getJSONArray("items");
-                    List<String> trackNames = new ArrayList<>();
+                    List<String> artistNames = new ArrayList<>();
+                    int distinctArtistsCount = 0;
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject track = items.getJSONObject(i);
-                        String name = track.getString("name");
                         JSONArray artists = track.getJSONArray("artists");
 
-                        // Get the main artist's name
-                        String mainArtistName = artists.getJSONObject(0).getString("name");
-
-                        trackNames.add(mainArtistName);
+                        // Iterate through each artist of the track
+                        for (int j = 0; j < artists.length(); j++) {
+                            JSONObject artist = artists.getJSONObject(j);
+                            String artistName = artist.getString("name");
+                            if (!artistNames.contains(artistName)) {
+                                artistNames.add(artistName);
+                                distinctArtistsCount++;
+                            }
+                            if (distinctArtistsCount >= 5) {
+                                break;
+                            }
+                        }
+                        if (distinctArtistsCount >= 5) {
+                            break;
+                        }
                     }
+
                     // Update ListView with artist names
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, trackNames);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, artistNames);
                     listView.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
