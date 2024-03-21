@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SpotifyApiHelperRecommendations {
 
-    private static final String TOKEN = "BQDUjHBFSXpyhLmT__bRcc5N51Cn0EHEw6zrA4gK0w-7ZafxcKzqYR4xLroNUPH0diKy4bxEhWRwKb1y2FqD7hpkmw4Y6geITBE1euoicY6UsViqoFtPXKLFp2EMEqpPq7tZstAZktJcG49oNePRMp-2slO7Syoj8kvG3QO8z3ONjnvpoCCjkdBGLs8bunO4joSALf4C9gN6MKc_44dqhOt1ZoIXWkNdAS0JybvoPIIZYVaTgfPHxReUUqq-lsBhZK-9rbmK5YB6ccNnR6T9KF35";
+    private static final String TOKEN = "BQD1HLLuAAG_T1d4Km2Fw2j3r8vKZvSGeSBks9kWBAEQZnJJhryTCvq8QlO4rC5DZU7YTiXKl6Jal9dgvRdf6Ub6ctbc93g1j4zQ7GLpLslajcghZ_MBwKRnjk-W_yTNqHbWDGDg2s5OuEaid4q7Xff0gB-sg2H3TfsTx5-LdFSDp5JhRx6O-qehhXafjBlTfdolr7R6Vri9xNs26fslxw2_SseCEluQdObe-Xaqq9ojbaL1wERsBZ_6VgKqGQ7aUzaJYshW46l0WvkkOlsk6fO3";
 
     private ListView listView;
     static SpotifyDataListener mListener; // Listener to handle data received from Spotify API
@@ -47,7 +47,7 @@ public class SpotifyApiHelperRecommendations {
         protected List<String> doInBackground(String... seedTracks) {
             List<String> recommendedTracks = new ArrayList<>();
             try {
-                String response = fetchWebApi("v1/recommendations?limit=5&seed_tracks=" + seedTracks[0], "GET", null);
+                String response = fetchWebApi("v1/recommendations?limit=20&seed_tracks=" + seedTracks[0], "GET", null);
                 JSONObject jsonResponse = new JSONObject(response);
                 return parseRecommendedTracks(jsonResponse);
             } catch (JSONException | IOException e) {
@@ -67,15 +67,21 @@ public class SpotifyApiHelperRecommendations {
     private static List<String> parseRecommendedTracks(JSONObject jsonResponse) throws JSONException {
         List<String> recommendedTracks = new ArrayList<>();
         JSONArray tracksArray = jsonResponse.getJSONArray("tracks");
+        int index = 0;
         for (int i = 0; i < tracksArray.length(); i++) {
+            if (index == 6) {
+                break;
+            }
             JSONObject track = tracksArray.getJSONObject(i);
             String name = track.getString("name");
             JSONArray artists = track.getJSONArray("artists");
             List<String> artistNames = new ArrayList<>();
-            for (int j = 0; j < artists.length(); j++) {
-                artistNames.add(artists.getJSONObject(j).getString("name"));
+
+            artistNames.add(artists.getJSONObject(0).getString("name"));
+            if (!SpotifyApiHelperArtists.topArtists.contains(artists.getJSONObject(0).getString("name"))) {
+                recommendedTracks.add(String.join(", ", artistNames));
+                index++;
             }
-            recommendedTracks.add(name + " by " + String.join(", ", artistNames));
         }
         return recommendedTracks;
     }

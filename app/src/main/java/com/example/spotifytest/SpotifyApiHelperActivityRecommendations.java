@@ -1,6 +1,9 @@
 package com.example.spotifytest;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -61,5 +64,11 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
     @Override
     public void onError(String errorMessage) {
         // Handle error
+    }
+
+    public void back(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        context.startActivity(intent);
     }
 }

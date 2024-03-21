@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/spotify_wrapped1">
+    android:background="@drawable/spotify_wrapped1"
+    tools:context=".SpotifyApiHelperActivityArtists">
 
     <TextView
         android:id="@+id/textView"
@@ -41,5 +42,16 @@
         android:text="Options"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/recommendationsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:text="Recommended Artists"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="recommendedArtists"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

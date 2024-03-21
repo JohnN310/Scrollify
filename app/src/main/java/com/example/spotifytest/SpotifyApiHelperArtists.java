@@ -117,7 +117,12 @@
 
 
 package com.example.spotifytest;
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -138,10 +143,12 @@ import java.util.Set;
 public class SpotifyApiHelperArtists {
 
     // Your Spotify access token
-    private static final String TOKEN = "BQBjoKkYOHWOS19MFqKZewqJOlaQL6kpmxHGY2GegmlxZ9DfhJtdDVNHhGTJbPrS-CDu-r511P-kLmfcfWzhevnL_lvwE7P7bQ3p2oBl4sF2jCAbBzrGpRnxwBWIoZIhIHpR-emK76diiPiV04lkDnD1mPmnMefuepHZLhBc9PsvOeWbzgFeXZJjC_aEW4Y4iaj-r1G3r2QH3xHgU1q8ppVk3NMxp2v9znW0fg_jtfqsA5HrS94Ee6BVpT6FtP4Y_bGUwFPrkACjPzCENr0ZEPWO";
+    private static final String TOKEN = "BQD1HLLuAAG_T1d4Km2Fw2j3r8vKZvSGeSBks9kWBAEQZnJJhryTCvq8QlO4rC5DZU7YTiXKl6Jal9dgvRdf6Ub6ctbc93g1j4zQ7GLpLslajcghZ_MBwKRnjk-W_yTNqHbWDGDg2s5OuEaid4q7Xff0gB-sg2H3TfsTx5-LdFSDp5JhRx6O-qehhXafjBlTfdolr7R6Vri9xNs26fslxw2_SseCEluQdObe-Xaqq9ojbaL1wERsBZ_6VgKqGQ7aUzaJYshW46l0WvkkOlsk6fO3";
 
     // Reference to ListView
     private ListView listView;
+
+    public static List<String> topArtists;
 
     // Method to fetch data from Spotify Web API
     // Interface to handle data received from Spotify API
@@ -216,9 +223,10 @@ public class SpotifyApiHelperArtists {
                             break;
                         }
                     }
+                    topArtists = artistNames;
 
                     // Update ListView with artist names
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, artistNames);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, topArtists);
                     listView.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -5,29 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@android:color/white">
+    android:background="@drawable/spotify_wrapped1">
 
     <TextView
         android:id="@+id/textViewRecommendations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recommended Tracks"
-        android:textSize="24sp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="88dp"
+        android:text="Recommended Artists"
+        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewRecommendations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewRecommendations"
+        android:layout_marginTop="36dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecommendations"
+        tools:layout_editor_absoluteX="42dp" />
+    <Button
+        android:id="@+id/recommendationsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:text="Back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="back"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

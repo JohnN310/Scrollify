@@ -18,8 +18,7 @@ import java.util.List;
 public class SpotifyApiHelper {
 
     // Your Spotify access token
-    private static final String TOKEN = "BQAzC70eTSzoh7JgLS1pYnVIn766au791XK7zasM-QMxOJ9mGHQYxuUui2IzHs6HmCBRlP8IH0Jsh-v7xAdUl-jDQwkGOCXo9jIGTeZEVgd-JUj8ndt2VLXZUnHz_LGayLwb6_i9AMiytOrGJdSbwm6kYyn9EKRNcjVkwvCzTy-idzmIUi7UtGah4rUTvfJeD27zUwiO543mBELFN4r7Am5S13c9wptzPwfqkekFmumx4vpceZvt9ANvgIbhn1bEzBJiQUosnWGZqJpeSJnR_kgT";
-
+    private static final String TOKEN = "BQD1HLLuAAG_T1d4Km2Fw2j3r8vKZvSGeSBks9kWBAEQZnJJhryTCvq8QlO4rC5DZU7YTiXKl6Jal9dgvRdf6Ub6ctbc93g1j4zQ7GLpLslajcghZ_MBwKRnjk-W_yTNqHbWDGDg2s5OuEaid4q7Xff0gB-sg2H3TfsTx5-LdFSDp5JhRx6O-qehhXafjBlTfdolr7R6Vri9xNs26fslxw2_SseCEluQdObe-Xaqq9ojbaL1wERsBZ_6VgKqGQ7aUzaJYshW46l0WvkkOlsk6fO3";
     // Reference to ListView
     private ListView listView;
     public static List<String> trackIds;

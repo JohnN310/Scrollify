@@ -61,6 +61,7 @@
 
 package com.example.spotifytest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -185,5 +186,10 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
 
         // Show the popup menu
         popupMenu.show();
+    }
+    public void recommendedArtists(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, SpotifyApiHelperActivityRecommendations.class);
+        context.startActivity(intent);
     }
 }
