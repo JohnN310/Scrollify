@@ -138,7 +138,7 @@ import java.util.Set;
 public class SpotifyApiHelperArtists {
 
     // Your Spotify access token
-    private static final String TOKEN = "BQC4pZ09lqXVQXlqUSHtYhbVwksTepiI-Xw3FaRq2qhFjkiGEEbudTZfxYyzRKMqsV5wMGUA2PkZuKHfSyHvTTb0i55Vkeo78YFOgP0zPZpcAeMeCsTio99ze4HfdX98uDcYQFBpmEYQ0RfBOjerm5Xg3ZUA1DBO6VAUShlqSklFmggJVdsy3tCT-CbWGN7wE2vnhVGQ7jVBKZuU_4BupYcS-Z3BLQA9_ZmLvKzrk9JQwL0Q8CL_vyH5uumtu1usVHpiRJ9xxPglrSP6c_uz4GU7";
+    private static final String TOKEN = "BQBjoKkYOHWOS19MFqKZewqJOlaQL6kpmxHGY2GegmlxZ9DfhJtdDVNHhGTJbPrS-CDu-r511P-kLmfcfWzhevnL_lvwE7P7bQ3p2oBl4sF2jCAbBzrGpRnxwBWIoZIhIHpR-emK76diiPiV04lkDnD1mPmnMefuepHZLhBc9PsvOeWbzgFeXZJjC_aEW4Y4iaj-r1G3r2QH3xHgU1q8ppVk3NMxp2v9znW0fg_jtfqsA5HrS94Ee6BVpT6FtP4Y_bGUwFPrkACjPzCENr0ZEPWO";
 
     // Reference to ListView
     private ListView listView;

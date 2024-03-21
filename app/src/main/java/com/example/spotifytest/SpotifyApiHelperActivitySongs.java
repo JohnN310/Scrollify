@@ -1,6 +1,5 @@
 package com.example.spotifytest;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +16,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.example.spotifytest.R;
 
 
 public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements SpotifyApiHelper.SpotifyDataListener {

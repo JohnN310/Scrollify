@@ -18,10 +18,11 @@ import java.util.List;
 public class SpotifyApiHelper {
 
     // Your Spotify access token
-    private static final String TOKEN = "BQC4pZ09lqXVQXlqUSHtYhbVwksTepiI-Xw3FaRq2qhFjkiGEEbudTZfxYyzRKMqsV5wMGUA2PkZuKHfSyHvTTb0i55Vkeo78YFOgP0zPZpcAeMeCsTio99ze4HfdX98uDcYQFBpmEYQ0RfBOjerm5Xg3ZUA1DBO6VAUShlqSklFmggJVdsy3tCT-CbWGN7wE2vnhVGQ7jVBKZuU_4BupYcS-Z3BLQA9_ZmLvKzrk9JQwL0Q8CL_vyH5uumtu1usVHpiRJ9xxPglrSP6c_uz4GU7";
+    private static final String TOKEN = "BQAzC70eTSzoh7JgLS1pYnVIn766au791XK7zasM-QMxOJ9mGHQYxuUui2IzHs6HmCBRlP8IH0Jsh-v7xAdUl-jDQwkGOCXo9jIGTeZEVgd-JUj8ndt2VLXZUnHz_LGayLwb6_i9AMiytOrGJdSbwm6kYyn9EKRNcjVkwvCzTy-idzmIUi7UtGah4rUTvfJeD27zUwiO543mBELFN4r7Am5S13c9wptzPwfqkekFmumx4vpceZvt9ANvgIbhn1bEzBJiQUosnWGZqJpeSJnR_kgT";
 
     // Reference to ListView
     private ListView listView;
+    public static List<String> trackIds;
 
     // Method to fetch data from Spotify Web API
     // Interface to handle data received from Spotify API
@@ -75,9 +76,11 @@ public class SpotifyApiHelper {
                 try {
                     JSONArray items = result.getJSONArray("items");
                     List<String> trackNames = new ArrayList<>();
+                    trackIds = new ArrayList<>();
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject track = items.getJSONObject(i);
                         String name = track.getString("name");
+                        String id = track.getString("id");
                         JSONArray artists = track.getJSONArray("artists");
                         StringBuilder artistNames = new StringBuilder();
                         for (int j = 0; j < artists.length(); j++) {
@@ -87,6 +90,7 @@ public class SpotifyApiHelper {
                             artistNames.append(artists.getJSONObject(j).getString("name"));
                         }
                         trackNames.add(name + " by " + artistNames.toString());
+                        trackIds.add(id);
                     }
                     // Update ListView with track names
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, trackNames);
@@ -117,5 +121,6 @@ public class SpotifyApiHelper {
             }
             return sb.toString();
         }
+
     }
 }
