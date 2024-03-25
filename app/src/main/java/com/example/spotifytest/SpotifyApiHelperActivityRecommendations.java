@@ -21,6 +21,8 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
     private ListView listView;
     private SpotifyApiHelperRecommendations spotifyApiHelper;
 
+    private SpotifyApiHelper spot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,32 +36,20 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
 
         // Set the data listener
         spotifyApiHelper.mListener = this;
-
-        List<String> trackIds = Arrays.asList(
-                "5kfNriitmkNE8mUbZ7gbq8",
-                "1a7WZZZH7LzyvorhpOJFTe",
-                "2ZRo7axmMPeSVUvDbGkJah",
-                "3ee8Jmje8o58CHK66QrVC2",
-                "66KCoeGPimoVR3FInucM9Q"
-        );
-
-
-        String endpoint = "v1/recommendations?limit=5&seed_tracks=" + String.join(",", trackIds);
         try {
-            spotifyApiHelper.fetchDataFromSpotify(trackIds);
+            spotifyApiHelper.fetchDataFromSpotify(SpotifyApiHelper.topTrackIds);
         } catch (JSONException | IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    // Implement the method to handle data received from Spotify API
     @Override
-    public void onDataReceived(List<String> recommendedTracks) {
-        // Update ListView with recommended tracks
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, recommendedTracks);
+    public void onDataReceived(List<String> trackIds) {
+        // Construct endpoint using trackIds
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, trackIds);
         listView.setAdapter(adapter);
     }
+
 
     @Override
     public void onError(String errorMessage) {

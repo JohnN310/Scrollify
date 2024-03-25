@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SpotifyApiHelperRecommendations {
 
-    private static final String TOKEN = "BQD1HLLuAAG_T1d4Km2Fw2j3r8vKZvSGeSBks9kWBAEQZnJJhryTCvq8QlO4rC5DZU7YTiXKl6Jal9dgvRdf6Ub6ctbc93g1j4zQ7GLpLslajcghZ_MBwKRnjk-W_yTNqHbWDGDg2s5OuEaid4q7Xff0gB-sg2H3TfsTx5-LdFSDp5JhRx6O-qehhXafjBlTfdolr7R6Vri9xNs26fslxw2_SseCEluQdObe-Xaqq9ojbaL1wERsBZ_6VgKqGQ7aUzaJYshW46l0WvkkOlsk6fO3";
+    private static final String TOKEN = "BQCkjvTy2CoqSpQA0oWhTlyuDYmkZ0iujo8ECa6ZND5mFvWiomhhvG_apjlrHISCHjrNxoUGxVQ_FVgX9PHmh3ZL2dva85RZhmS2fy5uwFoZpmVUV7JS_0ogfdfHk29RgLWcgKYifpn2YSdn59bumGsdQ2-2xweoFIYnPLhIAH4VIPXRG8jh5sox3KEjgTc8U2L27MxCiRiJzwghZi5iiTVsfBnXHNWZSXJcK1Xon6zVMsPJL0fJkmiqC-0ADGeUWaC4p_EQOQjKjCD0cSpFiSu8";
 
     private ListView listView;
     static SpotifyDataListener mListener; // Listener to handle data received from Spotify API

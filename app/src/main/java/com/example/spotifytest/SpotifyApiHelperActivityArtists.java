@@ -88,6 +88,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
     private SpotifyApiHelperArtists spotifyApiHelper;
     private Button optionsButton;
 
+    private SpotifyApiHelper spot;
 
 
     @Override
@@ -103,7 +104,11 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
         spotifyApiHelper = new SpotifyApiHelperArtists();
 
         // Call method to fetch data from Spotify API
-        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/artists?time_range=long_term&limit=5", "GET", null, listView);
+
+        ListView listView2 = findViewById(R.id.listView2);
+        spot = new SpotifyApiHelper();
+        spot.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView2);
 
         optionsButton = findViewById(R.id.optionsButton);
         optionsButton.setOnClickListener(new View.OnClickListener() {
@@ -169,13 +174,13 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.menu_all_time) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/artists?time_range=long_term&limit=5", "GET", null, listView);
                     return true;
                 } else if (itemId == R.id.menu_6_months) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=medium_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/artists?time_range=medium_term&limit=5", "GET", null, listView);
                     return true;
                 } else if (itemId == R.id.menu_4_weeks) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=short_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/artists?time_range=short_term&limit=5", "GET", null, listView);
                     return true;
                 }
                 return false;
@@ -190,6 +195,12 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
     public void recommendedArtists(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityRecommendations.class);
+        context.startActivity(intent);
+    }
+
+    public void quizMe(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, Question1Activity.class);
         context.startActivity(intent);
     }
 }

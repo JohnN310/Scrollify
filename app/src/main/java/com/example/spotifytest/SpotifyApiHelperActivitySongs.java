@@ -1,14 +1,20 @@
 package com.example.spotifytest;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +29,9 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
     private ListView listView;
     private SpotifyApiHelper spotifyApiHelper;
     private Button optionsButton;
+
+    private Button optionsButton2;
+
 
 
 
@@ -47,6 +56,14 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
             public void onClick(View v) {
                 // Show options menu
                 showPopupMenu();
+            }
+        });
+
+        optionsButton2 = findViewById(R.id.optionsButton2);
+        optionsButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu2(v);
             }
         });
     }
@@ -109,5 +126,41 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
 
         // Show the popup menu
         popupMenu.show();
+    }
+    private void showPopupMenu2(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+                if (id == R.id.menu_spring) {
+                    // Change background to Spring
+                    constraintLayout.setBackgroundResource(R.drawable.spotify_wrapped1);
+                    return true;
+                } else if (id == R.id.menu_summer) {
+                    // Change background to Summer
+                    constraintLayout.setBackgroundResource(R.drawable.summer_background);
+                    return true;
+                } else if (id == R.id.menu_fall) {
+                    // Change background to Fall
+                    constraintLayout.setBackgroundResource(R.drawable.fall_background_2);
+                    return true;
+                } else if (id == R.id.menu_winter) {
+                    // Change background to Winter
+                    constraintLayout.setBackgroundResource(R.drawable.winter_background);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+        popupMenu.inflate(R.menu.options_2_menu);
+        popupMenu.show();
+    }
+    public void topArtists(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        context.startActivity(intent);
     }
 }

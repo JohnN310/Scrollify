@@ -9,41 +9,125 @@
         android:id="@+id/questionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Which one of the following is not one of my most listened to artist?"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:text="Match the songs with their correct rank:"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
 
-    <RadioGroup
-        android:id="@+id/optionsRadioGroup"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
 
-        <RadioButton
-            android:id="@+id/option1RadioButton"
+        <TextView
+            android:id="@+id/song1TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Artist 1" />
+            android:text="1. "
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/option2RadioButton"
+        <!-- Spinner for song 1 -->
+        <Spinner
+            android:id="@+id/song1Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/song2TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Artist 2" />
+            android:text="2. "
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/option3RadioButton"
+        <!-- Spinner for song 2 -->
+        <Spinner
+            android:id="@+id/song2Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/song3TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Artist 3" />
+            android:text="3. "
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/option4RadioButton"
+        <!-- Spinner for song 3 -->
+        <Spinner
+            android:id="@+id/song3Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/song4TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Artist 4" />
+            android:text="4. "
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    </RadioGroup>
+        <!-- Spinner for song 4 -->
+        <Spinner
+            android:id="@+id/song4Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/song5TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5. "
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Spinner for song 5 -->
+        <Spinner
+            android:id="@+id/song5Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/submitButton"

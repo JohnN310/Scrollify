@@ -59,6 +59,17 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:text="Get User Profile" />
+
+            <Button
+                android:id="@+id/playerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:text="Spotify Player"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="spotifyPlayer"/>
         </LinearLayout>
 
 

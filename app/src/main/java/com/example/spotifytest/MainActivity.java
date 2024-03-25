@@ -1,6 +1,8 @@
 package com.example.spotifytest;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.content.Intent;
 import android.net.Uri;
@@ -201,4 +203,10 @@ public class MainActivity extends AppCompatActivity {
         cancelCall();
         super.onDestroy();
     }
+
+//    public void spotifyPlayer(View view) {
+//        Context context = view.getContext();
+//        Intent intent = new Intent(context, SpotifyPlayerActivity.class);
+//        context.startActivity(intent);
+//    }
 }

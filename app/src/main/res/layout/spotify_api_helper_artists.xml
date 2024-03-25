@@ -24,8 +24,8 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="343dp"
+        android:layout_height="322dp"
         android:layout_below="@id/textView"
         android:layout_marginTop="72dp"
         android:divider="@null"
@@ -37,7 +37,7 @@
         android:id="@+id/optionsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="268dp"
+        android:layout_marginStart="248dp"
         android:layout_marginTop="24dp"
         android:text="Options"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,5 +53,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:onClick="recommendedArtists"/>
+
+    <Button
+        android:id="@+id/quizButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="568dp"
+        android:onClick="quizMe"
+        android:text="Quiz me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/listView2"
+        android:layout_width="347dp"
+        android:layout_height="322dp"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="72dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
