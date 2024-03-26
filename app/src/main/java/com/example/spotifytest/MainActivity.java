@@ -1,10 +1,13 @@
 package com.example.spotifytest;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Call mCall;
 
     private TextView tokenTextView, codeTextView, profileTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,4 +203,10 @@ public class MainActivity extends AppCompatActivity {
         cancelCall();
         super.onDestroy();
     }
+
+//    public void spotifyPlayer(View view) {
+//        Context context = view.getContext();
+//        Intent intent = new Intent(context, SpotifyPlayerActivity.class);
+//        context.startActivity(intent);
+//    }
 }
