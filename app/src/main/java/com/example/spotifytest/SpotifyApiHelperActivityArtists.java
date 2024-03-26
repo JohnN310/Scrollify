@@ -72,6 +72,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +88,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
     private ListView listView;
     private SpotifyApiHelperArtists spotifyApiHelper;
     private Button optionsButton;
-
+    private Button optionsButton2;
     private SpotifyApiHelper spot;
 
 
@@ -116,6 +117,14 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
             public void onClick(View v) {
                 // Show options menu
                 showPopupMenu();
+            }
+        });
+
+        optionsButton2 = findViewById(R.id.optionsButton2);
+        optionsButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu2(v);
             }
         });
     }
@@ -192,6 +201,39 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
         // Show the popup menu
         popupMenu.show();
     }
+
+    private void showPopupMenu2(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+                if (id == R.id.menu_spring) {
+                    // Change background to Spring
+                    constraintLayout.setBackgroundResource(R.drawable.spotify_wrapped1);
+                    return true;
+                } else if (id == R.id.menu_summer) {
+                    // Change background to Summer
+                    constraintLayout.setBackgroundResource(R.drawable.summer_background);
+                    return true;
+                } else if (id == R.id.menu_fall) {
+                    // Change background to Fall
+                    constraintLayout.setBackgroundResource(R.drawable.fall_background_2);
+                    return true;
+                } else if (id == R.id.menu_winter) {
+                    // Change background to Winter
+                    constraintLayout.setBackgroundResource(R.drawable.winter_background);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+        popupMenu.inflate(R.menu.options_2_menu);
+        popupMenu.show();
+    }
+
     public void recommendedArtists(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityRecommendations.class);

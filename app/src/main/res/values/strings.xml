@@ -70,11 +70,11 @@
 
     <!-- Artist options -->
     <string-array name="song_options">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>4th</item>
+        <item>5th</item>
     </string-array>
 
 

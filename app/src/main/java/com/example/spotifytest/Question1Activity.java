@@ -83,12 +83,11 @@ public class Question1Activity extends AppCompatActivity {
             public void onClick(View v) {
                 // Get selected ranks
                 // Convert selected song strings to integers
-                int selectedRank1 = Integer.parseInt(song1Spinner.getSelectedItem().toString());
-                int selectedRank2 = Integer.parseInt(song2Spinner.getSelectedItem().toString());
-                int selectedRank3 = Integer.parseInt(song3Spinner.getSelectedItem().toString());
-                int selectedRank4 = Integer.parseInt(song4Spinner.getSelectedItem().toString());
-                int selectedRank5 = Integer.parseInt(song5Spinner.getSelectedItem().toString());
-
+                int selectedRank1 = Integer.parseInt(song1Spinner.getSelectedItem().toString().substring(0,1));
+                int selectedRank2 = Integer.parseInt(song2Spinner.getSelectedItem().toString().substring(0,1));
+                int selectedRank3 = Integer.parseInt(song3Spinner.getSelectedItem().toString().substring(0,1));
+                int selectedRank4 = Integer.parseInt(song4Spinner.getSelectedItem().toString().substring(0,1));
+                int selectedRank5 = Integer.parseInt(song5Spinner.getSelectedItem().toString().substring(0,1));
                 // Check if all ranks are correct
                 if (selectedRank1 == CORRECT_RANKS.get(song1TextView.getText().toString()) &&
                         selectedRank2 == CORRECT_RANKS.get(song2TextView.getText().toString()) &&
@@ -119,15 +118,6 @@ public class Question1Activity extends AppCompatActivity {
     // Method to show a toast message
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    public static <String, Integer> String getKeyByValue(Map<String, Integer> map, Integer value) {
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            if (value.equals(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null; // Value not found in the map
     }
 }
 

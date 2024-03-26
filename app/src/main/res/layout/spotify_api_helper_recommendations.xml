@@ -11,7 +11,7 @@
         android:id="@+id/textViewRecommendations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="68dp"
         android:layout_marginTop="88dp"
         android:text="Recommended Artists"
         android:textSize="22sp"
@@ -21,24 +21,28 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="348dp"
+        android:layout_height="326dp"
         android:layout_below="@id/textViewRecommendations"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="64dp"
         android:divider="@null"
         android:dividerHeight="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRecommendations"
-        tools:layout_editor_absoluteX="42dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecommendations" />
+
     <Button
         android:id="@+id/recommendationsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
+        android:onClick="back"
         android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="back"/>
+        app:layout_constraintVertical_bias="0.889" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
