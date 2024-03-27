@@ -5,7 +5,9 @@ plugins {
 android {
     namespace 'com.example.spotifytest'
     compileSdk 34
-
+    buildFeatures {
+        dataBinding true
+    }
     defaultConfig {
         applicationId "com.example.spotifytest"
         minSdk 33
