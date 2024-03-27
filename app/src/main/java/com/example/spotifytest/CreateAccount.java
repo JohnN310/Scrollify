@@ -73,7 +73,7 @@ public class CreateAccount extends AppCompatActivity {
         connect_spotify_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getToken();
+                getToken();
 //                getCode();
 //                onGetUserProfileClicked();
 
@@ -143,10 +143,10 @@ public class CreateAccount extends AppCompatActivity {
 //     * What is code?
 //     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
 //     */
-//    public void getToken() {
-//        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
-//        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_TOKEN_REQUEST_CODE, request);
-//    }
+    public void getToken() {
+        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
+        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_TOKEN_REQUEST_CODE, request);
+    }
 //
 //    /**
 //     * Get code from Spotify
@@ -154,10 +154,10 @@ public class CreateAccount extends AppCompatActivity {
 //     * What is code?
 //     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
 //     */
-//    public void getCode() {
-//        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
-//        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_CODE_REQUEST_CODE, request);
-//    }
+    public void getCode() {
+        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
+        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_CODE_REQUEST_CODE, request);
+    }
 //
 //
 //    /**
@@ -222,22 +222,22 @@ public class CreateAccount extends AppCompatActivity {
 //     * @param type the type of the request
 //     * @return the authentication request
 //     */
-//    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
-//        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
-//                .setShowDialog(false)
-//                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
-//                .setCampaign("your-campaign-token")
-//                .build();
-//    }
+    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
+        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
+                .setShowDialog(false)
+                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
+                .setCampaign("your-campaign-token")
+                .build();
+    }
 //
 //    /**
 //     * Gets the redirect Uri for Spotify
 //     *
 //     * @return redirect Uri object
 //     */
-//    private Uri getRedirectUri() {
-//        return Uri.parse(REDIRECT_URI);
-//    }
+    private Uri getRedirectUri() {
+        return Uri.parse(REDIRECT_URI);
+    }
 //
 //    private void cancelCall() {
 //        if (mCall != null) {

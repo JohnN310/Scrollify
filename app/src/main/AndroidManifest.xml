@@ -26,8 +26,7 @@
         <activity android:name=".SpotifyApiHelperActivityRecommendations"/>
         <activity android:name=".SpotifyApiHelperActivityArtists"/>
         <activity android:name=".Question1Activity"/>
-
-
+        <activity android:name=".Question2Activity"/>
     </application>
 
 </manifest>

@@ -20,7 +20,7 @@ import java.util.List;
 public class SpotifyApiHelperArtists {
 
     // Your Spotify access token
-    private static final String TOKEN = "BQD_TDljBaR_ZuS4GOFpslOATrH1knEvZetV32BcsAwZKVrs9ldTCtIbmXr86BozUPekvRpSE4jPZhdAVNEGQVDt1JHnUevT62BrxLOpwC102a2er0djMXjvUkpGPuxaJT_iN1eoAoxIlMKqNwSlI3IWHpyXEWqCriVZrnT490ncSQ5k-WwYxHN_NMckMcZ9wTEqZifBwGsh85IOzhP1E-Te7Jv8Rb9H3gv-rxajfjiauM6a9eksHD1Csv-Gnkmna0jZ_IpCfblGLJP3L79wKTY5";
+    private static final String TOKEN = "BQDabDPup4JOrhUQ7FKAPtmLrX0XMOXq79kJlsSJM01QXrZ8DDUal5tYsAw-aJ5pXo9IbFc9okluLA1WJyuT8Z2c439oV4Nx9SHsDwNxuxnbz_ZnxjQ9eGFQg50kaLgMcTpOvOoAnmtQBg3AANryXFtKGQ2CWa6XPiIJT3ge7Z690MW7RJSQ1g3GmNkeNxGVAcwuA_xN4R9XPCIS9UpTJAfqQz17_Yxg9VuGLiPMEUsWrYOiMsIR9k-h_DNivj_MqAWq9oIeE5StPrGD7c3bSugR";
 
     // Reference to ListView
     private ListView listView;
@@ -87,7 +87,7 @@ public class SpotifyApiHelperArtists {
                     }
                     topArtists = artistNames;
                     // Update ListView with artist names
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, artistNames);
+                    CustomArrayAdapter adapter = new CustomArrayAdapter(listView.getContext(), artistNames);
                     listView.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();

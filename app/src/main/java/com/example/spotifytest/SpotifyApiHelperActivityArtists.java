@@ -70,6 +70,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -235,14 +236,23 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity implement
     }
 
     public void recommendedArtists(View view) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, SpotifyApiHelperActivityRecommendations.class);
-        context.startActivity(intent);
+        if (SpotifyApiHelperArtists.topArtists == null) {
+            Toast.makeText(this, "You have no favorite artists!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Context context = view.getContext();
+            Intent intent = new Intent(context, SpotifyApiHelperActivityRecommendations.class);
+            context.startActivity(intent);
+        }
     }
 
     public void quizMe(View view) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, Question1Activity.class);
-        context.startActivity(intent);
+        if (SpotifyApiHelper.topTrackNames == null) {
+            Toast.makeText(this, "You have no favorite tracks!", Toast.LENGTH_SHORT).show();
+        } else {
+            Context context = view.getContext();
+            Intent intent = new Intent(context, Question1Activity.class);
+            context.startActivity(intent);
+        }
     }
 }

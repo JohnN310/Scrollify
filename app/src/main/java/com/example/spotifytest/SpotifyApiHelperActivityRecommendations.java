@@ -46,7 +46,7 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
     @Override
     public void onDataReceived(List<String> trackIds) {
         // Construct endpoint using trackIds
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, trackIds);
+        CustomArrayAdapter adapter = new CustomArrayAdapter(listView.getContext(), trackIds);
         listView.setAdapter(adapter);
     }
 

@@ -32,7 +32,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
 
     private Button optionsButton2;
 
-
+    private TextView textView;
 
 
     @Override
@@ -40,6 +40,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_api_helper_songs);
 
+        textView = findViewById(R.id.textView);
 
         // Initialize ListView
         listView = findViewById(R.id.listView);
@@ -88,7 +89,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
                 trackNames.add(name + " by " + artistNames.toString());
             }
             // Update ListView with track names
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, trackNames);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item_layout, trackNames);
             listView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
