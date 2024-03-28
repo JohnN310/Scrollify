@@ -1,5 +1,6 @@
 package com.example.spotifytest;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,10 +19,12 @@ import java.util.List;
 public class SpotifyApiHelper {
 
     // Your Spotify access token
-    private static final String TOKEN = "BQCWfMyD_lGf8blfPGOYd_rTmnarDHqufn9undnlhGFOGNzXaE1FSKE6QgkyBikg-bWlZvCb7wFw7yldeKNLzRet3BAn2ENBHDcPGP8F65PmBuMHKxWd4yQ4ACe9fqo4H-yZbZn14wytnyEIgo2iAqigQ48fNJwNVOD133-OsSfUAq88qWa0DaRVs0JvzHxpaS9fL1fbbSJOdeA_0mbfG6v8zjlvDsIYLVlifWGy8ZVgKUgosus36RRcEYDD07NaVJV7AuI728n0RJ5tiLR5MyKQ";
-
+    private static final String TOKEN = "BQDabDPup4JOrhUQ7FKAPtmLrX0XMOXq79kJlsSJM01QXrZ8DDUal5tYsAw-aJ5pXo9IbFc9okluLA1WJyuT8Z2c439oV4Nx9SHsDwNxuxnbz_ZnxjQ9eGFQg50kaLgMcTpOvOoAnmtQBg3AANryXFtKGQ2CWa6XPiIJT3ge7Z690MW7RJSQ1g3GmNkeNxGVAcwuA_xN4R9XPCIS9UpTJAfqQz17_Yxg9VuGLiPMEUsWrYOiMsIR9k-h_DNivj_MqAWq9oIeE5StPrGD7c3bSugR";
     // Reference to ListView
     private ListView listView;
+    public static List<String> topTrackIds;
+
+    public static List<String> topTrackNames;
 
     // Method to fetch data from Spotify Web API
     // Interface to handle data received from Spotify API
@@ -75,9 +78,11 @@ public class SpotifyApiHelper {
                 try {
                     JSONArray items = result.getJSONArray("items");
                     List<String> trackNames = new ArrayList<>();
+                    List<String> trackIds1 = new ArrayList<>();
                     for (int i = 0; i < items.length(); i++) {
                         JSONObject track = items.getJSONObject(i);
                         String name = track.getString("name");
+                        String id = track.getString("id");
                         JSONArray artists = track.getJSONArray("artists");
                         StringBuilder artistNames = new StringBuilder();
                         for (int j = 0; j < artists.length(); j++) {
@@ -87,9 +92,12 @@ public class SpotifyApiHelper {
                             artistNames.append(artists.getJSONObject(j).getString("name"));
                         }
                         trackNames.add(name + " by " + artistNames.toString());
+                        trackIds1.add(id);
                     }
+                    topTrackIds = trackIds1;
+                    topTrackNames = trackNames;
                     // Update ListView with track names
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(listView.getContext(), android.R.layout.simple_list_item_1, trackNames);
+                    CustomArrayAdapter adapter = new CustomArrayAdapter(listView.getContext(), trackNames);
                     listView.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -117,5 +125,6 @@ public class SpotifyApiHelper {
             }
             return sb.toString();
         }
+
     }
 }
