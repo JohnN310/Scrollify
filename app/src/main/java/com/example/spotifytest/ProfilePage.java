@@ -42,11 +42,6 @@ public class ProfilePage extends AppCompatActivity
         username = (TextView) findViewById(R.id.username_box);
 
 
-//        Bundle bundle = getIntent().getExtras();
-//
-//        name.setText(bundle.getString("name", "Name"));
-//        username.setText(bundle.getString("username", "Username"));
-
         friendList = new ArrayList<>();
         inviteList = new ArrayList<>();
 
@@ -73,7 +68,9 @@ public class ProfilePage extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 ChangePasswordDialog customDialog = new ChangePasswordDialog();
-                customDialog.show(getSupportFragmentManager(), "Change Password"); 
+                customDialog.show(getSupportFragmentManager(), "Change Password");
+            }
+        });
 
         Button seeInvitesButton = findViewById(R.id.see_invites_button);
         seeInvitesButton.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +135,9 @@ public class ProfilePage extends AppCompatActivity
     public void newPassword(String friendUsername) {
 
     }
-}
+
 
 //Notes: fix add friends, fix the text view for add friends, update inviteList every time
-// an invite is sent.
+// an invite is sent;
+
+    }
