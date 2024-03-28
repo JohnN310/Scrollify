@@ -1,9 +1,11 @@
 package com.example.spotifytest;
 
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+
 import android.view.View;
 
 
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.os.Bundle;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfilePage extends AppCompatActivity
-        implements AddFriendDialog.AddFriendDialogInterface {
+        implements AddFriendDialog.AddFriendDialogInterface, ChangePasswordDialog.ChangePasswordDialogInterface {
 
     TextView name, username;
     List<String> friendList;
@@ -56,7 +59,7 @@ public class ProfilePage extends AppCompatActivity
         }
 
 
-        Button add_friend_button = (Button) findViewById(R.id.add_friend_button);
+        Button add_friend_button = (Button) findViewById(R.id.addFriendButton);
         add_friend_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +67,13 @@ public class ProfilePage extends AppCompatActivity
                 customDialog.show(getSupportFragmentManager(), "Add Friend");
             }
         });
+
+        Button changePasswordButton = (Button) findViewById(R.id.editPassword);
+        changePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChangePasswordDialog customDialog = new ChangePasswordDialog();
+                customDialog.show(getSupportFragmentManager(), "Change Password"); 
 
         Button seeInvitesButton = findViewById(R.id.see_invites_button);
         seeInvitesButton.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +132,11 @@ public class ProfilePage extends AppCompatActivity
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
+    }
+
+    @Override
+    public void newPassword(String friendUsername) {
+
     }
 }
 

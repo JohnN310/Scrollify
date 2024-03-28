@@ -67,6 +67,14 @@
     <string name="delete_account">Delete Account</string>
     <string name="token">Token</string>
     <string name="code">Code</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="comfirm_new_password">Comfirm New Password</string>
+    <string name="past_six_months">Past Six Months</string>
+    <string name="past_year">Past Year</string>
+    <string name="saved">Saved</string>
+    <string name="past_month">Past Month</string>
+</resources>
 
     <!-- Artist options -->
     <string-array name="song_options">
