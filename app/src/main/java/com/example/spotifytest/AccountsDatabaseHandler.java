@@ -17,6 +17,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     private static final String password = "password";
     private static final String token = "token";
     private static final String code = "code";
+    private static final String friendString = "";
 
     public AccountsDatabaseHandler(@Nullable Context context) {
         super(context, databaseName, null, databaseVersion);
@@ -34,7 +35,8 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
                 + username + " TEXT,"
                 + password + " TEXT,"
                 + token + " TEXT,"
-                + code + " TEXT)";
+                + code + " TEXT,"
+                + friendString + " TEXT)";
 
         // at last we are calling a exec sql
         // method to execute above sql query
@@ -60,6 +62,36 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         values.put(password, userPassword);
         values.put(token, userToken);
         values.put(code, userCode);
+        values.put(friendString, userCode);
+
+        // after adding all values we are passing
+        // content values to our table.
+        db.insert(tableName, null, values);
+
+        // at last we are closing our
+        // database after adding database.
+        db.close();
+    }
+
+    public void loginIn(String userName, String userUsername, String userPassword, String userToken, String userCode) {
+
+        // on below line we are creating a variable for
+        // our sqlite database and calling writable method
+        // as we are writing data in our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // on below line we are creating a
+        // variable for content values.
+        ContentValues values = new ContentValues();
+
+        // on below line we are passing all values
+        // along with its key and value pair.
+        values.put(name, userName);
+        values.put(username, userUsername);
+        values.put(password, userPassword);
+        values.put(token, userToken);
+        values.put(code, userCode);
+        values.put(friendString, userCode);
 
         // after adding all values we are passing
         // content values to our table.
