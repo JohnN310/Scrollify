@@ -35,6 +35,7 @@ public class CreateAccount extends AppCompatActivity {
     EditText inputUsername;
     EditText inputPassword;
     EditText inputConfirmPassword;
+    AccountsDatabaseHandler accountsDatabaseHandler;
 
 
     public static final String CLIENT_ID = "d3136c06706142209a3c65aa74c6b9b7";
@@ -128,13 +129,8 @@ public class CreateAccount extends AppCompatActivity {
      * @param password user's password
      */
     public void setAccount(String name, String username, String password) {
-                Intent newIntent = new Intent (CreateAccount.this, ProfilePage.class);
-                Bundle extras = new Bundle();
-                extras.putString("name", name);
-                extras.putString("username", username);
-                extras.putString("password", password);
-                newIntent.putExtras(extras);
-                startActivity(newIntent);
+        accountsDatabaseHandler = new AccountsDatabaseHandler(CreateAccount.this);
+        accountsDatabaseHandler.newUser(name, username, password, null, null);
     }
 
 //    /**
