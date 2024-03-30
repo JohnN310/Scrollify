@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements SpotifyApiHelper.SpotifyDataListener {
+public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 
     private ListView listView;
     private SpotifyApiHelper spotifyApiHelper;
@@ -34,6 +34,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
 
     private TextView textView;
 
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,13 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
         spotifyApiHelper = new SpotifyApiHelper();
 
         // Call method to fetch data from Spotify API
-        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+//        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+
+        // Replace "accessToken" with the actual access token obtained during the authentication process
+        accessToken = "BQCesY2Yx_w_qf20DwNpFbnIN3NJd-pez9ZPCZUl68CUhKoCDdkvj_77zVVE5xaN_FAZaVaSv2p1jT66W7DUP-VlGatzBTzT_pneRSq-WdZ1AE-PnwyVi5AuoSPT6CrxBVe0-0bgw-rQTfHLZZ8yop20yAQFumEQrZe4sBILixCmzuWsjK-yzva3JiZYJyZR0ZhvdJMVdyzTALJvTyPKQ5bsX8Z0xNJDSvlmAvMLbsyrN2EYZt8Dy6WJpoyo_LYlG4xoVynzb8DBh4IncFZuad-V";
+
+        spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);
+
         // Initialize options button and set click listener
         optionsButton = findViewById(R.id.optionsButton);
         optionsButton.setOnClickListener(new View.OnClickListener() {
@@ -69,40 +76,6 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
         });
     }
 
-    // Implement the method to handle data received from Spotify API
-    @Override
-    public void onDataReceived(JSONObject data) {
-        try {
-            JSONArray items = data.getJSONArray("items");
-            List<String> trackNames = new ArrayList<>();
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject track = items.getJSONObject(i);
-                String name = track.getString("name");
-                JSONArray artists = track.getJSONArray("artists");
-                StringBuilder artistNames = new StringBuilder();
-                for (int j = 0; j < artists.length(); j++) {
-                    if (j > 0) {
-                        artistNames.append(", ");
-                    }
-                    artistNames.append(artists.getJSONObject(j).getString("name"));
-                }
-                trackNames.add(name + " by " + artistNames.toString());
-            }
-            // Update ListView with track names
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item_layout, trackNames);
-            listView.setAdapter(adapter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    // Implement the method to handle errors
-    @Override
-    public void onError(String errorMessage) {
-        // Handling of errors
-    }
-
     private void showPopupMenu() {
         PopupMenu popupMenu = new PopupMenu(this, optionsButton);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -110,13 +83,16 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.menu_all_time) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+//                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);
                     return true;
                 } else if (itemId == R.id.menu_6_months) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=medium_term&limit=5", "GET", null, listView);
+//                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "medium_term", 5, listView);
                     return true;
                 } else if (itemId == R.id.menu_4_weeks) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=short_term&limit=5", "GET", null, listView);
+//                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "short_term", 5, listView);
                     return true;
                 }
                 return false;

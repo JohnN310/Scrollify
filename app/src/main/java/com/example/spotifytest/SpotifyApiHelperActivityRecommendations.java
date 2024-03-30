@@ -23,6 +23,8 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
 
     private SpotifyApiHelper spot;
 
+    private String accessToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +33,15 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
         // Initialize ListView
         listView = findViewById(R.id.listView);
 
+        accessToken = "BQCesY2Yx_w_qf20DwNpFbnIN3NJd-pez9ZPCZUl68CUhKoCDdkvj_77zVVE5xaN_FAZaVaSv2p1jT66W7DUP-VlGatzBTzT_pneRSq-WdZ1AE-PnwyVi5AuoSPT6CrxBVe0-0bgw-rQTfHLZZ8yop20yAQFumEQrZe4sBILixCmzuWsjK-yzva3JiZYJyZR0ZhvdJMVdyzTALJvTyPKQ5bsX8Z0xNJDSvlmAvMLbsyrN2EYZt8Dy6WJpoyo_LYlG4xoVynzb8DBh4IncFZuad-V";
+
         // Initialize SpotifyApiHelper
         spotifyApiHelper = new SpotifyApiHelperRecommendations();
 
         // Set the data listener
         spotifyApiHelper.mListener = this;
         try {
-            spotifyApiHelper.fetchDataFromSpotify(SpotifyApiHelper.topTrackIds);
+            spotifyApiHelper.fetchDataFromSpotify(SpotifyApiHelper.topTrackIds, accessToken);
         } catch (JSONException | IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

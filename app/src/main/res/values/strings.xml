@@ -74,7 +74,6 @@
     <string name="past_year">Past Year</string>
     <string name="saved">Saved</string>
     <string name="past_month">Past Month</string>
-</resources>
 
     <!-- Artist options -->
     <string-array name="song_options">

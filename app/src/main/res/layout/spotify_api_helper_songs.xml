@@ -24,7 +24,7 @@
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="359dp"
+        android:layout_width="371dp"
         android:layout_height="319dp"
         android:layout_below="@id/textView"
         android:layout_marginTop="52dp"
