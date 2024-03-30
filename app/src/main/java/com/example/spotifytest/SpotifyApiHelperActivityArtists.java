@@ -94,7 +94,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         // Initialize ListView
         listView = findViewById(R.id.listView);
 
-        accessToken = "BQCesY2Yx_w_qf20DwNpFbnIN3NJd-pez9ZPCZUl68CUhKoCDdkvj_77zVVE5xaN_FAZaVaSv2p1jT66W7DUP-VlGatzBTzT_pneRSq-WdZ1AE-PnwyVi5AuoSPT6CrxBVe0-0bgw-rQTfHLZZ8yop20yAQFumEQrZe4sBILixCmzuWsjK-yzva3JiZYJyZR0ZhvdJMVdyzTALJvTyPKQ5bsX8Z0xNJDSvlmAvMLbsyrN2EYZt8Dy6WJpoyo_LYlG4xoVynzb8DBh4IncFZuad-V";
+        accessToken = "BQD7tfGOQJC0JKQzBfh9G491axFZTbuWhAuAQvDZdJNmb2ao-etEURsx0b7b3hyNWA0eVOE-nMVo9GuGODUx8PtTLqBfJ1zNXY4wU-X31ffmIb7eX8vSMDNipeaEhWOPUcmd48aVUzsWJdacOQ7LOt8yOVeKzY7iSDmaitMmnVJ-62kSUa-9LT2B697UfpBPYxtdsHitnYBAVYKK2sukY9H93zfoKtCY4jrZcwu6-5o_OseY8YxPg4N7awWB3pSsHHJWWdfSg0EV_PKs2q3b6kBi";
 
         // Initialize SpotifyApiHelper
         spotifyApiHelper = new SpotifyApiHelperArtists();
