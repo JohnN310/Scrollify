@@ -162,21 +162,17 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
-                if (id == R.id.menu_spring) {
+                if (id == R.id.top5) {
                     // Change background to Spring
-                    constraintLayout.setBackgroundResource(R.drawable.spotify_wrapped1);
+                    spotifyApiHelper.fetchUserTopArtists(accessToken, "long_term", 5, listView);
                     return true;
-                } else if (id == R.id.menu_summer) {
+                } else if (id == R.id.top10) {
                     // Change background to Summer
-                    constraintLayout.setBackgroundResource(R.drawable.summer_background);
+                    spotifyApiHelper.fetchUserTopArtists(accessToken, "long_term", 10, listView);
                     return true;
-                } else if (id == R.id.menu_fall) {
+                } else if (id == R.id.top15) {
                     // Change background to Fall
-                    constraintLayout.setBackgroundResource(R.drawable.fall_background_2);
-                    return true;
-                } else if (id == R.id.menu_winter) {
-                    // Change background to Winter
-                    constraintLayout.setBackgroundResource(R.drawable.winter_background);
+                    spotifyApiHelper.fetchUserTopArtists(accessToken, "long_term", 15, listView);
                     return true;
                 } else {
                     return false;

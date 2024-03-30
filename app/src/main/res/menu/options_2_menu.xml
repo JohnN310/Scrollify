@@ -1,14 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_spring"
-        android:title="Spring"/>
+        android:id="@+id/top5"
+        android:title="Top 5"/>
     <item
-        android:id="@+id/menu_summer"
-        android:title="Summer"/>
+        android:id="@+id/top10"
+        android:title="Top 10"/>
     <item
-        android:id="@+id/menu_fall"
-        android:title="Fall"/>
-    <item
-        android:id="@+id/menu_winter"
-        android:title="Winter"/>
+        android:id="@+id/top15"
+        android:title="Top 15"/>
+
 </menu>

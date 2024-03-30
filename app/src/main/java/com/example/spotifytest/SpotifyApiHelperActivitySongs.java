@@ -32,16 +32,12 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 
     private Button optionsButton2;
 
-    private TextView textView;
-
     private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_api_helper_songs);
-
-        textView = findViewById(R.id.textView);
 
         // Initialize ListView
         listView = findViewById(R.id.listView);
@@ -111,22 +107,15 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
-                if (id == R.id.menu_spring) {
+                if (id == R.id.top5) {
                     // Change background to Spring
-                    constraintLayout.setBackgroundResource(R.drawable.spotify_wrapped1);
-                    return true;
-                } else if (id == R.id.menu_summer) {
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);                    return true;
+                } else if (id == R.id.top10) {
                     // Change background to Summer
-                    constraintLayout.setBackgroundResource(R.drawable.summer_background);
-                    return true;
-                } else if (id == R.id.menu_fall) {
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 10, listView);                    return true;
+                } else if (id == R.id.top15) {
                     // Change background to Fall
-                    constraintLayout.setBackgroundResource(R.drawable.fall_background_2);
-                    return true;
-                } else if (id == R.id.menu_winter) {
-                    // Change background to Winter
-                    constraintLayout.setBackgroundResource(R.drawable.winter_background);
-                    return true;
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 15, listView);                    return true;
                 } else {
                     return false;
                 }
