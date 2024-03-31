@@ -6,7 +6,8 @@ import java.util.List;
 public class YourProfile {
     private String username;
     private String password;
-    private String personalToken;
+    private String name;
+    private String code;
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
@@ -17,11 +18,12 @@ public class YourProfile {
         top5GenreList = new ArrayList<>();
     }
 
-    public YourProfile(String username, String password, String token) {
+    public YourProfile(String username, String password, String name, String code) {
         this();
         this.username = username;
         this.password = password;
-        personalToken = token;
+        this.name = name;
+        this.code = code;
     }
 
     public String getPassword() {
@@ -33,11 +35,11 @@ public class YourProfile {
     }
 
     public String getPersonalToken() {
-        return personalToken;
+        return code;
     }
 
     public void setPersonalToken(String personalToken) {
-        this.personalToken = personalToken;
+        this.code = personalToken;
     }
 
     public String getUsername() {
