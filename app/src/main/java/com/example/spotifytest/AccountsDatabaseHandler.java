@@ -14,9 +14,9 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     private static final String databaseName = "accountsDatabase";
     private static final int databaseVersion = 1;
     private static final String tableName = "accounts";
-    private static final String name = "name";
     private static final String username = "username";
     private static final String password = "password";
+    private static final String name = "name";
     private static final String code = "code";
     private static final String friends = "";
 
@@ -32,9 +32,9 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         // setting our column names
         // along with their data types.
         String query = "CREATE TABLE " + tableName + " ("
-                + name + " TEXT, "
                 + username + " TEXT,"
                 + password + " TEXT,"
+                + name + " TEXT, "
                 + code + " TEXT,"
                 + friends + " TEXT)";
 
@@ -58,9 +58,9 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 
         // on below line we are passing all values
         // along with its key and value pair.
-        values.put(name, userName);
         values.put(username, userUsername);
         values.put(password, userPassword);
+        values.put(name, userName);
         values.put(code, userCode);
         values.put(friends, friendString);
 
@@ -87,18 +87,14 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         ArrayList<YourProfile> profilesArrayList = new ArrayList<>();
 
         // moving our cursor to first position.
-//        if (profileCursor.moveToFirst()) {
-//            do {
-//                // on below line we are adding the data from
-//                // cursor to our array list.
-//                profilesArrayList.add(new YourProfile(
-//                        profileCursor.getString(1),
-//                        profileCursor.getString(4),
-//                        profileCursor.getString(2),
-//                        profileCursor.getString(3)));
-//            } while (profileCursor.moveToNext());
-//            // moving our cursor to next.
-//        }
+        if (profileCursor.moveToFirst()) {
+            do {
+                // on below line we are adding the data from
+                // cursor to our array list.
+                profilesArrayList.add(new YourProfile(profileCursor.getString(1), profileCursor.getString(2), profileCursor.getString(3), profileCursor.getString(4)));
+            } while (profileCursor.moveToNext());
+            // moving our cursor to next.
+        }
         // at last closing our cursor
         // and returning our array list.
         profileCursor.close();
