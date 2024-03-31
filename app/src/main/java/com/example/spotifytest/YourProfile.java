@@ -6,19 +6,23 @@ import java.util.List;
 public class YourProfile {
     private String username;
     private String password;
+    private String yourName;
     private String code;
+    private String currentToken;
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
 
     public YourProfile() {
+        currentToken = "";
         top5SongList = new ArrayList<>();
         top5ArtistList = new ArrayList<>();
         top5GenreList = new ArrayList<>();
     }
 
-    public YourProfile(String username, String password, String code) {
+    public YourProfile(String username, String password, String name, String code) {
         this();
+        this.yourName = name;
         this.username = username;
         this.password = password;
         this.code = code;
@@ -58,6 +62,22 @@ public class YourProfile {
 
     public List<Genre> getTop5GenreList() {
         return top5GenreList;
+    }
+
+    public String getYourName() {
+        return yourName;
+    }
+
+    public void setYourName(String name) {
+        this.yourName = name;
+    }
+
+    public String getCurrentToken() {
+        return currentToken;
+    }
+
+    public void setCurrentToken(String currentToken) {
+        this.currentToken = currentToken;
     }
 }
 
