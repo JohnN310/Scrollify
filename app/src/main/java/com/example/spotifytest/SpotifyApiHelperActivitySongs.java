@@ -49,7 +49,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 //        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
 
         // Replace "accessToken" with the actual access token obtained during the authentication process
-        accessToken = "BQD7tfGOQJC0JKQzBfh9G491axFZTbuWhAuAQvDZdJNmb2ao-etEURsx0b7b3hyNWA0eVOE-nMVo9GuGODUx8PtTLqBfJ1zNXY4wU-X31ffmIb7eX8vSMDNipeaEhWOPUcmd48aVUzsWJdacOQ7LOt8yOVeKzY7iSDmaitMmnVJ-62kSUa-9LT2B697UfpBPYxtdsHitnYBAVYKK2sukY9H93zfoKtCY4jrZcwu6-5o_OseY8YxPg4N7awWB3pSsHHJWWdfSg0EV_PKs2q3b6kBi";
+        accessToken = "BQBQd0CNhfA8bZ5hMtlyVT2aOBSilE6TfW3K6B0OcsZgma3waWnIrgJZ-ru8pUDWcn8Sfm_t3DV5dV0OFYLU0UvqZAOB99WIUWzyu1xdH6O_RGzjXH15rxaPRiqeGBbwjby5SL83mex2IBvg9bnizCkEqd0IRsXOz5GIBVsr5UonHTjt8mbOdE-bLUBMlbnSJUcTeR9ku99yDqX6Qbps9f--SSHgOsf-oRPkguBX4mxat08o4OIimsbSxGqEj_kdGxtt8iC8nIJixeaHvwK5gj3c";
 
         spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);
 

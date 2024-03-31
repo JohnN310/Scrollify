@@ -79,7 +79,7 @@ public class SpotifyApiHelperRecommendations {
             List<String> artistNames = new ArrayList<>();
 
             artistNames.add(artists.getJSONObject(0).getString("name"));
-            if (!SpotifyApiHelperArtists.topArtists.contains(artists.getJSONObject(0).getString("name"))) {
+            if (!SpotifyApiHelperArtists.topArtists.contains(artists.getJSONObject(0).getString("name")) && !SpotifyApiHelper.topArtistNamesSongs.contains(artists.getJSONObject(0).getString("name"))) {
                 recommendedTracks.add(String.join(", ", artistNames));
                 index++;
             }

@@ -160,6 +160,8 @@ public class SpotifyApiHelper {
     public static List<String> topTrackIds;
 
     public static List<String> topTrackNames;
+
+    public static List<String> topArtistNamesSongs;
     private String mAccessToken;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -197,6 +199,7 @@ public class SpotifyApiHelper {
                         List<String> trackNames = new ArrayList<>();
                         topTrackNames = new ArrayList<>();
                         topTrackIds = new ArrayList<>();
+                        topArtistNamesSongs = new ArrayList<>();
                         for (int i = 0; i < items.length(); i++) {
                             JSONObject track = items.getJSONObject(i);
                             JSONArray artists = track.getJSONArray("artists");
@@ -207,10 +210,12 @@ public class SpotifyApiHelper {
                               if (j > 0) {
                                  artistNames.append(", ");
                              }
-                             artistNames.append(artists.getJSONObject(j).getString("name"));
+                              artistNames.append(artists.getJSONObject(j).getString("name"));
+                              topArtistNamesSongs.add(artists.getJSONObject(j).getString("name"));
                             }
                             trackNames.add(trackName + " - " + artistNames.toString());
                             topTrackIds.add(id);
+
                         }
                         topTrackNames = trackNames;
 
