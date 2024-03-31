@@ -30,6 +30,15 @@ public class LoginPage extends AppCompatActivity  {
                 AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(LoginPage.this);
                 ArrayList<YourProfile> accounts = accountsDatabaseHandler.readProfiles();
 
+                for (YourProfile item : accounts) {
+
+                    if (item.getUsername() == inputUsername.toString() && item.getPassword() == inputPassword.toString()) {
+                        Intent intent = new Intent(LoginPage.this, HomePage.class);
+                        startActivity(intent);
+                    }
+
+
+                }
 
             }
         });
