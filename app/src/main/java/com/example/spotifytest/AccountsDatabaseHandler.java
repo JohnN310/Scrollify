@@ -87,18 +87,18 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         ArrayList<YourProfile> profilesArrayList = new ArrayList<>();
 
         // moving our cursor to first position.
-//        if (profileCursor.moveToFirst()) {
-//            do {
-//                // on below line we are adding the data from
-//                // cursor to our array list.
-//                profilesArrayList.add(new YourProfile(
-//                        profileCursor.getString(1),
-//                        profileCursor.getString(4),
-//                        profileCursor.getString(2),
-//                        profileCursor.getString(3)));
-//            } while (profileCursor.moveToNext());
-//            // moving our cursor to next.
-//        }
+        if (profileCursor.moveToFirst()) {
+            do {
+                // on below line we are adding the data from
+                // cursor to our array list.
+                profilesArrayList.add(new YourProfile(
+                        profileCursor.getString(1),
+                        profileCursor.getString(4),
+                        profileCursor.getString(2),
+                        profileCursor.getString(3)));
+            } while (profileCursor.moveToNext());
+            // moving our cursor to next.
+        }
         // at last closing our cursor
         // and returning our array list.
         profileCursor.close();

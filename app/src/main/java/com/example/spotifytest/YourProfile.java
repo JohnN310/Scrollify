@@ -79,6 +79,10 @@ public class YourProfile {
     public void setCurrentToken(String currentToken) {
         this.currentToken = currentToken;
     }
+
+    public boolean verifyLogin(String username, String password) {
+        return (this.username.equals(username) && this.password.equals(password));
+    }
 }
 
 
