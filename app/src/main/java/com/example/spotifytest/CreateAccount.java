@@ -74,8 +74,8 @@ public class CreateAccount extends AppCompatActivity {
         connect_spotify_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getToken();
-//                getCode();
+//                getToken();
+                getCode();
 //                onGetUserProfileClicked();
 
             }
@@ -108,7 +108,7 @@ public class CreateAccount extends AppCompatActivity {
                     Toast.makeText(CreateAccount.this, "Your password cannot have spaces in it!", Toast.LENGTH_SHORT).show();
 
                 }
-                else if (mAccessToken == null) {
+                else if (mAccessCode == null) {
                     Toast.makeText(CreateAccount.this, "You need to connect to Spotify!", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -130,32 +130,32 @@ public class CreateAccount extends AppCompatActivity {
      */
     public void setAccount(String name, String username, String password) {
         accountsDatabaseHandler = new AccountsDatabaseHandler(CreateAccount.this);
-        accountsDatabaseHandler.newUser(name, username, password, mAccessToken, mAccessCode);
+        accountsDatabaseHandler.newUser(name, username, password, mAccessCode);
         Intent intent = new Intent(CreateAccount.this, HomePage.class);
         startActivity(intent);
     }
 
-    /**
-     * Get token from Spotify
-     * This method will open the Spotify login activity and get the code
-     * What is code?
-     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
-     */
-    public void getToken() {
-        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
-        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_TOKEN_REQUEST_CODE, request);
-    }
-
 //    /**
-//     * Get code from Spotify
+//     * Get token from Spotify
 //     * This method will open the Spotify login activity and get the code
 //     * What is code?
 //     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
 //     */
-//    public void getCode() {
-//        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
-//        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_CODE_REQUEST_CODE, request);
+//    public void getToken() {
+//        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
+//        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_TOKEN_REQUEST_CODE, request);
 //    }
+
+    /**
+     * Get code from Spotify
+     * This method will open the Spotify login activity and get the code
+     * What is code?
+     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
+     */
+    public void getCode() {
+        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
+        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_CODE_REQUEST_CODE, request);
+    }
 
 
     /**
