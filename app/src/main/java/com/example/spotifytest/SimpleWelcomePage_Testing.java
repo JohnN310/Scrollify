@@ -102,7 +102,7 @@ public class SimpleWelcomePage_Testing extends AppCompatActivity {
             publicToken = mAccessToken;
         }
         Log.d("SpotifyApiHelper", "Token: "+publicToken);
-        if (publicToken == null) {
+        if (publicToken != null) {
             Button tokenBtn1 = findViewById(R.id.token_btn);
             toSongs(tokenBtn1);
         }

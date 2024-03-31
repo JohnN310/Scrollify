@@ -35,6 +35,7 @@ public class CreateAccount extends AppCompatActivity {
     EditText inputUsername;
     EditText inputPassword;
     EditText inputConfirmPassword;
+    AccountsDatabaseHandler accountsDatabaseHandler;
 
 
     public static final String CLIENT_ID = "d3136c06706142209a3c65aa74c6b9b7";
@@ -107,9 +108,9 @@ public class CreateAccount extends AppCompatActivity {
                     Toast.makeText(CreateAccount.this, "Your password cannot have spaces in it!", Toast.LENGTH_SHORT).show();
 
                 }
-//                else if (mAccessToken == null || mAccessCode == null) {
-//                    Toast.makeText(CreateAccount.this, "You need to get an access token first!", Toast.LENGTH_SHORT).show();
-//                }
+                else if (mAccessToken == null) {
+                    Toast.makeText(CreateAccount.this, "You need to connect to Spotify!", Toast.LENGTH_SHORT).show();
+                }
                 else {
                     setAccount(inputName.getText().toString(), inputUsername.getText().toString(), inputPassword.getText().toString());
 
@@ -128,56 +129,53 @@ public class CreateAccount extends AppCompatActivity {
      * @param password user's password
      */
     public void setAccount(String name, String username, String password) {
-                Intent newIntent = new Intent (CreateAccount.this, ProfilePage.class);
-                Bundle extras = new Bundle();
-                extras.putString("name", name);
-                extras.putString("username", username);
-                extras.putString("password", password);
-                newIntent.putExtras(extras);
-                startActivity(newIntent);
+        accountsDatabaseHandler = new AccountsDatabaseHandler(CreateAccount.this);
+        accountsDatabaseHandler.newUser(name, username, password, mAccessToken, mAccessCode);
+        Intent intent = new Intent(CreateAccount.this, HomePage.class);
+        startActivity(intent);
     }
 
-//    /**
-//     * Get token from Spotify
-//     * This method will open the Spotify login activity and get the code
-//     * What is code?
-//     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
-//     */
+    /**
+     * Get token from Spotify
+     * This method will open the Spotify login activity and get the code
+     * What is code?
+     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
+     */
     public void getToken() {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
         AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_TOKEN_REQUEST_CODE, request);
     }
-//
+
 //    /**
 //     * Get code from Spotify
 //     * This method will open the Spotify login activity and get the code
 //     * What is code?
 //     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
 //     */
-    public void getCode() {
-        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
-        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_CODE_REQUEST_CODE, request);
-    }
-//
-//
-//    /**
-//     * When the app leaves this activity to momentarily get a token/code, this function
-//     * fetches the result of that external activity to get the response from Spotify
-//     */
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
-//
-//        // Check which request code is present (if any)
-//        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
-//            mAccessToken = response.getAccessToken();
-//
-//        } else if (AUTH_CODE_REQUEST_CODE == requestCode) {
-//            mAccessCode = response.getCode();
-//        }
+//    public void getCode() {
+//        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
+//        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_CODE_REQUEST_CODE, request);
 //    }
-//
+
+
+    /**
+     * When the app leaves this activity to momentarily get a token/code, this function
+     * fetches the result of that external activity to get the response from Spotify
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
+
+        // Check which request code is present (if any)
+        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
+            mAccessToken = response.getAccessToken();
+
+        } else if (AUTH_CODE_REQUEST_CODE == requestCode) {
+            mAccessCode = response.getCode();
+        }
+    }
+
 //    /**
 //     * Get user profile
 //     * This method will get the user profile using the token
@@ -190,7 +188,7 @@ public class CreateAccount extends AppCompatActivity {
 //                .addHeader("Authorization", "Bearer " + mAccessToken)
 //                .build();
 //
-//        cancelCall();
+////        cancelCall();
 //        mCall = mOkHttpClient.newCall(request);
 //
 //        mCall.enqueue(new Callback() {
@@ -214,14 +212,14 @@ public class CreateAccount extends AppCompatActivity {
 //            }
 //        });
 //    }
-//
-//
-//    /**
-//     * Get authentication request
-//     *
-//     * @param type the type of the request
-//     * @return the authentication request
-//     */
+
+
+    /**
+     * Get authentication request
+     *
+     * @param type the type of the request
+     * @return the authentication request
+     */
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
@@ -229,16 +227,16 @@ public class CreateAccount extends AppCompatActivity {
                 .setCampaign("your-campaign-token")
                 .build();
     }
-//
-//    /**
-//     * Gets the redirect Uri for Spotify
-//     *
-//     * @return redirect Uri object
-//     */
+
+    /**
+     * Gets the redirect Uri for Spotify
+     *
+     * @return redirect Uri object
+     */
     private Uri getRedirectUri() {
         return Uri.parse(REDIRECT_URI);
     }
-//
+
 //    private void cancelCall() {
 //        if (mCall != null) {
 //            mCall.cancel();
@@ -250,7 +248,7 @@ public class CreateAccount extends AppCompatActivity {
 //        cancelCall();
 //        super.onDestroy();
 //    }
-//
+
 
 
 }
