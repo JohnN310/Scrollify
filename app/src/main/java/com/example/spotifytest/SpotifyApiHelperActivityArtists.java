@@ -231,7 +231,8 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
     }*/
 
     public void genreAnalysis(View view){
-        Toast.makeText(getApplicationContext(), "Analyzing...", Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getApplicationContext(), "Analyzing...", Toast.LENGTH_LONG);
+        toast.show();
         List<String> genres = SpotifyApiHelperArtists.topGenres;
         try {
             encodedGenres = URLEncoder.encode(String.join(",", genres), "UTF-8");
@@ -275,6 +276,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
                         break;
                     }
                 }
+                toast.cancel();
                 showPopup(spannableStringBuilder);
             }
             @Override
