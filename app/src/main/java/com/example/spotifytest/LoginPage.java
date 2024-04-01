@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,15 +31,19 @@ public class LoginPage extends AppCompatActivity  {
                 AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(LoginPage.this);
                 ArrayList<YourProfile> accounts = accountsDatabaseHandler.readProfiles();
 
-                for (YourProfile item : accounts) {
+                for (int i = 0; i < accounts.size(); i++) {
 
-                    if (item.getUsername() == inputUsername.toString() && item.getPassword() == inputPassword.toString()) {
+                    if (accounts.get(i).getUsername().equals(inputUsername.toString()) && accounts.get(i).getPassword() == inputPassword.toString()) {
                         Intent intent = new Intent(LoginPage.this, HomePage.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("index", i);
                         startActivity(intent);
                     }
 
 
                 }
+
+//                Toast.
 
             }
         });
