@@ -19,39 +19,62 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfilePage extends AppCompatActivity
         implements AddFriendDialog.AddFriendDialogInterface, ChangePasswordDialog.ChangePasswordDialogInterface {
 
-    TextView name, username;
+    String name, username;
     List<String> friendList;
     List<String> inviteList;
 
     PopupWindow popupWindow; // Declare popupWindow here
 
+    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(ProfilePage.this);
+    ArrayList<YourProfile> profiles = accountsDatabaseHandler.readProfiles();
+    Bundle bundle = getIntent().getExtras();
+    int accountIndex;
+    {
+        assert bundle != null;
+        accountIndex = bundle.getInt("index");
+    }
+
+    YourProfile thisProfile = profiles.get(accountIndex);
+
 
 
 
     public void onCreate(Bundle saveInstanceState) {
+
         super.onCreate(saveInstanceState);
         setContentView(R.layout.profile_page);
 
-        name = (TextView) findViewById(R.id.name_box);
-        username = (TextView) findViewById(R.id.username_box);
+
+
+
+
+
+        name = thisProfile.getName();
+        username = thisProfile.getUsername();
+
+        TextView nameTV = (TextView) findViewById(R.id.name_box);
+        nameTV.setText(name);
+        TextView usernameTV = (TextView) findViewById(R.id.username_box);
+        usernameTV.setText(username);
 
 
         friendList = new ArrayList<>();
         inviteList = new ArrayList<>();
 
         // Check if extras bundle is not null
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            // Retrieve data from extras bundle and set to TextViews
-            name.setText(bundle.getString("name", "Name"));
-            username.setText(bundle.getString("username", "Username"));
-        }
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle != null) {
+//            // Retrieve data from extras bundle and set to TextViews
+//            name.setText(bundle.getString("name", "Name"));
+//            username.setText(bundle.getString("username", "Username"));
+//        }
 
 
         Button add_friend_button = (Button) findViewById(R.id.addFriendButton);
@@ -80,6 +103,20 @@ public class ProfilePage extends AppCompatActivity
             }
         });
 
+
+
+
+    }
+
+    public void changePassword(String newPassword) {
+        thisProfile.setPassword(newPassword);
+
+    }
+
+
+    public YourProfile getThisProfile() {
+
+        return thisProfile;
 
     }
 
@@ -131,10 +168,10 @@ public class ProfilePage extends AppCompatActivity
         }
     }
 
-    @Override
-    public void newPassword(String friendUsername) {
+    public void newPassword(String password) {
 
     }
+
 
 
 //Notes: fix add friends, fix the text view for add friends, update inviteList every time
