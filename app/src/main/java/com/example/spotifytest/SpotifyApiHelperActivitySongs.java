@@ -49,7 +49,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 //        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
 
         // Replace "accessToken" with the actual access token obtained during the authentication process
-        accessToken = "BQBWJSiyiglXtJrHXqq6oYNWIjSeBYjDw62S6Czqk2YnoB9A6CovV0KR6QfW6ASViy7pS8y_MhkkSipydgn2o7rLPI_gKpmnyB7LSgM5meCGKqWe4QFW9kep8SfqbOZGwu_ts34GqvSRtbgZ74Q8Bcry2jGlZ7rS-DYSSCyPGO4FcyafE3eeqnkNg-JoL1GAoox2yxOdDOLGz9pBbnKOXpKDJD2aZTh8zkm2brZvq9_29ynyGTUUUbCRNoe7HloVMXHGxDi6AcHqnZpLaeEBUNEe";
+        accessToken = SimpleWelcomePage_Testing.publicToken;
 
         spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);
 
@@ -127,6 +127,11 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
     public void topArtists(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        context.startActivity(intent);
+    }
+    public void back(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, SimpleWelcomePage_Testing.class);
         context.startActivity(intent);
     }
 }

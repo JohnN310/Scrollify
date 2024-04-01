@@ -33,7 +33,7 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
         // Initialize ListView
         listView = findViewById(R.id.listView);
 
-        accessToken = "BQBWJSiyiglXtJrHXqq6oYNWIjSeBYjDw62S6Czqk2YnoB9A6CovV0KR6QfW6ASViy7pS8y_MhkkSipydgn2o7rLPI_gKpmnyB7LSgM5meCGKqWe4QFW9kep8SfqbOZGwu_ts34GqvSRtbgZ74Q8Bcry2jGlZ7rS-DYSSCyPGO4FcyafE3eeqnkNg-JoL1GAoox2yxOdDOLGz9pBbnKOXpKDJD2aZTh8zkm2brZvq9_29ynyGTUUUbCRNoe7HloVMXHGxDi6AcHqnZpLaeEBUNEe";
+        accessToken = SimpleWelcomePage_Testing.publicToken;
 
         // Initialize SpotifyApiHelper
         spotifyApiHelper = new SpotifyApiHelperRecommendations();

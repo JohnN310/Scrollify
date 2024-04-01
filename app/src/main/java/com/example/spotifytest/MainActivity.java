@@ -131,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
         // Create a request to get the user profile
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/tracks")
-                .addHeader("Authorization", "Bearer " + "BQCesY2Yx_w_qf20DwNpFbnIN3NJd-pez9ZPCZUl68CUhKoCDdkvj_77zVVE5xaN_FAZaVaSv2p1jT66W7DUP-VlGatzBTzT_pneRSq-WdZ1AE-PnwyVi5AuoSPT6CrxBVe0-0bgw-rQTfHLZZ8yop20yAQFumEQrZe4sBILixCmzuWsjK-yzva3JiZYJyZR0ZhvdJMVdyzTALJvTyPKQ5bsX8Z0xNJDSvlmAvMLbsyrN2EYZt8Dy6WJpoyo_LYlG4xoVynzb8DBh4IncFZuad-V")
+                .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
-
+        Log.d("Token", "Token: " + mAccessToken);
         cancelCall();
         mCall = mOkHttpClient.newCall(request);
 
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
+                .setScopes(new String[] { "user-top-read" }) // <--- Change the scope of your requested token here
                 .setCampaign("your-campaign-token")
                 .build();
     }
