@@ -61,18 +61,37 @@
 
 package com.example.spotifytest;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.method.ScrollingMovementMethod;
+import android.text.style.StyleSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.ai.client.generativeai.GenerativeModel;
+import com.google.ai.client.generativeai.java.GenerativeModelFutures;
+import com.google.ai.client.generativeai.type.Content;
+import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
 
@@ -84,6 +103,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
 
     private String accessToken;
 
+    private String encodedGenres;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +114,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         // Initialize ListView
         listView = findViewById(R.id.listView);
 
-        accessToken = "BQCDx47BGUCqPMHt8hbRY9UPpvoSCPDJ2knXqK3yv9xqXnxbJR9wVFsUXy-agliBH9lGiwnT9c2o1uZynVMp5CQf_dxVYUiKtfwCRpEx5zAK6kblhm9rB8M7KcW_L4u3MPn-LZuFabJFFi8xNAl1tg_VM-XMtkbB270vZPdJgrTdalh7OiYJHe3XhDfYhxo1gmZBisxT_1VqT1f6BS-q2GjHr5vqsf5v1bnWBsBg41fBMyNWqmjGsCMxfDSn1str3KHjeFV8eFk1QzHrNwbAaWmC";
+        accessToken = "BQBWJSiyiglXtJrHXqq6oYNWIjSeBYjDw62S6Czqk2YnoB9A6CovV0KR6QfW6ASViy7pS8y_MhkkSipydgn2o7rLPI_gKpmnyB7LSgM5meCGKqWe4QFW9kep8SfqbOZGwu_ts34GqvSRtbgZ74Q8Bcry2jGlZ7rS-DYSSCyPGO4FcyafE3eeqnkNg-JoL1GAoox2yxOdDOLGz9pBbnKOXpKDJD2aZTh8zkm2brZvq9_29ynyGTUUUbCRNoe7HloVMXHGxDi6AcHqnZpLaeEBUNEe";
 
         // Initialize SpotifyApiHelper
         spotifyApiHelper = new SpotifyApiHelperArtists();
@@ -124,6 +144,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
                 showPopupMenu2(v);
             }
         });
+
     }
 
     private void showPopupMenu() {
@@ -203,9 +224,81 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
             context.startActivity(intent);
         }
     }
-    public void genreAnalysis(View view) {
+/*    public void genreAnalysis(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, GenreAnalysisActivity.class);
         context.startActivity(intent);
+    }*/
+
+    public void genreAnalysis(View view){
+        Toast.makeText(getApplicationContext(), "Analyzing...", Toast.LENGTH_SHORT).show();
+        List<String> genres = SpotifyApiHelperArtists.topGenres;
+        try {
+            encodedGenres = URLEncoder.encode(String.join(",", genres), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro",    /* apiKey */ "AIzaSyABtkfxfxDV9PGDWhXkcGbM7iWmuWEVyDU");
+        GenerativeModelFutures model = GenerativeModelFutures.from(gm);
+        Content content = new Content.Builder()
+                .addText("Briefly describe how a person who listens to these genres tend to act, dress, and think. Separate each genre in the response. Max characters: 250: "+ encodedGenres)
+                .build();
+
+        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+            @Override
+            public void onSuccess(GenerateContentResponse result) {
+                String resultText = result.getText();
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(resultText);
+
+// Process bold text
+                int startIndex = 0;
+                int endIndex;
+                while ((startIndex = resultText.indexOf("**", startIndex)) != -1) {
+                    endIndex = resultText.indexOf("**", startIndex + 2);
+                    if (endIndex != -1) {
+                        spannableStringBuilder.setSpan(new StyleSpan(Typeface.BOLD), startIndex, endIndex + 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        startIndex = endIndex + 2;
+                    } else {
+                        break;
+                    }
+                }
+
+// Process italic text
+                startIndex = 0;
+                while ((startIndex = resultText.indexOf("*", startIndex)) != -1) {
+                    endIndex = resultText.indexOf("*", startIndex + 1);
+                    if (endIndex != -1) {
+                        spannableStringBuilder.setSpan(new StyleSpan(Typeface.ITALIC), startIndex, endIndex + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        startIndex = endIndex + 1;
+                    } else {
+                        break;
+                    }
+                }
+                showPopup(spannableStringBuilder);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        }, this.getMainExecutor());
+    }
+
+    private void showPopup(SpannableStringBuilder text) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.genre_analysis_popup);
+
+        TextView textView = dialog.findViewById(R.id.popup_text);
+        textView.setText(text);
+        textView.setMovementMethod(new ScrollingMovementMethod());
+
+        Button closeButton = dialog.findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss(); // Close the dialog when the button is clicked
+            }
+        });
+
+        dialog.show();
     }
 }

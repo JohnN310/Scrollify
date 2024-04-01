@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.TextView;
@@ -31,9 +32,10 @@ public class GenreAnalysisActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_genre_analysis);
+//        setContentView(R.layout.activity_genre_analysis);
 
         textView = findViewById(R.id.response_text_view);
+        textView.setMovementMethod(new ScrollingMovementMethod());
         List<String> genres = SpotifyApiHelperArtists.topGenres;
 
         // Encode the genres for the URL query
@@ -48,7 +50,7 @@ public class GenreAnalysisActivity extends AppCompatActivity {
         GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro",    /* apiKey */ "AIzaSyABtkfxfxDV9PGDWhXkcGbM7iWmuWEVyDU");
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
         Content content = new Content.Builder()
-                .addText("Briefly describe how a person who listens to these genres tend to act, dress, and think. Separate each genre in the response. Max characters: 500: "+ encodedGenres)
+                .addText("Briefly describe how a person who listens to these genres tend to act, dress, and think. Separate each genre in the response. Max characters: 250: "+ encodedGenres)
                 .build();
 
         ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
@@ -82,9 +84,8 @@ public class GenreAnalysisActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                String resultString = spannableStringBuilder.toString();
-                resultString.replace("**","");
-                textView.setText(resultString);
+
+                textView.setText(spannableStringBuilder);
             }
             @Override
             public void onFailure(Throwable t) {
