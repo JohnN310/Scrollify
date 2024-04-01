@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -86,6 +87,19 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(CreateAccount.this);
+                ArrayList<YourProfile> accounts = accountsDatabaseHandler.readProfiles();
+
+
+                for (YourProfile item : accounts) {
+                    if (item.getUsername().equals(inputUsername)) {
+                        Toast.makeText(CreateAccount.this, "This username is already taken!", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
+
                 if (inputName.getText().toString().equals("")) {
                     Toast.makeText(CreateAccount.this, "You must enter your name!", Toast.LENGTH_SHORT).show();
 
@@ -131,7 +145,23 @@ public class CreateAccount extends AppCompatActivity {
     public void setAccount(String name, String username, String password) {
         accountsDatabaseHandler = new AccountsDatabaseHandler(CreateAccount.this);
         accountsDatabaseHandler.newUser(name, username, password, mAccessCode);
-        Intent intent = new Intent(CreateAccount.this, HomePage.class);
+        ArrayList<YourProfile> profiles = accountsDatabaseHandler.readProfiles();
+        int index = -10;
+
+        for (int i = 0; i < profiles.size(); i++) {
+
+            if (profiles.get(i).getUsername().equals(username)) {
+
+                index = i;
+
+            }
+
+        }
+
+        Intent intent = new Intent(CreateAccount.this, ProfilePage.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("ind", index);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
@@ -167,11 +197,7 @@ public class CreateAccount extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
 
-        // Check which request code is present (if any)
-        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
-            mAccessToken = response.getAccessToken();
-
-        } else if (AUTH_CODE_REQUEST_CODE == requestCode) {
+        if (AUTH_CODE_REQUEST_CODE == requestCode) {
             mAccessCode = response.getCode();
         }
     }

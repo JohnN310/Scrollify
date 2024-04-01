@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,15 +32,27 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
 
         View view = inflater.inflate(R.layout.change_password_dialog, null);
 
-        EditText new_pass = (EditText) view.findViewById(R.id.newPass);
+        EditText oldPass = (EditText) view.findViewById(R.id.oldPass);
+        EditText newPass = (EditText) view.findViewById(R.id.newPass);
+        EditText confirmNewPass = (EditText) view.findViewById(R.id.confirmNewPass);
 
 
         builder.setView(view)
                 .setTitle("Change Password")
                 .setPositiveButton("Change", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String newPass = new_pass.getText().toString();
-                        cpdi.newPassword(newPass);
+
+                        ProfilePage profilePage = new ProfilePage();
+                        if (!profilePage.getThisProfile().getPassword().equals(oldPass.getText())) {
+                            Toast.makeText(profilePage, "You entered the incorrect original password!", Toast.LENGTH_SHORT).show();
+
+                        } else if (!newPass.getText().equals(confirmNewPass.getText())) {
+                            Toast.makeText(profilePage, "Your new passwords don't match!", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            String newPassword = newPass.getText().toString();
+                            profilePage.changePassword(newPassword);
+                        }
 
                     }
 

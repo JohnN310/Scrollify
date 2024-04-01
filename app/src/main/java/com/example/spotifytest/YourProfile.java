@@ -26,6 +26,10 @@ public class YourProfile {
         this.code = code;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getPassword() {
         return password;
     }
