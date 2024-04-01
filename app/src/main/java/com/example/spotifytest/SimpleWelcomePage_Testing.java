@@ -98,7 +98,7 @@ public class SimpleWelcomePage_Testing extends AppCompatActivity {
         // Check which request code is present (if any)
         if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
             mAccessToken = response.getAccessToken();
-            setTextAsync(mAccessToken, tokenTextView);
+//            setTextAsync(mAccessToken, tokenTextView);
             publicToken = mAccessToken;
         }
         Log.d("SpotifyApiHelper", "Token: "+publicToken);

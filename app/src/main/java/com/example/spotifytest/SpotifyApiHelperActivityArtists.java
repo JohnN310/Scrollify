@@ -94,7 +94,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         // Initialize ListView
         listView = findViewById(R.id.listView);
 
-        accessToken = "BQBQd0CNhfA8bZ5hMtlyVT2aOBSilE6TfW3K6B0OcsZgma3waWnIrgJZ-ru8pUDWcn8Sfm_t3DV5dV0OFYLU0UvqZAOB99WIUWzyu1xdH6O_RGzjXH15rxaPRiqeGBbwjby5SL83mex2IBvg9bnizCkEqd0IRsXOz5GIBVsr5UonHTjt8mbOdE-bLUBMlbnSJUcTeR9ku99yDqX6Qbps9f--SSHgOsf-oRPkguBX4mxat08o4OIimsbSxGqEj_kdGxtt8iC8nIJixeaHvwK5gj3c";
+        accessToken = "BQCDx47BGUCqPMHt8hbRY9UPpvoSCPDJ2knXqK3yv9xqXnxbJR9wVFsUXy-agliBH9lGiwnT9c2o1uZynVMp5CQf_dxVYUiKtfwCRpEx5zAK6kblhm9rB8M7KcW_L4u3MPn-LZuFabJFFi8xNAl1tg_VM-XMtkbB270vZPdJgrTdalh7OiYJHe3XhDfYhxo1gmZBisxT_1VqT1f6BS-q2GjHr5vqsf5v1bnWBsBg41fBMyNWqmjGsCMxfDSn1str3KHjeFV8eFk1QzHrNwbAaWmC";
 
         // Initialize SpotifyApiHelper
         spotifyApiHelper = new SpotifyApiHelperArtists();
@@ -202,5 +202,10 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
             Intent intent = new Intent(context, Question1Activity.class);
             context.startActivity(intent);
         }
+    }
+    public void genreAnalysis(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, GenreAnalysisActivity.class);
+        context.startActivity(intent);
     }
 }

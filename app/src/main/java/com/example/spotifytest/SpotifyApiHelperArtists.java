@@ -22,6 +22,8 @@ import okhttp3.Response;
 public class SpotifyApiHelperArtists {
     public static List<String> topArtists;
 
+    public static List<String> topGenres;
+
     private String mAccessToken;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -57,15 +59,24 @@ public class SpotifyApiHelperArtists {
                         JSONArray items = jsonObject.getJSONArray("items");
 
                         List<String> artistNames = new ArrayList<>();
+                        topGenres = new ArrayList<>();
                         for (int i = 0; i < items.length(); i++) {
                             JSONObject artist = items.getJSONObject(i);
+                            JSONArray genresArray = artist.getJSONArray("genres");
                             String artistName = artist.getString("name");
                             artistNames.add(artistName);
+                            for (int j = 0; j < genresArray.length(); j++) {
+                                String genre = genresArray.getString(j);
+                                // Add the genre to the list of all genres
+                                if (!topGenres.contains(genre)) {
+                                    topGenres.add(genre);
+                                }
+                            }
                         }
                         topArtists = artistNames;
 
                         listView.post(() -> {
-                            CustomArrayAdapter adapter = new CustomArrayAdapter(listView.getContext(), artistNames);
+                            CustomArrayAdapter adapter = new CustomArrayAdapter(listView.getContext(), topArtists);
                             listView.setAdapter(adapter);
                         });
                     } else {
