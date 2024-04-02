@@ -65,6 +65,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -91,7 +92,10 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
 
@@ -144,7 +148,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
                 showPopupMenu2(v);
             }
         });
-
+        changeBackgroundBasedOnSpecialDays();
     }
 
     private void showPopupMenu() {
@@ -204,6 +208,45 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         popupMenu.show();
     }
 
+
+    private void changeBackgroundBasedOnSpecialDays() {
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+        Drawable backgroundDrawable = null;
+
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Get the current month and day as strings
+        String monthString = new SimpleDateFormat("MMMM", Locale.getDefault()).format(calendar.getTime());
+        String dayOfMonthString = String.valueOf(dayOfMonth);
+
+        // Check for special days
+        if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.winter_background);
+        } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.summer_background);
+        } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (monthString.equals("July") && dayOfMonthString.equals("4")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (monthString.equals("October") && dayOfMonthString.equals("31")) { // halloween
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (month == Calendar.NOVEMBER && dayOfMonth >= 22 && dayOfMonth <= 28) { //thanksginving
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (monthString.equals("December") && (dayOfMonthString.equals("24") || dayOfMonthString.equals("25"))) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        // Set background
+        if (backgroundDrawable != null) {
+            constraintLayout.setBackground(backgroundDrawable);
+        }
+    }
+
     public void recommendedArtists(View view) {
         if (SpotifyApiHelperArtists.topArtists == null || SpotifyApiHelper.topTrackIds == null) {
             Toast.makeText(this, "You have no favorite tracks or artists!", Toast.LENGTH_SHORT).show();
@@ -224,11 +267,6 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
             context.startActivity(intent);
         }
     }
-/*    public void genreAnalysis(View view) {
-        Context context = view.getContext();
-        Intent intent = new Intent(context, GenreAnalysisActivity.class);
-        context.startActivity(intent);
-    }*/
 
     public void genreAnalysis(View view){
         Toast toast = Toast.makeText(getApplicationContext(), "Analyzing...", Toast.LENGTH_LONG);
@@ -242,7 +280,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro",    /* apiKey */ "AIzaSyABtkfxfxDV9PGDWhXkcGbM7iWmuWEVyDU");
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
         Content content = new Content.Builder()
-                .addText("Briefly describe how a person who listens to these genres tend to act, dress, and think. Separate each genre in the response. Max characters: 250: "+ encodedGenres)
+                .addText("Briefly describe how a person who listens to these genres tend to act, dress, and think. Separate each genre in the response. Guess what the student's major is at Georgia Tech. Max characters: 300: "+ encodedGenres)
                 .build();
 
         ListenableFuture<GenerateContentResponse> response = model.generateContent(content);

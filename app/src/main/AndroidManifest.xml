@@ -32,8 +32,6 @@
 
         <activity android:name=".Question1Activity"/>
         <activity android:name=".Question2Activity"/>
-        <activity android:name=".GenreAnalysisActivity"/>
-
         <activity android:name=".ProfilePage"/>
     </application>
 

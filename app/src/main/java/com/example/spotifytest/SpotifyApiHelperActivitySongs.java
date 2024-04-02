@@ -3,6 +3,7 @@ package com.example.spotifytest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +21,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
@@ -70,6 +74,8 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
                 showPopupMenu2(v);
             }
         });
+
+        changeBackgroundBasedOnSpecialDays();
     }
 
     private void showPopupMenu() {
@@ -124,6 +130,45 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         popupMenu.inflate(R.menu.options_2_menu);
         popupMenu.show();
     }
+
+    private void changeBackgroundBasedOnSpecialDays() {
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+        Drawable backgroundDrawable = null;
+
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Get the current month and day as strings
+        String monthString = new SimpleDateFormat("MMMM", Locale.getDefault()).format(calendar.getTime());
+        String dayOfMonthString = String.valueOf(dayOfMonth);
+
+        // Check for special days
+        if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.winter_background);
+        } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.summer_background);
+        } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (monthString.equals("July") && dayOfMonthString.equals("4")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (monthString.equals("October") && dayOfMonthString.equals("31")) { // halloween
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (month == Calendar.NOVEMBER && dayOfMonth >= 22 && dayOfMonth <= 28) { //thanksginving
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        else if (monthString.equals("December") && (dayOfMonthString.equals("24") || dayOfMonthString.equals("25"))) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        }
+        // Set background
+        if (backgroundDrawable != null) {
+            constraintLayout.setBackground(backgroundDrawable);
+        }
+    }
+
     public void topArtists(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
