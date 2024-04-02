@@ -145,7 +145,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 
         // Check for special days
         if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.winter_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.newyearstheme);
         } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.summer_background);
         } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
@@ -155,13 +155,16 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
             backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
         }
         else if (monthString.equals("October") && dayOfMonthString.equals("31")) { // halloween
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.halloween);
         }
         else if (month == Calendar.NOVEMBER && dayOfMonth >= 22 && dayOfMonth <= 28) { //thanksginving
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.thanksgiving);
         }
-        else if (monthString.equals("December") && (dayOfMonthString.equals("24") || dayOfMonthString.equals("25"))) {
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        else if (monthString.equals("December") && dayOfMonthString.equals("25")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmastheme);
+        }
+        else if (monthString.equals("April") && dayOfMonthString.equals("2")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmastheme);
         }
         // Set background
         if (backgroundDrawable != null) {

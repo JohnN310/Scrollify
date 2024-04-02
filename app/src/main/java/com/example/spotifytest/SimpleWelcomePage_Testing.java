@@ -1,6 +1,7 @@
 package com.example.spotifytest;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +45,10 @@ public class SimpleWelcomePage_Testing extends AppCompatActivity {
     private TextView tokenTextView, codeTextView, profileTextView;
 
     private Call mCall;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simple_welcome_page);
-
         // Initialize the buttons
         Button tokenBtn = (Button) findViewById(R.id.token_btn);
 
