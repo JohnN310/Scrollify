@@ -160,7 +160,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         else if (monthString.equals("December") && dayOfMonthString.equals("25")) {
             backgroundDrawable = getResources().getDrawable(R.drawable.christmastheme);
         }
-        else if (monthString.equals("April") && dayOfMonthString.equals("2")) {
+        else if (monthString.equals("December") && dayOfMonthString.equals("24")) {
             backgroundDrawable = getResources().getDrawable(R.drawable.christmastheme);
         }
         // Set background

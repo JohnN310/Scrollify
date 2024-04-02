@@ -280,7 +280,8 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro",    /* apiKey */ "AIzaSyABtkfxfxDV9PGDWhXkcGbM7iWmuWEVyDU");
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
         Content content = new Content.Builder()
-                .addText("Briefly describe how a person who listens to these genres tend to act, dress, and think. Separate each genre in the response. Guess what the student's major is at Georgia Tech. Max characters: 300: "+ encodedGenres)
+                .addText("Briefly describe how a person who listens to all these genres tend to act, dress, and think. Use bullet points. Guess what the student's major is at Georgia Tech. Guess what their favorite color is. Be consistent with your response, if I give you a different list of genres, the response should get" +
+                        " a different color or major. Max characters: 300: "+ encodedGenres)
                 .build();
 
         ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
