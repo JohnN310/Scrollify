@@ -41,7 +41,12 @@ public class ProfilePage extends AppCompatActivity
         accountIndex = bundle.getInt("index");
     }
 
-    YourProfile thisProfile = profiles.get(accountIndex);
+    YourProfile thisProfile = profiles.get(0);
+
+    public int getCurrentProfile() {
+        return accountIndex;
+
+    }
 
 
 
@@ -50,11 +55,6 @@ public class ProfilePage extends AppCompatActivity
 
         super.onCreate(saveInstanceState);
         setContentView(R.layout.profile_page);
-
-
-
-
-
 
         name = thisProfile.getName();
         username = thisProfile.getUsername();

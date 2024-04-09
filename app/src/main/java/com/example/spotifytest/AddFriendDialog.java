@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import java.util.ArrayList;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
 
 public class AddFriendDialog extends AppCompatDialogFragment {
 
@@ -38,7 +41,6 @@ public class AddFriendDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String newFriend = add_friend_username.getText().toString();
-                        dialogInterface.newFriend(newFriend);
 
                     }
 

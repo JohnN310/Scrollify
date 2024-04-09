@@ -8,6 +8,7 @@ public class YourProfile {
     private String password;
     private String name;
     private String code;
+    private String friends;
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
@@ -29,6 +30,12 @@ public class YourProfile {
     public String getName() {
         return name;
     }
+
+    public String getFriends() { return friends; }
+
+    public void setFriends(String friends) { this.friends = friends; }
+
+
 
     public String getPassword() {
         return password;
