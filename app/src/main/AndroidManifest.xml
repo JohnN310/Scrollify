@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SpotifyTest"
         tools:targetApi="34">
         <activity
-            android:name=".CreateAccount"
+            android:name=".ProfilePagePlaceholder"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SpotifyTest">
@@ -28,7 +28,8 @@
         <activity android:name=".SpotifyApiHelperActivityArtists"/>
         <activity android:name=".Question1Activity"/>
         <activity android:name=".Question2Activity"/>
-        <activity android:name=".ProfilePage"/>
+<!--        <activity android:name=".ProfilePage" />-->
+        <activity android:name=".LoginPage"/>
     </application>
 
 </manifest>
