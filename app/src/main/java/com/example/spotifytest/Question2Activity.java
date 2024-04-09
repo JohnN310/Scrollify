@@ -146,6 +146,12 @@ public class Question2Activity extends AppCompatActivity {
         Intent intent = new Intent(context, SpotifyApiHelperActivitySongs.class);
         context.startActivity(intent);
     }
+
+    public void back(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, Question1Activity.class);
+        context.startActivity(intent);
+    }
 }
 
 

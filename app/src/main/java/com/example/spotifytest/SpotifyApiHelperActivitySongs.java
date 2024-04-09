@@ -3,6 +3,7 @@ package com.example.spotifytest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +21,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
-public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements SpotifyApiHelper.SpotifyDataListener {
+public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 
     private ListView listView;
     private SpotifyApiHelper spotifyApiHelper;
@@ -32,15 +36,12 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
 
     private Button optionsButton2;
 
-    private TextView textView;
-
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_api_helper_songs);
-
-        textView = findViewById(R.id.textView);
 
         // Initialize ListView
         listView = findViewById(R.id.listView);
@@ -49,7 +50,13 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
         spotifyApiHelper = new SpotifyApiHelper();
 
         // Call method to fetch data from Spotify API
-        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+//        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+
+        // Replace "accessToken" with the actual access token obtained during the authentication process
+        accessToken = SimpleWelcomePage_Testing.publicToken;
+
+        spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);
+
         // Initialize options button and set click listener
         optionsButton = findViewById(R.id.optionsButton);
         optionsButton.setOnClickListener(new View.OnClickListener() {
@@ -67,40 +74,8 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
                 showPopupMenu2(v);
             }
         });
-    }
 
-    // Implement the method to handle data received from Spotify API
-    @Override
-    public void onDataReceived(JSONObject data) {
-        try {
-            JSONArray items = data.getJSONArray("items");
-            List<String> trackNames = new ArrayList<>();
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject track = items.getJSONObject(i);
-                String name = track.getString("name");
-                JSONArray artists = track.getJSONArray("artists");
-                StringBuilder artistNames = new StringBuilder();
-                for (int j = 0; j < artists.length(); j++) {
-                    if (j > 0) {
-                        artistNames.append(", ");
-                    }
-                    artistNames.append(artists.getJSONObject(j).getString("name"));
-                }
-                trackNames.add(name + " by " + artistNames.toString());
-            }
-            // Update ListView with track names
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item_layout, trackNames);
-            listView.setAdapter(adapter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    // Implement the method to handle errors
-    @Override
-    public void onError(String errorMessage) {
-        // Handling of errors
+        changeBackgroundBasedOnSpecialDays();
     }
 
     private void showPopupMenu() {
@@ -110,13 +85,16 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == R.id.menu_all_time) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+//                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);
                     return true;
                 } else if (itemId == R.id.menu_6_months) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=medium_term&limit=5", "GET", null, listView);
+//                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "medium_term", 5, listView);
                     return true;
                 } else if (itemId == R.id.menu_4_weeks) {
-                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=short_term&limit=5", "GET", null, listView);
+//                    spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "short_term", 5, listView);
                     return true;
                 }
                 return false;
@@ -135,22 +113,15 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
-                if (id == R.id.menu_spring) {
+                if (id == R.id.top5) {
                     // Change background to Spring
-                    constraintLayout.setBackgroundResource(R.drawable.spotify_wrapped1);
-                    return true;
-                } else if (id == R.id.menu_summer) {
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);                    return true;
+                } else if (id == R.id.top10) {
                     // Change background to Summer
-                    constraintLayout.setBackgroundResource(R.drawable.summer_background);
-                    return true;
-                } else if (id == R.id.menu_fall) {
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 10, listView);                    return true;
+                } else if (id == R.id.top15) {
                     // Change background to Fall
-                    constraintLayout.setBackgroundResource(R.drawable.fall_background_2);
-                    return true;
-                } else if (id == R.id.menu_winter) {
-                    // Change background to Winter
-                    constraintLayout.setBackgroundResource(R.drawable.winter_background);
-                    return true;
+                    spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 15, listView);                    return true;
                 } else {
                     return false;
                 }
@@ -159,9 +130,58 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity implements 
         popupMenu.inflate(R.menu.options_2_menu);
         popupMenu.show();
     }
+
+    private void changeBackgroundBasedOnSpecialDays() {
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+        Drawable backgroundDrawable = null;
+
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Get the current month and day as strings
+        String monthString = new SimpleDateFormat("MMMM", Locale.getDefault()).format(calendar.getTime());
+        String dayOfMonthString = String.valueOf(dayOfMonth);
+
+        // Check for special days
+        if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.newyearstheme);
+        } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.valentines2);
+        } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.stpatricks);
+        }
+        else if (monthString.equals("October") && dayOfMonthString.equals("31")) { // halloween
+            backgroundDrawable = getResources().getDrawable(R.drawable.halloween);
+        }
+        else if (month == Calendar.NOVEMBER && dayOfMonth >= 22 && dayOfMonth <= 28) { //thanksginving
+            backgroundDrawable = getResources().getDrawable(R.drawable.thanksgiving);
+        }
+        else if (monthString.equals("December") && dayOfMonthString.equals("25")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
+        }
+        else if (monthString.equals("December") && dayOfMonthString.equals("24")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
+        }
+        else if (monthString.equals("April") && dayOfMonthString.equals("8")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.newyears2);
+
+
+        }
+        // Set background
+        if (backgroundDrawable != null) {
+            constraintLayout.setBackground(backgroundDrawable);
+        }
+    }
+
     public void topArtists(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        context.startActivity(intent);
+    }
+    public void back(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, SimpleWelcomePage_Testing.class);
         context.startActivity(intent);
     }
 }

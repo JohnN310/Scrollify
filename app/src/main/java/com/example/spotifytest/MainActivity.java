@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         // Check which request code is present (if any)
         if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
             mAccessToken = response.getAccessToken();
+            Log.d("accesstoken", mAccessToken);
             setTextAsync(mAccessToken, tokenTextView);
 
         } else if (AUTH_CODE_REQUEST_CODE == requestCode) {
@@ -129,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a request to get the user profile
         final Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/me")
+                .url("https://api.spotify.com/v1/me/top/tracks")
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
-
+        Log.d("Token", "Token: " + mAccessToken);
         cancelCall();
         mCall = mOkHttpClient.newCall(request);
 
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
+                .setScopes(new String[] { "user-top-read" }) // <--- Change the scope of your requested token here
                 .setCampaign("your-campaign-token")
                 .build();
     }

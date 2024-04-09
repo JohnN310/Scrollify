@@ -11,38 +11,44 @@
         android:id="@+id/textViewRecommendations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="88dp"
         android:text="Recommended Artists"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.144" />
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="348dp"
-        android:layout_height="326dp"
+        android:layout_width="354dp"
+        android:layout_height="385dp"
         android:layout_below="@id/textViewRecommendations"
-        android:layout_marginTop="64dp"
+        android:background="@drawable/rounded_corner_background"
         android:divider="@null"
         android:dividerHeight="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRecommendations" />
-
-    <Button
-        android:id="@+id/recommendationsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="back"
-        android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="54dp"
+        android:layout_height="41dp"
+        android:background="@drawable/back"
+        android:backgroundTint="@color/my_button_color"
+        android:onClick="back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.889" />
+        app:layout_constraintVertical_bias="0.0"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

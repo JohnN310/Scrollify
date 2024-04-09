@@ -360,4 +360,9 @@ public class Question1Activity extends AppCompatActivity {
             context.startActivity(intent);
         }
     }
+    public void back(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        context.startActivity(intent);
+    }
 }

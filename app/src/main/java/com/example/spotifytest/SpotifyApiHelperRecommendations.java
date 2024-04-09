@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SpotifyApiHelperRecommendations {
 
-    private static final String TOKEN = "BQDabDPup4JOrhUQ7FKAPtmLrX0XMOXq79kJlsSJM01QXrZ8DDUal5tYsAw-aJ5pXo9IbFc9okluLA1WJyuT8Z2c439oV4Nx9SHsDwNxuxnbz_ZnxjQ9eGFQg50kaLgMcTpOvOoAnmtQBg3AANryXFtKGQ2CWa6XPiIJT3ge7Z690MW7RJSQ1g3GmNkeNxGVAcwuA_xN4R9XPCIS9UpTJAfqQz17_Yxg9VuGLiPMEUsWrYOiMsIR9k-h_DNivj_MqAWq9oIeE5StPrGD7c3bSugR";
+    private static String accessToken;
 
     private ListView listView;
     static SpotifyDataListener mListener; // Listener to handle data received from Spotify API
@@ -32,14 +32,15 @@ public class SpotifyApiHelperRecommendations {
         void onError(String errorMessage);
     }
 
-    public void fetchDataFromSpotify(List<String> topTracksIds) throws JSONException, IOException, ExecutionException, InterruptedException {
+    public void fetchDataFromSpotify(List<String> topTracksIds, String accessToken) throws JSONException, IOException, ExecutionException, InterruptedException {
         this.listView = listView;
-        getRecommendations(topTracksIds);
+        this.accessToken = accessToken;
+        getRecommendations(topTracksIds, accessToken);
     }
 
-    public static List<String> getRecommendations(List<String> topTracksIds) throws JSONException, IOException, InterruptedException, ExecutionException {
+    public static List<String> getRecommendations(List<String> topTracksIds, String accessToken) throws JSONException, IOException, InterruptedException, ExecutionException {
         String seedTracks = String.join(",", topTracksIds);
-        return new FetchRecommendationsTask().execute(seedTracks).get();
+        return new FetchRecommendationsTask().execute(seedTracks, accessToken).get();
     }
 
     private static class FetchRecommendationsTask extends AsyncTask<String, Void, List<String>> {
@@ -78,7 +79,7 @@ public class SpotifyApiHelperRecommendations {
             List<String> artistNames = new ArrayList<>();
 
             artistNames.add(artists.getJSONObject(0).getString("name"));
-            if (!SpotifyApiHelperArtists.topArtists.contains(artists.getJSONObject(0).getString("name"))) {
+            if (!SpotifyApiHelperArtists.topArtists.contains(artists.getJSONObject(0).getString("name")) && !SpotifyApiHelper.topArtistNamesSongs.contains(artists.getJSONObject(0).getString("name"))) {
                 recommendedTracks.add(String.join(", ", artistNames));
                 index++;
             }
@@ -91,7 +92,7 @@ public class SpotifyApiHelperRecommendations {
         URL url = new URL(baseUrl + endpoint);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(method);
-        connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
         connection.setRequestProperty("Content-Type", "application/json");
 
         if (body != null) {
@@ -115,83 +116,97 @@ public class SpotifyApiHelperRecommendations {
         return response.toString();
     }
 
-    private static class FetchDataTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected JSONObject doInBackground(String... params) {
-            String endpoint = params[0];
-            String method = params[1];
-            String body = params[2];
-            String response = null;
-            try {
-                URL url = new URL("https://api.spotify.com/" + endpoint);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod(method);
-                urlConnection.setRequestProperty("Authorization", "Bearer " + TOKEN);
-
-                if (method.equals("POST") || method.equals("PUT")) {
-                    urlConnection.setDoOutput(true);
-                    urlConnection.getOutputStream().write(body.getBytes());
-                }
-
-                InputStream in = urlConnection.getInputStream();
-                response = convertStreamToString(in);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (response != null) {
-                try {
-                    return new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject result) {
-            if (result != null) {
-                List<String> trackNames = parseTrackNames(result);
-                if (mListener != null) {
-                    mListener.onDataReceived(trackNames);
-                }
-            }
-        }
-
-        private List<String> parseTrackNames(JSONObject result) {
-            List<String> trackNames = new ArrayList<>();
-            try {
-                JSONArray items = result.getJSONArray("items");
-                for (int i = 0; i < items.length(); i++) {
-                    JSONObject track = items.getJSONObject(i);
-                    String name = track.getString("name");
-                    trackNames.add(name);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return trackNames;
-        }
-
-        private String convertStreamToString(InputStream is) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-
-            String line;
-            try {
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append('\n');
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return sb.toString();
-        }
-    }
 }
+//
+//package com.example.spotifytest;
+//import android.content.Context;
+//import android.util.Log;
+//import android.widget.ListView;
+//import android.widget.Toast;
+//
+//import org.jetbrains.annotations.NotNull;
+//import org.json.JSONArray;
+//import org.json.JSONException;
+//import org.json.JSONObject;
+//
+//import java.io.IOException;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import okhttp3.Call;
+//import okhttp3.Callback;
+//import okhttp3.OkHttpClient;
+//import okhttp3.Request;
+//import okhttp3.Response;
+//
+//public class SpotifyApiHelperRecommendations {
+//
+//    private OkHttpClient mOkHttpClient = new OkHttpClient();
+//    private Call mCall;
+//    private String mAccessToken;
+//
+//    public void getRecommendedArtists(String accessToken, ListView listView) {
+//        mAccessToken = accessToken;
+//
+//        if (accessToken == null) {
+//            Log.e("SpotifyApiHelper", "Access token is null");
+//            // Optionally display a Toast message to the user
+//            return;
+//        }
+//
+//        String seedTracks = String.join(",", SpotifyApiHelper.topTrackIds);
+//        final Request request = new Request.Builder()
+//                .url("https://api.spotify.com/v1/recommendations?limit=20&seed_tracks=" + seedTracks)
+//                .addHeader("Authorization", "Bearer " + accessToken)
+//                .build();
+//
+//        cancelCall();
+//        mCall = mOkHttpClient.newCall(request);
+//
+//        mCall.enqueue(new Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("SpotifyApiHelper", "Failed to fetch data: " + e.getMessage());
+//                // Optionally display a Toast message to the user
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                try {
+//                    if (!response.isSuccessful()) {
+//                        throw new IOException("Unexpected response code: " + response);
+//                    }
+//
+//                    final JSONObject jsonObject = new JSONObject(response.body().string());
+//                    JSONArray items = jsonObject.getJSONArray("items");
+//                    List<String> recommendedArtists = new ArrayList<>();
+//
+//                    for (int i = 0; i < items.length(); i++) {
+//                        JSONObject artist = items.getJSONObject(i);
+//                        String artistName = artist.getString("name");
+//                        recommendedArtists.add(artistName);
+//                    }
+//
+//                    if (listView != null) {
+//                        listView.post(() -> {
+//                            CustomArrayAdapter adapter = new CustomArrayAdapter(listView.getContext(), recommendedArtists);
+//                            listView.setAdapter(adapter);
+//                        });
+//                    } else {
+//                        Log.e("SpotifyApiHelper", "ListView is null");
+//                        // Optionally display a Toast message to the user
+//                    }
+//                } catch (JSONException e) {
+//                    Log.e("SpotifyApiHelper", "Failed to parse data: " + e.getMessage());
+//                    // Optionally display a Toast message to the user
+//                }
+//            }
+//        });
+//    }
+//
+//    private void cancelCall() {
+//        if (mCall != null) {
+//            mCall.cancel();
+//        }
+//    }
+//}
