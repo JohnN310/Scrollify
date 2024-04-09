@@ -147,7 +147,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.newyearstheme);
         } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.valentines);
+            backgroundDrawable = getResources().getDrawable(R.drawable.valentines2);
         } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.stpatricks);
         }
@@ -158,10 +158,15 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
             backgroundDrawable = getResources().getDrawable(R.drawable.thanksgiving);
         }
         else if (monthString.equals("December") && dayOfMonthString.equals("25")) {
-            backgroundDrawable = getResources().getDrawable(R.drawable.christmastheme);
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
         }
         else if (monthString.equals("December") && dayOfMonthString.equals("24")) {
-            backgroundDrawable = getResources().getDrawable(R.drawable.christmastheme);
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
+        }
+        else if (monthString.equals("April") && dayOfMonthString.equals("8")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.newyears2);
+
+
         }
         // Set background
         if (backgroundDrawable != null) {

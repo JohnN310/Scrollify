@@ -16,10 +16,8 @@ public class DarkMode extends AppCompatActivity {
         Switch button = findViewById(R.id.dark_switch);
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             nightModeOn = false;
-            button.setText("Dark");
         } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             nightModeOn = true;
-            button.setText("Light");
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
@@ -28,11 +26,9 @@ public class DarkMode extends AppCompatActivity {
             public void onClick(View v) {
                 if (nightModeOn) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    button.setText("Dark");
                     nightModeOn =  false;
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    button.setText("Light");
                     nightModeOn = true;
                 }
             }
