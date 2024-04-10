@@ -37,6 +37,7 @@ public class CreateAccount extends AppCompatActivity {
     EditText inputPassword;
     EditText inputConfirmPassword;
     AccountsDatabaseHandler accountsDatabaseHandler;
+    String userCode;
 
 
     public static final String CLIENT_ID = "d3136c06706142209a3c65aa74c6b9b7";
@@ -46,6 +47,7 @@ public class CreateAccount extends AppCompatActivity {
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
     private String mAccessToken, mAccessCode, mUserProfile;
     private Call mCall;
+
 
 
 
@@ -66,7 +68,7 @@ public class CreateAccount extends AppCompatActivity {
         go_to_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (CreateAccount.this, MainActivity.class);
+                Intent intent = new Intent (CreateAccount.this, LoginPage.class);
                 startActivity(intent);
             }
         });
@@ -75,10 +77,7 @@ public class CreateAccount extends AppCompatActivity {
         connect_spotify_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getToken();
                 getCode();
-//                onGetUserProfileClicked();
-
             }
         });
 
@@ -108,6 +107,9 @@ public class CreateAccount extends AppCompatActivity {
 
                 } else if (inputUsername.getText().toString().contains(" ")) {
                     Toast.makeText(CreateAccount.this, "Your username cannot have spaces in it!", Toast.LENGTH_SHORT).show();
+
+                } else if (inputPassword.getText().toString().equals("")) {
+                    Toast.makeText(CreateAccount.this, "You must create a password!", Toast.LENGTH_SHORT).show();
 
                 } else if (inputPassword.getText().toString().equals("")) {
                     Toast.makeText(CreateAccount.this, "You must create a password!", Toast.LENGTH_SHORT).show();
@@ -143,38 +145,29 @@ public class CreateAccount extends AppCompatActivity {
      * @param password user's password
      */
     public void setAccount(String name, String username, String password) {
-        accountsDatabaseHandler = new AccountsDatabaseHandler(CreateAccount.this);
-        accountsDatabaseHandler.newUser(name, username, password, mAccessCode);
-        ArrayList<YourProfile> profiles = accountsDatabaseHandler.readProfiles();
-        int index = -10;
+//        accountsDatabaseHandler = new AccountsDatabaseHandler(CreateAccount.this);
+//        accountsDatabaseHandler.newUser(username, password, name, userCode);
+//        ArrayList<YourProfile> profiles = accountsDatabaseHandler.readProfiles();
+//        int index = -10;
 
-        for (int i = 0; i < profiles.size(); i++) {
-
-            if (profiles.get(i).getUsername().equals(username)) {
-
-                index = i;
-
-            }
-
-        }
+//        for (int i = 0; i < profiles.size(); i++) {
+//
+//            if (profiles.get(i).getUsername().equals(username)) {
+//
+//                index = i;
+//
+//            }
+//
+//        }
 
         Intent intent = new Intent(CreateAccount.this, ProfilePage.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("ind", index);
-        intent.putExtras(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("ind", index);
+//        intent.putExtras(bundle);
         startActivity(intent);
-    }
 
-//    /**
-//     * Get token from Spotify
-//     * This method will open the Spotify login activity and get the code
-//     * What is code?
-//     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
-//     */
-//    public void getToken() {
-//        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
-//        AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_TOKEN_REQUEST_CODE, request);
-//    }
+
+    }
 
     /**
      * Get code from Spotify
@@ -186,7 +179,6 @@ public class CreateAccount extends AppCompatActivity {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
         AuthorizationClient.openLoginActivity(CreateAccount.this, AUTH_CODE_REQUEST_CODE, request);
     }
-
 
     /**
      * When the app leaves this activity to momentarily get a token/code, this function
@@ -202,42 +194,42 @@ public class CreateAccount extends AppCompatActivity {
         }
     }
 
-//    /**
-//     * Get user profile
-//     * This method will get the user profile using the token
-//     */
-//    public void onGetUserProfileClicked() {
-//
-//        // Create a request to get the user profile
-//        final Request request = new Request.Builder()
-//                .url("https://api.spotify.com/v1/me")
-//                .addHeader("Authorization", "Bearer " + mAccessToken)
-//                .build();
-//
-////        cancelCall();
-//        mCall = mOkHttpClient.newCall(request);
-//
-//        mCall.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.d("HTTP", "Failed to fetch data: " + e);
-//                Toast.makeText(CreateAccount.this, "Failed to fetch data, watch Logcat for more details",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                try {
-//                    final JSONObject jsonObject = new JSONObject(response.body().string());
-//                    mUserProfile = jsonObject.toString(3);
-//                } catch (JSONException e) {
-//                    Log.d("JSON", "Failed to parse data: " + e);
-//                    Toast.makeText(CreateAccount.this, "Failed to parse data, watch Logcat for more details",
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//    }
+    /**
+     * Get user profile
+     * This method will get the user profile using the token
+     */
+    public void onGetUserProfileClicked() {
+
+        // Create a request to get the user profile
+        final Request request = new Request.Builder()
+                .url("https://api.spotify.com/v1/me")
+                .addHeader("Authorization", "Bearer " + mAccessToken)
+                .build();
+
+//        cancelCall();
+        mCall = mOkHttpClient.newCall(request);
+
+        mCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("HTTP", "Failed to fetch data: " + e);
+                Toast.makeText(CreateAccount.this, "Failed to fetch data, watch Logcat for more details",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final JSONObject jsonObject = new JSONObject(response.body().string());
+                    mUserProfile = jsonObject.toString(3);
+                } catch (JSONException e) {
+                    Log.d("JSON", "Failed to parse data: " + e);
+                    Toast.makeText(CreateAccount.this, "Failed to parse data, watch Logcat for more details",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
 
     /**
@@ -263,17 +255,17 @@ public class CreateAccount extends AppCompatActivity {
         return Uri.parse(REDIRECT_URI);
     }
 
-//    private void cancelCall() {
-//        if (mCall != null) {
-//            mCall.cancel();
-//        }
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        cancelCall();
-//        super.onDestroy();
-//    }
+    private void cancelCall() {
+        if (mCall != null) {
+            mCall.cancel();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        cancelCall();
+        super.onDestroy();
+    }
 
 
 
