@@ -144,7 +144,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         String dayOfMonthString = String.valueOf(dayOfMonth);
 
         // Check for special days
-        if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
+        if (monthString.equals("April") && dayOfMonthString.equals("1")) { // New Year's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.newyearstheme);
         } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.valentines);
