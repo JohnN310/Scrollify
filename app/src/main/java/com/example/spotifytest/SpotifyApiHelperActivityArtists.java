@@ -223,25 +223,28 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
 
         // Check for special days
         if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.winter_background);
-        } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.summer_background);
+        } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.valentines2);
         } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
-        }
-        else if (monthString.equals("July") && dayOfMonthString.equals("4")) {
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.stpatricks);
         }
         else if (monthString.equals("October") && dayOfMonthString.equals("31")) { // halloween
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.halloween);
         }
         else if (month == Calendar.NOVEMBER && dayOfMonth >= 22 && dayOfMonth <= 28) { //thanksginving
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.thanksgiving);
         }
-        else if (monthString.equals("December") && (dayOfMonthString.equals("24") || dayOfMonthString.equals("25"))) {
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        else if (monthString.equals("December") && dayOfMonthString.equals("25")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
         }
-        // Set background
+        else if (monthString.equals("December") && dayOfMonthString.equals("24")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
+        }
+        else if (monthString.equals("April") && dayOfMonthString.equals("8")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.newyears2);
+        }
+            // Set background
         if (backgroundDrawable != null) {
             constraintLayout.setBackground(backgroundDrawable);
         }

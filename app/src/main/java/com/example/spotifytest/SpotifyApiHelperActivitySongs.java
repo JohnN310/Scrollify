@@ -144,8 +144,8 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         String dayOfMonthString = String.valueOf(dayOfMonth);
 
         // Check for special days
-        if (monthString.equals("April") && dayOfMonthString.equals("1")) { // New Year's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.newyearstheme);
+        if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.summer_background);
         } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.valentines2);
         } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
@@ -165,7 +165,6 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         }
         else if (monthString.equals("April") && dayOfMonthString.equals("8")) {
             backgroundDrawable = getResources().getDrawable(R.drawable.newyears2);
-
 
         }
         // Set background
