@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -14,6 +16,8 @@ public class LoginPage extends AppCompatActivity  {
 
     EditText inputUsername;
     EditText inputPassword;
+    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(LoginPage.this);
+
 
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -28,22 +32,20 @@ public class LoginPage extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(LoginPage.this);
-                ArrayList<YourProfile> accounts = accountsDatabaseHandler.readProfiles();
+                int result = accountsDatabaseHandler.authenticate(inputUsername.getText().toString(), inputPassword.getText().toString());
+               if (result == 3) {
+                   Intent intent = new Intent(LoginPage.this, ProfilePagePlaceholder.class);
+                   Bundle bundle = new Bundle();
+                   bundle.putString("username", inputUsername.getText().toString());
+                   intent.putExtras(bundle);
+                   System.out.println("Here we are");
+                   startActivity(intent);
+               } else if (result == 2) {
+                   Toast.makeText(LoginPage.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+               } else if (result == 1) {
+                   Toast.makeText(LoginPage.this, "This account does not exist!", Toast.LENGTH_SHORT).show();
+               }
 
-                for (int i = 0; i < accounts.size(); i++) {
-
-                    if (accounts.get(i).getUsername().equals(inputUsername.toString()) && accounts.get(i).getPassword() == inputPassword.toString()) {
-                        Intent intent = new Intent(LoginPage.this, HomePage.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("index", i);
-                        startActivity(intent);
-                    }
-
-
-                }
-
-//                Toast.
 
             }
         });

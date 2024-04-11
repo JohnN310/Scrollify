@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
@@ -18,13 +20,11 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     private static final String password = "password";
     private static final String name = "name";
     private static final String code = "code";
-    private static final String friends = "";
+    private static final String friends = "friends";
 
     public AccountsDatabaseHandler(@Nullable Context context) {
         super(context, databaseName, null, databaseVersion);
     }
-//    private static final List<String> friendList = new ArrayList<String>;
-
 
     public void onCreate(SQLiteDatabase db) {
         // on below line we are creating
@@ -34,9 +34,10 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + tableName + " ("
                 + username + " TEXT,"
                 + password + " TEXT,"
-                + name + " TEXT, "
+                + name + " TEXT,"
                 + code + " TEXT,"
                 + friends + " TEXT)";
+
 
         // at last we are calling a exec sql
         // method to execute above sql query
@@ -44,7 +45,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public void newUser(String userName, String userUsername, String userPassword, String userCode) {
+    public void newUser(String userUsername, String userPassword, String userName, String userCode) {
 
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
@@ -54,7 +55,6 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         // on below line we are creating a
         // variable for content values.
         ContentValues values = new ContentValues();
-        String friendString = new String("");
 
         // on below line we are passing all values
         // along with its key and value pair.
@@ -62,15 +62,84 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         values.put(password, userPassword);
         values.put(name, userName);
         values.put(code, userCode);
-        values.put(friends, friendString);
+        values.put(friends, "friends: ");
 
         // after adding all values we are passing
         // content values to our table.
         db.insert(tableName, null, values);
-
         // at last we are closing our
         // database after adding database.
-        db.close();
+    }
+
+    public void changePassword(String userUsername, String newPassword) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(password, newPassword);
+
+        Cursor cursor = db.rawQuery("Select * from databaseName where username = ?", new String[]{userUsername});
+        if (cursor.getCount() > 0) {
+            db.update(tableName, values, "username=?", new String[]{newPassword});
+
+        }
+    }
+
+    public boolean contains(String username) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{username});
+        if (cursor.getCount() > 0) {
+            return true;
+
+        }
+        return false;
+
+    }
+
+    public int authenticate(String username, String password) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ? and password = ?", new String[]{username, password});
+        if (cursor.getCount() > 0) {
+            return 3;
+        } else if (db.rawQuery("Select * from accounts where username = ?", new String[]{username}).getCount() > 0) {
+            return 2;
+        }
+        return 1;
+
+    }
+
+    public YourProfile getAccount(String username) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ? LIMIT 1", new String[]{username});
+        YourProfile thisProfile = new YourProfile();
+
+        int usernameInd = cursor.getColumnIndex("username");
+        thisProfile.setUsername(cursor.getString(usernameInd));
+        int passwordInd = cursor.getColumnIndex("password");
+        thisProfile.setPassword(cursor.getString(passwordInd));
+        int nameInd = cursor.getColumnIndex("name");
+        thisProfile.setName(cursor.getString(nameInd));
+        int friendsInd = cursor.getColumnIndex("friends");
+        thisProfile.setFriends(cursor.getString(friendsInd));
+
+        return thisProfile;
+    }
+
+    public void deleteAccount(String userUsername) {
+
+        // on below line we are creating a variable for
+        // our sqlite database and calling writable method
+        // as we are writing data in our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(tableName, "username=?", new String[]{userUsername});
     }
 
 
@@ -91,7 +160,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
             do {
                 // on below line we are adding the data from
                 // cursor to our array list.
-                profilesArrayList.add(new YourProfile(profileCursor.getString(1), profileCursor.getString(2), profileCursor.getString(3), profileCursor.getString(4)));
+                profilesArrayList.add(new YourProfile(profileCursor.getString(0), profileCursor.getString(1), profileCursor.getString(2), profileCursor.getString(3), profileCursor.getString(4)));
             } while (profileCursor.moveToNext());
             // moving our cursor to next.
         }
