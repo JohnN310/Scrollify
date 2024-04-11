@@ -4,6 +4,8 @@ package com.example.spotifytest;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.content.Intent;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,34 +23,13 @@ import java.util.List;
 public class ProfilePagePlaceholder extends AppCompatActivity
         implements AddFriendDialog.AddFriendDialogInterface, ChangePasswordDialog.ChangePasswordDialogInterface {
 
-    String name, username;
+    String name, username, password, code;
     List<String> friendList;
-    List<String> inviteList;
     TextView nameTV;
     TextView usernameTV;
-
-//    PopupWindow popupWindow; // Declare popupWindow here
-//
-//    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(ProfilePagePlaceholder.this);
-//    List<YourProfile> profiles = new ArrayList<>();
-//    profiles = accountsDatabaseHandler.readProfiles();
-//    Bundle bundle = getIntent().getExtras();
-//    int accountIndex;
-//    {
-//        assert bundle != null;
-//        accountIndex = bundle.getInt("index");
-//    }
+    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(ProfilePagePlaceholder.this);
 
 
-
-//    YourProfile thisProfile = profiles.get(0);
-
-    YourProfile thisProfile = new YourProfile("eshasingh", "eshasi", "Esha Singh", null);
-
-//    public int getCurrentProfile() {
-//        return accountIndex;
-//
-//    }
 
 
 
@@ -58,24 +39,32 @@ public class ProfilePagePlaceholder extends AppCompatActivity
         super.onCreate(saveInstanceState);
         setContentView(R.layout.profile_page);
 
+        Bundle bundle = getIntent().getExtras();
+        username = bundle.getString("username");
+
+        System.out.println("before " + username);
+        YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
+        System.out.println("after");
         name = thisProfile.getName();
-        username = thisProfile.getUsername();
+        password = thisProfile.getPassword();
+        code = thisProfile.getCode();
 
         nameTV = (TextView) findViewById(R.id.name_box);
         nameTV.setText(name);
         usernameTV = (TextView) findViewById(R.id.username_box);
         usernameTV.setText(username);
+//
+//        ListView friendsList = findViewById(R.id.list_of_friends);
 
-        ListView friendsList = findViewById(R.id.list_of_friends);
+        Button goHome = (Button) findViewById(R.id.go_home);
+        goHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfilePagePlaceholder.this, HomePage.class);
+                startActivity(intent);
+            }
+        });
 
-
-        // Check if extras bundle is not null
-//        Bundle bundle = getIntent().getExtras();
-//        if (bundle != null) {
-//            // Retrieve data from extras bundle and set to TextViews
-//            name.setText(bundle.getString("name", "Name"));
-//            username.setText(bundle.getString("username", "Username"));
-//        }
 
 
         Button add_friend_button = (Button) findViewById(R.id.addFriendButton);
@@ -101,19 +90,6 @@ public class ProfilePagePlaceholder extends AppCompatActivity
 
     }
 
-    public void changePassword(String newPassword) {
-        thisProfile.setPassword(newPassword);
-
-    }
-
-
-    public YourProfile getThisProfile() {
-
-        return thisProfile;
-
-    }
-
-
     @Override
     public void newFriend(String friendUsername) {
         friendList.add(friendUsername);
@@ -123,9 +99,5 @@ public class ProfilePagePlaceholder extends AppCompatActivity
 
     }
 
-
-
-//Notes: fix add friends, fix the text view for add friends, update inviteList every time
-// an invite is sent;
 
     }

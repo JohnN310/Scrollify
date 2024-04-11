@@ -34,6 +34,9 @@
         <activity android:name=".Question1Activity" />
         <activity android:name=".Question2Activity" />
         <activity android:name=".ProfilePage" />
+        <activity android:name=".ProfilePagePlaceholder" />
+        <activity android:name=".LoginPage" />
+
     </application>
 
 </manifest>

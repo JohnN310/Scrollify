@@ -19,6 +19,15 @@ public class YourProfile {
         top5GenreList = new ArrayList<>();
     }
 
+    public YourProfile(String username, String password, String name, String code, String friends) {
+        this();
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.code = code;
+        this.friends = friends;
+    }
+
     public YourProfile(String username, String password, String name, String code) {
         this();
         this.username = username;
@@ -29,6 +38,12 @@ public class YourProfile {
 
     public String getName() {
         return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getCode() {
+        return code;
     }
 
     public String getFriends() { return friends; }
