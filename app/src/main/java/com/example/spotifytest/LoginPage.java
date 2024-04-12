@@ -120,6 +120,15 @@ public class LoginPage extends AppCompatActivity  {
             }
         });
 
+        Button makeAccount = (Button) findViewById(R.id.signup_button);
+        makeAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginPage.this, CreateAccount.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }

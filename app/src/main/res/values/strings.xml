@@ -78,6 +78,8 @@
     <string name="friendname">friendName</string>
     <string name="friendusername">friendUserName</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="my_wrapped">My Wrapped</string>
+    <string name="my_saved_wraps">My Saved Wraps</string>
 
     <!-- Artist options -->
     <string-array name="song_options">

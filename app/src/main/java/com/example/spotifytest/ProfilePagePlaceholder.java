@@ -42,16 +42,18 @@ public class ProfilePagePlaceholder extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         username = bundle.getString("username");
 
-        System.out.println("before " + username);
+
         thisProfile = accountsDatabaseHandler.getAccount(username);
-        System.out.println("after");
+
         name = thisProfile.getName();
         password = thisProfile.getPassword();
         code = thisProfile.getCode();
         friends = thisProfile.getFriends();
         invites = thisProfile.getInvites();
+
         nameTV = (TextView) findViewById(R.id.name_box);
         nameTV.setText(name);
+
         usernameTV = (TextView) findViewById(R.id.username_box);
         usernameTV.setText(username);
 
