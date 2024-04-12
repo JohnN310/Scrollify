@@ -251,6 +251,24 @@ public class HomePage extends AppCompatActivity {
 
         YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
 
+        Button settings = (Button) findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Settings.class);
+                startActivity(intent);
+            }
+        });
+
+        Button profile = (Button) findViewById(R.id.my_account_btn);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, ProfilePagePlaceholder.class);
+                startActivity(intent);
+            }
+        });
+
 
         my_accountBtn = (Button) findViewById(R.id.my_account_btn);
 
