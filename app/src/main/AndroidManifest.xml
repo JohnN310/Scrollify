@@ -36,6 +36,8 @@
         <activity android:name=".ProfilePage" />
         <activity android:name=".ProfilePagePlaceholder" />
         <activity android:name=".LoginPage" />
+        <activity android:name=".HomePage" />
+        <activity android:name=".SeeInvites" />
 
     </application>
 

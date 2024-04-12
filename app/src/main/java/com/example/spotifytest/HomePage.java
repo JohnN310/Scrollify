@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
+import android.widget.Button;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,10 +35,39 @@ public class HomePage extends AppCompatActivity {
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
     private String mAccessToken, mAccessCode, mUserProfile;
     private Call mCall;
+    Button pastMonth, pastSixMonths, pastYear, saved, profilePage, settings;
 
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.home_page);
+
+
+        mAccessCode = (new ProfilePagePlaceholder()).getThisProfile().getCode();
+        getToken();
+
+        pastMonth = (Button) findViewById(R.id.pastMonth);
+        pastSixMonths = (Button) findViewById(R.id.pastSixMonths);
+        pastYear = (Button) findViewById(R.id.pastYear);
+        saved = (Button) findViewById(R.id.saved);
+        profilePage = (Button) findViewById(R.id.profilePage);
+        settings = (Button) findViewById(R.id.settings);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Settings.class);
+                startActivity(intent);
+            }
+        });
+
+        profilePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, ProfilePagePlaceholder.class);
+                startActivity(intent);
+            }
+        });
+
 
 
 
