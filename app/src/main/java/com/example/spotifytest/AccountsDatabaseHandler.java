@@ -209,24 +209,6 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 
         return thisProfile;
 
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursor = db.rawQuery("SELECT * FROM accounts WHERE username = ? LIMIT 1", new String[]{username});
-//        YourProfile thisProfile = new YourProfile();
-//
-//        if (cursor.moveToFirst()) {
-//            int usernameInd = cursor.getColumnIndex("username");
-//            thisProfile.setUsername(cursor.getString(usernameInd));
-//            int passwordInd = cursor.getColumnIndex("password");
-//            thisProfile.setPassword(cursor.getString(passwordInd));
-//            int nameInd = cursor.getColumnIndex("name");
-//            thisProfile.setName(cursor.getString(nameInd));
-//            int friendsInd = cursor.getColumnIndex("friends");
-//            thisProfile.setFriends(cursor.getString(friendsInd));
-//        }
-//
-//        cursor.close();
-//        return thisProfile;
-
 
     }
 
