@@ -77,6 +77,9 @@ public class ProfilePagePlaceholder extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfilePagePlaceholder.this, HomePage.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

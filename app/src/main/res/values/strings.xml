@@ -60,11 +60,11 @@
     <string name="your_profile">Your Profile</string>
     <string name="change_password">Edit Password</string>
     <string name="friends">Friends</string>
-    <string name="add_friend">Add Friend</string>
-    <string name="see_invites">See Invites</string>
+    <string name="add_friend">Add</string>
+    <string name="see_invites">Invites</string>
     <string name="information">Information</string>
     <string name="log_out">Log Out</string>
-    <string name="delete_account">Delete Account</string>
+    <string name="delete_account">Delete Profile</string>
     <string name="token">Token</string>
     <string name="code">Code</string>
     <string name="old_password">Old Password</string>
@@ -74,10 +74,10 @@
     <string name="past_year">Past Year</string>
     <string name="saved">Saved</string>
     <string name="past_month">Past Month</string>
-    <string name="profile">Profile</string>
     <string name="settings">Settings</string>
     <string name="friendname">friendName</string>
     <string name="friendusername">friendUserName</string>
+    <string name="dark_mode">Dark Mode</string>
 
     <!-- Artist options -->
     <string-array name="song_options">

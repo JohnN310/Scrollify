@@ -201,6 +201,7 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -221,11 +222,23 @@ public class HomePage extends AppCompatActivity {
     public static final int AUTH_CODE_REQUEST_CODE = 1;
 
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
-    private String mAccessToken, mAccessCode;
+    private String mAccessToken, mAccessCode, mUserProfile;
+    private Call mCall;
+    Button pastMonth, pastSixMonths, pastYear, saved, profilePage, settings;
+    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(this);
 
     public static String publicToken;
     private TextView tokenTextView, codeTextView, profileTextView;
 
+        Bundle bundle = getIntent().getExtras();
+
+        username = bundle.getString("username");
+
+        YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
+
+        //mAccessCode = thisProfile.getCode();
+        //getToken();
+  
     private Call mCall;
 
     Button my_accountBtn;
@@ -235,6 +248,7 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.simple_welcome_page);
         // Initialize the buttons
         Button tokenBtn = (Button) findViewById(R.id.token_btn);
+
 
         my_accountBtn = (Button) findViewById(R.id.my_account_btn);
 
@@ -256,6 +270,7 @@ public class HomePage extends AppCompatActivity {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
         AuthorizationClient.openLoginActivity(HomePage
                 .this, AUTH_TOKEN_REQUEST_CODE, request);
+
     }
 
     /**

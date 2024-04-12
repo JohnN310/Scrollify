@@ -43,7 +43,6 @@
         <activity android:name=".HomePage" />
         <activity android:name=".SeeInvites" />
         <activity android:name=".Settings" />
-
         <activity android:name=".ViewScreenshotActivity" />
 
     </application>
