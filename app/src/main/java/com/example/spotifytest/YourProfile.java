@@ -1,5 +1,7 @@
 package com.example.spotifytest;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class YourProfile {
     private String name;
     private String code;
     private String friends;
+    private String invites;
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
@@ -19,13 +22,14 @@ public class YourProfile {
         top5GenreList = new ArrayList<>();
     }
 
-    public YourProfile(String username, String password, String name, String code, String friends) {
+    public YourProfile(String username, String password, String name, String code, String friends, String invites) {
         this();
         this.username = username;
         this.password = password;
         this.name = name;
         this.code = code;
         this.friends = friends;
+        this.invites = invites;
     }
 
     public YourProfile(String username, String password, String name, String code) {
@@ -45,12 +49,16 @@ public class YourProfile {
     public String getCode() {
         return code;
     }
+    public void setCode(String string) {
+        this.code = code;
+    }
 
     public String getFriends() { return friends; }
 
     public void setFriends(String friends) { this.friends = friends; }
+    public String getInvites() { return invites; }
 
-
+    public void setInvites(String invite) { this.invites = invite; }
 
     public String getPassword() {
         return password;

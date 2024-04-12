@@ -122,7 +122,7 @@ public class ProfilePage extends AppCompatActivity
 
 
     @Override
-    public void newFriend(String friendUsername) {
+    public void sendNewFriendInput(String friendUsername) {
         inviteList.add(friendUsername);
     }
 
@@ -168,10 +168,10 @@ public class ProfilePage extends AppCompatActivity
         }
     }
 
-    public void newPassword(String password) {
+    @Override
+    public void sendChangePasswordInputs(String oldPassword, String newPassword, String confirmPassword) {
 
     }
-
 
 
 //Notes: fix add friends, fix the text view for add friends, update inviteList every time

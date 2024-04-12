@@ -46,10 +46,18 @@ public class LoginPage extends AppCompatActivity  {
                    Toast.makeText(LoginPage.this, "This account does not exist!", Toast.LENGTH_SHORT).show();
                }
 
-
             }
         });
 
+
+        Button signUp = (Button) findViewById(R.id.signup_button);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginPage.this, CreateAccount.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
