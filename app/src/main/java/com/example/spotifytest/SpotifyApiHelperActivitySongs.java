@@ -2,30 +2,59 @@ package com.example.spotifytest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.provider.MediaStore;
+
+
 
 
 public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
@@ -37,6 +66,10 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
     private Button optionsButton2;
 
     private String accessToken;
+
+    private static final int REQUEST_CODE = 101;
+    private Button btnCapture;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +86,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 //        spotifyApiHelper.fetchDataFromSpotify("v1/me/top/tracks?time_range=long_term&limit=5", "GET", null, listView);
 
         // Replace "accessToken" with the actual access token obtained during the authentication process
-        accessToken = SimpleWelcomePage_Testing.publicToken;
+        accessToken = HomePage.publicToken;
 
         spotifyApiHelper.fetchUserTopTracks(accessToken, "long_term", 5, listView);
 
@@ -76,7 +109,66 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         });
 
         changeBackgroundBasedOnSpecialDays();
+
+        btnCapture = findViewById(R.id.btnCapture);
+        imageView = findViewById(R.id.imageView);
+
+        btnCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             captureScreen();
+            }
+        });
     }
+
+
+    private void captureScreen() {
+        // Get the root view of the activity
+        View rootView = getWindow().getDecorView().getRootView();
+
+        // Enable drawing cache
+        rootView.setDrawingCacheEnabled(true);
+
+        // Create a bitmap of the rootView
+        Bitmap bitmap = Bitmap.createBitmap(rootView.getWidth(), rootView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        rootView.draw(canvas);
+
+        // Disable drawing cache
+        rootView.setDrawingCacheEnabled(false);
+
+        // Use MediaStore to save the screenshot
+        ContentResolver contentResolver = getContentResolver();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, "screenshot_" + System.currentTimeMillis() + ".png");
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+        contentValues.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+
+        // Save the bitmap to the MediaStore
+        try {
+            android.net.Uri uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            if (uri != null) {
+                try {
+                    OutputStream outputStream = contentResolver.openOutputStream(uri);
+                    if (outputStream != null) {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                        outputStream.close();
+                        Toast.makeText(this, "Screenshot saved!", Toast.LENGTH_SHORT).show();
+                        Log.d("SCREENSHOT", "SAVED");
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this, "Failed to save screenshot.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to capture screenshot.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void showPopupMenu() {
         PopupMenu popupMenu = new PopupMenu(this, optionsButton);
@@ -145,7 +237,7 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
 
         // Check for special days
         if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.newyearstheme);
+            backgroundDrawable = getResources().getDrawable(R.drawable.summer_background);
         } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.valentines2);
         } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
@@ -166,7 +258,6 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         else if (monthString.equals("April") && dayOfMonthString.equals("8")) {
             backgroundDrawable = getResources().getDrawable(R.drawable.newyears2);
 
-
         }
         // Set background
         if (backgroundDrawable != null) {
@@ -181,7 +272,12 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
     }
     public void back(View view) {
         Context context = view.getContext();
-        Intent intent = new Intent(context, SimpleWelcomePage_Testing.class);
+        Intent intent = new Intent(context, HomePage.class);
+        context.startActivity(intent);
+    }
+    public void viewSaved(View view) {
+        Context context = view.getContext();
+        Intent intent = new Intent(context, ViewScreenshotActivity.class);
         context.startActivity(intent);
     }
 }

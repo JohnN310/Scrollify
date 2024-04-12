@@ -61,19 +61,27 @@
 
 package com.example.spotifytest;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -90,6 +98,8 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -109,6 +119,9 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
 
     private String encodedGenres;
 
+    private Button btnCapture;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +131,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         // Initialize ListView
         listView = findViewById(R.id.listView);
 
-        accessToken = SimpleWelcomePage_Testing.publicToken;
+        accessToken = HomePage.publicToken;
 
         // Initialize SpotifyApiHelper
         spotifyApiHelper = new SpotifyApiHelperArtists();
@@ -149,6 +162,62 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
             }
         });
         changeBackgroundBasedOnSpecialDays();
+
+        btnCapture = findViewById(R.id.btnCapture);
+        btnCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                captureScreen();
+            }
+        });
+    }
+
+
+    private void captureScreen() {
+        // Get the root view of the activity
+        View rootView = getWindow().getDecorView().getRootView();
+
+        // Enable drawing cache
+        rootView.setDrawingCacheEnabled(true);
+
+        // Create a bitmap of the rootView
+        Bitmap bitmap = Bitmap.createBitmap(rootView.getWidth(), rootView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        rootView.draw(canvas);
+
+        // Disable drawing cache
+        rootView.setDrawingCacheEnabled(false);
+
+        // Use MediaStore to save the screenshot
+        ContentResolver contentResolver = getContentResolver();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, "screenshot_" + System.currentTimeMillis() + ".png");
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+        contentValues.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+
+        // Save the bitmap to the MediaStore
+        try {
+            android.net.Uri uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            if (uri != null) {
+                try {
+                    OutputStream outputStream = contentResolver.openOutputStream(uri);
+                    if (outputStream != null) {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                        outputStream.close();
+                        Toast.makeText(this, "Screenshot saved!", Toast.LENGTH_SHORT).show();
+                        Log.d("SCREENSHOT", "SAVED");
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this, "Failed to save screenshot.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to capture screenshot.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showPopupMenu() {
@@ -223,25 +292,28 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
 
         // Check for special days
         if (monthString.equals("January") && dayOfMonthString.equals("1")) { // New Year's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.winter_background);
-        } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
             backgroundDrawable = getResources().getDrawable(R.drawable.summer_background);
+        } else if (monthString.equals("February") && dayOfMonthString.equals("14")) { // Valentine's Day
+            backgroundDrawable = getResources().getDrawable(R.drawable.valentines2);
         } else if (monthString.equals("March") && dayOfMonthString.equals("17")) { // St. Patrick's Day
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
-        }
-        else if (monthString.equals("July") && dayOfMonthString.equals("4")) {
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.stpatricks);
         }
         else if (monthString.equals("October") && dayOfMonthString.equals("31")) { // halloween
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.halloween);
         }
         else if (month == Calendar.NOVEMBER && dayOfMonth >= 22 && dayOfMonth <= 28) { //thanksginving
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+            backgroundDrawable = getResources().getDrawable(R.drawable.thanksgiving);
         }
-        else if (monthString.equals("December") && (dayOfMonthString.equals("24") || dayOfMonthString.equals("25"))) {
-            backgroundDrawable = getResources().getDrawable(R.drawable.fall_background);
+        else if (monthString.equals("December") && dayOfMonthString.equals("25")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
         }
-        // Set background
+        else if (monthString.equals("December") && dayOfMonthString.equals("24")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.christmasnew);
+        }
+        else if (monthString.equals("April") && dayOfMonthString.equals("8")) {
+            backgroundDrawable = getResources().getDrawable(R.drawable.newyears2);
+        }
+            // Set background
         if (backgroundDrawable != null) {
             constraintLayout.setBackground(backgroundDrawable);
         }

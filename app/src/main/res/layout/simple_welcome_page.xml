@@ -3,31 +3,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@android:color/white">
-
-    <TextView
-        android:id="@+id/token_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp" />
-
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true" />
+    android:background="@drawable/home_page_background">
 
     <Button
         android:id="@+id/token_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Log in"
+        android:layout_width="191dp"
+        android:layout_height="161dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="487dp"
+        android:layout_marginEnd="188dp"
+        android:layout_marginBottom="67dp"
+        android:text="View my Top Songs, Aritsts, and more"
+        android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/my_account_btn"
+        android:layout_width="179dp"
+        android:layout_height="75dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="610dp"
+        android:onClick="myAccount"
+        android:text="Profile"
+        android:textSize="18sp"/>
 
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="153dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="227dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="607dp"
+        android:text="@string/settings"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:onClick="settings"/>
+
+    <Button
+        android:id="@+id/viewButton"
+        android:layout_width="174dp"
+        android:layout_height="163dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="219dp"
+        android:layout_marginTop="488dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="64dp"
+        android:onClick="viewSaved"
+        android:text="View Saved Wrapped's"
+        android:textSize="20sp" />
 
 </RelativeLayout>
+
