@@ -223,18 +223,14 @@ public class HomePage extends AppCompatActivity {
 
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
     private String mAccessToken, mAccessCode, mUserProfile;
-    private Call mCall;
     Button pastMonth, pastSixMonths, pastYear, saved, profilePage, settings;
     AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(this);
+    String username;
 
     public static String publicToken;
     private TextView tokenTextView, codeTextView, profileTextView;
 
-        Bundle bundle = getIntent().getExtras();
 
-        username = bundle.getString("username");
-
-        YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
 
         //mAccessCode = thisProfile.getCode();
         //getToken();
@@ -248,6 +244,12 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.simple_welcome_page);
         // Initialize the buttons
         Button tokenBtn = (Button) findViewById(R.id.token_btn);
+
+        Bundle bundle = getIntent().getExtras();
+
+        username = bundle.getString("username");
+
+        YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
 
 
         my_accountBtn = (Button) findViewById(R.id.my_account_btn);
