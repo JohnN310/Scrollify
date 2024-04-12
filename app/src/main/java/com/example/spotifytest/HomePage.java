@@ -15,6 +15,7 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,13 +37,20 @@ public class HomePage extends AppCompatActivity {
     private String mAccessToken, mAccessCode, mUserProfile;
     private Call mCall;
     Button pastMonth, pastSixMonths, pastYear, saved, profilePage, settings;
+    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(this);
+    String username;
 
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.home_page);
 
+        Bundle bundle = getIntent().getExtras();
 
-        mAccessCode = (new ProfilePagePlaceholder()).getThisProfile().getCode();
+        username = bundle.getString("username");
+
+        YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
+
+        mAccessCode = thisProfile.getCode();
         getToken();
 
         pastMonth = (Button) findViewById(R.id.pastMonth);
@@ -67,8 +75,6 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
 
 
