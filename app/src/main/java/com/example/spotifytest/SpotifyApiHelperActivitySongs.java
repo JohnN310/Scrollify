@@ -126,6 +126,11 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         // Get the root view of the activity
         View rootView = getWindow().getDecorView().getRootView();
 
+        //saving data approach
+        //List<String> currentTop5Songs = SpotifyApiHelper.topTrackNames;
+
+
+
         // Enable drawing cache
         rootView.setDrawingCacheEnabled(true);
 

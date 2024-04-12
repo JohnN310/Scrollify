@@ -15,11 +15,13 @@ public class YourProfile {
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
+    private List<SongWrapped> pastWrappedList;
 
     public YourProfile() {
         top5SongList = new ArrayList<>();
         top5ArtistList = new ArrayList<>();
         top5GenreList = new ArrayList<>();
+        pastWrappedList = new ArrayList<>();
     }
 
     public YourProfile(String username, String password, String name, String code, String friends, String invites) {
@@ -94,6 +96,11 @@ public class YourProfile {
 
     public List<Genre> getTop5GenreList() {
         return top5GenreList;
+    }
+
+    public void savePastWrapped(String date, String timeRange, List<String> top5) {
+        SongWrapped newWrapped = new SongWrapped(date, timeRange, top5);
+        this.pastWrappedList.add(newWrapped);
     }
 }
 
