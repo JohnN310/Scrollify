@@ -190,8 +190,11 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -247,7 +250,7 @@ public class HomePage extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        username = bundle.getString("username");
+//        username = bundle.getString("username");
 
         YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
 
@@ -277,8 +280,42 @@ public class HomePage extends AppCompatActivity {
         tokenBtn.setOnClickListener((v) -> {
             getToken();
         });
+        Button viewSaved = findViewById(R.id.viewButton);
+        viewSaved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Show top tracks popup menu
+                showTopTracksPopup(v);
+            }
+        });
 
     }
+
+    private void showTopTracksPopup(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        Menu menu = popupMenu.getMenu();
+
+        // Add top track names to the popup menu
+        for (int i = 0; i < SpotifyApiHelper.topTrackNames.size(); i++) {
+            menu.add(Menu.NONE, i, Menu.NONE, SpotifyApiHelper.topTrackNames.get(i));
+        }
+
+        // Set a click listener for the popup menu items
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Handle item click here
+                int position = item.getItemId();
+                String trackName = SpotifyApiHelper.topTrackNames.get(position);
+                // Do something with the selected track name
+                return true;
+            }
+        });
+
+        // Show the popup menu
+        popupMenu.show();
+    }
+
 
     /**
      * Get token from Spotify

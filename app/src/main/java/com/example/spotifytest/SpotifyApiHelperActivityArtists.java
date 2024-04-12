@@ -204,7 +204,7 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
                     if (outputStream != null) {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                         outputStream.close();
-                        Toast.makeText(this, "Screenshot saved!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Wrapped saved!", Toast.LENGTH_SHORT).show();
                         Log.d("SCREENSHOT", "SAVED");
 
                     }
