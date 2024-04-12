@@ -127,8 +127,9 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         View rootView = getWindow().getDecorView().getRootView();
 
         //saving data approach
-        //List<String> currentTop5Songs = SpotifyApiHelper.topTrackNames;
-
+        List<String> currentTop5Songs = SpotifyApiHelper.topTrackNames;
+        SongWrapped currentSongWrapped = new SongWrapped("Placeholder date", "Placeholder timeframe", currentTop5Songs);
+        //need to add this to the current profile and database but cant find the reference for it
 
 
         // Enable drawing cache
