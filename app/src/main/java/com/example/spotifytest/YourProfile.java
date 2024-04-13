@@ -15,7 +15,7 @@ public class YourProfile {
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
-    private List<SongWrapped> pastWrappedList;
+    private List<List<String>> pastWrappedList;
 
     public YourProfile() {
         top5SongList = new ArrayList<>();
@@ -24,7 +24,7 @@ public class YourProfile {
         pastWrappedList = new ArrayList<>();
     }
 
-    public YourProfile(String username, String password, String name, String code, String friends, String invites) {
+    public YourProfile(String username, String password, String name, String code, String friends, String invites, String pastWrapped) {
         this();
         this.username = username;
         this.password = password;
@@ -32,6 +32,15 @@ public class YourProfile {
         this.code = code;
         this.friends = friends;
         this.invites = invites;
+        String[] listOfWrappeds = pastWrapped.split(",");
+        for (String top5 : listOfWrappeds) {
+            String[] songs = top5.split("/");
+            List<String> songList = new ArrayList<>();
+            for (String song : songs) {
+                songList.add(song);
+            }
+            pastWrappedList.add(songList);
+        }
     }
 
     public YourProfile(String username, String password, String name, String code) {
@@ -98,9 +107,12 @@ public class YourProfile {
         return top5GenreList;
     }
 
-    public void savePastWrapped(String date, String timeRange, List<String> top5) {
-        SongWrapped newWrapped = new SongWrapped(date, timeRange, top5);
-        this.pastWrappedList.add(newWrapped);
+//    public void savePastWrapped(String date, String timeRange, List<String> top5) {
+//        SongWrapped newWrapped = new SongWrapped(date, timeRange, top5);
+//        this.pastWrappedList.add(newWrapped);
+//    }
+    public void addNewWrapped(List<String> top5List) {
+        pastWrappedList.add(top5List);
     }
 }
 

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -23,6 +24,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     private static final String code = "code";
     private static final String friends = "friends";
     private static final String invites = "invites";
+    private static final String savedWrappeds = "savedWrappeds";
 
     public AccountsDatabaseHandler(@Nullable Context context) {
         super(context, databaseName, null, databaseVersion);
@@ -39,7 +41,8 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
                 + name + " TEXT,"
                 + code + " TEXT,"
                 + friends + " TEXT,"
-                + invites + " TEXT)";
+                + invites + " TEXT,"
+                + savedWrappeds + " TEXT)";
 
 
         // at last we are calling a exec sql
@@ -67,6 +70,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         values.put(code, userCode);
         values.put(friends, "friends,");
         values.put(invites, "invites,");
+        values.put(savedWrappeds, "");
 
         // after adding all values we are passing
         // content values to our table.
@@ -241,7 +245,10 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
             do {
                 // on below line we are adding the data from
                 // cursor to our array list.
-                profilesArrayList.add(new YourProfile(profileCursor.getString(0), profileCursor.getString(1), profileCursor.getString(2), profileCursor.getString(3), profileCursor.getString(4), profileCursor.getString(5)));
+                profilesArrayList.add(new YourProfile(profileCursor.getString(0),
+                        profileCursor.getString(1), profileCursor.getString(2),
+                        profileCursor.getString(3), profileCursor.getString(4),
+                        profileCursor.getString(5), profileCursor.getString(6)));
             } while (profileCursor.moveToNext());
             // moving our cursor to next.
         }
@@ -257,6 +264,40 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         // this method is called to check if the table exists already.
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
         onCreate(db);
+    }
+
+    public void addSavedWrapped(String userUsername, List<String> top5names) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{userUsername});
+
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (userUsername.equals(cursor.getString(0))) {
+                String prevWrappeds = cursor.getString(6);
+                String newWrapped = "";
+                for (int i = 0; i < top5names.size(); i++) {
+                    String currString = top5names.get(i);
+                    if (i + 1 != top5names.size()) {
+                        newWrapped += currString + "/";
+                    } else {
+                        newWrapped += currString;
+                    }
+                }
+                values.put(savedWrappeds, prevWrappeds + newWrapped + ",");
+                db.update(tableName, values, "username=?", new String[]{userUsername});
+                break;
+            }
+            cursor.moveToNext();
+
+        }
+
+        cursor.close();
+        db.close();
     }
 
 
