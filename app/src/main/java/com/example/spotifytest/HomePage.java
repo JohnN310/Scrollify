@@ -183,18 +183,24 @@ package com.example.spotifytest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -306,17 +312,65 @@ public class HomePage extends AppCompatActivity {
     private void showTopTracksPopup(View view) {
         List<String> topTrackNames = accountsDatabaseHandler.getSavedWrapped(username);
         System.out.println("AAAAAAA " + topTrackNames);
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        Menu menu = popupMenu.getMenu();
-        if (topTrackNames.size() > 1) {
-        // Add top track names to the popup menu
-        for (int i = 1; i < topTrackNames.size(); i++) {
-            menu.add(Menu.NONE, i, Menu.NONE, topTrackNames.get(i));
+//        PopupMenu popupMenu = new PopupMenu(this, view);
+//        Menu menu = popupMenu.getMenu();
+//        if (topTrackNames.size() > 1) {
+//        // Add top track names to the popup menu
+//        for (int i = 1; i < topTrackNames.size(); i++) {
+//            menu.add(Menu.NONE, i, Menu.NONE, topTrackNames.get(i));
+//        }
+//            popupMenu.show();
+//        } else {
+//            Toast.makeText(getApplicationContext(), "You have no saved tracks", Toast.LENGTH_SHORT).show();
+//        }
+        // Inflate the layout for the popup window
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_layout, null);
+        // Initialize views from the popup layout
+        TextView yourNameTextView = popupView.findViewById(R.id.your_name_text);
+        TextView invitesTextView = popupView.findViewById(R.id.invites_text_view);
+        Button closeButton = popupView.findViewById(R.id.close_button);
+
+        // Set text for the TextViews
+        yourNameTextView.setText("Top Track Names:");
+        invitesTextView.setText(""); // Clear previous text
+
+        // Append top track names to the invitesTextView
+        StringBuilder sb = new StringBuilder();
+        for (String trackName : topTrackNames) {
+            if (trackName.equals("topTracks")) {
+                continue;
+            }
+            sb.append(trackName).append("\n\n"); // Append track name with new lines
         }
-            popupMenu.show();
-        } else {
-            Toast.makeText(getApplicationContext(), "You have no saved tracks", Toast.LENGTH_SHORT).show();
-        }
+        invitesTextView.setText(sb.toString().trim());
+        invitesTextView.setTextSize(25); // Set the text size to 20sp (adjust as needed)
+
+        // Create a PopupWindow instance
+        PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        // Set a background drawable for the popup window
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Set focusable true to enable touch events outside of the popup window
+        popupWindow.setFocusable(true);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        // Set focusable to true to enable touch events outside the popup window to dismiss it
+        popupWindow.setFocusable(true);
+
+        // Show the popup window at the center of the anchor view
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, -150);
+
     }
 
 

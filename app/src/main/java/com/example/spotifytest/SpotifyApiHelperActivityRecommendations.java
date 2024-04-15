@@ -62,14 +62,6 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
         }
         changeBackgroundBasedOnSpecialDays();
 
-
-        btnCapture = findViewById(R.id.btnCapture);
-        btnCapture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                captureScreen();
-            }
-        });
     }
 
     private void captureScreen() {

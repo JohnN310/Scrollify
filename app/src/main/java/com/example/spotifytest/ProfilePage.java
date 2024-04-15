@@ -15,11 +15,9 @@ import android.widget.Button;
 import android.os.Bundle;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,7 +126,7 @@ public class ProfilePage extends AppCompatActivity
 
     public void showInvitesPopup(View view) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.invites_popup, null);
+        View popupView = inflater.inflate(R.layout.popup_layout, null);
 
         // Initialize a new instance of PopupWindow
         popupWindow = new PopupWindow(
