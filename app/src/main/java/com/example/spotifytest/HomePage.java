@@ -338,13 +338,13 @@ public class HomePage extends AppCompatActivity {
         // Append top track names to the invitesTextView
         StringBuilder sb = new StringBuilder();
         for (String trackName : topTrackNames) {
-            if (trackName.equals("topTracks")) {
+            if (trackName.equals("topTracks") || trackName.equals("")) {
                 continue;
             }
             sb.append(trackName).append("\n\n"); // Append track name with new lines
         }
         invitesTextView.setText(sb.toString().trim());
-        invitesTextView.setTextSize(25); // Set the text size to 20sp (adjust as needed)
+        invitesTextView.setTextSize(20); // Set the text size to 20sp (adjust as needed)
 
         // Create a PopupWindow instance
         PopupWindow popupWindow = new PopupWindow(
@@ -369,7 +369,7 @@ public class HomePage extends AppCompatActivity {
         popupWindow.setFocusable(true);
 
         // Show the popup window at the center of the anchor view
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, -150);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, -200);
 
     }
 
