@@ -175,8 +175,12 @@ public class SpotifyApiHelperActivityRecommendations extends AppCompatActivity i
     }
 
     public void back(View view) {
+        Bundle bundle = getIntent().getExtras();
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         context.startActivity(intent);
     }
 }

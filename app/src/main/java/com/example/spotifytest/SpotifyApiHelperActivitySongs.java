@@ -71,6 +71,10 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
     private Button btnCapture;
     private ImageView imageView;
 
+    public static boolean isSaved;
+    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(SpotifyApiHelperActivitySongs.this);
+    YourProfile thisProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,69 +115,42 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         changeBackgroundBasedOnSpecialDays();
 
         btnCapture = findViewById(R.id.btnCapture);
-        imageView = findViewById(R.id.imageView);
-
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             captureScreen();
+                isSaved = true;
+                saveWrapped();
             }
         });
+
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle != null) {
+//            thisProfile = accountsDatabaseHandler.getAccount(bundle.getString("username"));
+//            Log.d("MyTag", "ITS NOT NULL");
+//
+//        }
+//        if (SpotifyApiHelper.topTrackNames != null) {
+//            accountsDatabaseHandler.saveTopTracks(SpotifyApiHelper.topTrackNames);
+//            String topTracksString = String.join(",", SpotifyApiHelper.topTrackNames); // Using comma as delimiter
+//            thisProfile.setTop5SongList(topTracksString);
+//            thisProfile.setListTop5SongList(SpotifyApiHelper.topTrackNames);
+//            Log.d("MyTag", "ITS NOT NULL");
+//        }
     }
 
-
-    private void captureScreen() {
-        // Get the root view of the activity
-        View rootView = getWindow().getDecorView().getRootView();
-
-        //saving data approach
-        List<String> currentTop5Songs = SpotifyApiHelper.topTrackNames;
-        SongWrapped currentSongWrapped = new SongWrapped("Placeholder date", "Placeholder timeframe", currentTop5Songs);
-        //need to add this to the current profile and database but cant find the reference for it
-
-
-        // Enable drawing cache
-        rootView.setDrawingCacheEnabled(true);
-
-        // Create a bitmap of the rootView
-        Bitmap bitmap = Bitmap.createBitmap(rootView.getWidth(), rootView.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        rootView.draw(canvas);
-
-        // Disable drawing cache
-        rootView.setDrawingCacheEnabled(false);
-
-        // Use MediaStore to save the screenshot
-        ContentResolver contentResolver = getContentResolver();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, "screenshot_" + System.currentTimeMillis() + ".png");
-        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-        contentValues.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
-
-        // Save the bitmap to the MediaStore
-        try {
-            android.net.Uri uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-            if (uri != null) {
-                try {
-                    OutputStream outputStream = contentResolver.openOutputStream(uri);
-                    if (outputStream != null) {
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                        outputStream.close();
-                        Toast.makeText(this, "Wrapped saved!", Toast.LENGTH_SHORT).show();
-                        Log.d("SCREENSHOT", "SAVED");
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(this, "Failed to save screenshot.", Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Failed to capture screenshot.", Toast.LENGTH_SHORT).show();
+    private void saveWrapped() {
+        Bundle bundle = getIntent().getExtras();
+        String username1 = "";
+        if (bundle != null) {
+            username1 = bundle.getString("username");
         }
+        System.out.println(username1);
+        List<String> topSongs = SpotifyApiHelper.topTrackNames;
+        accountsDatabaseHandler.addSavedWrapped(username1, topSongs);
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAa " + topSongs);
+        Toast.makeText(this, "Wrapped saved!", Toast.LENGTH_SHORT).show();
     }
+
 
 
     private void showPopupMenu() {
@@ -272,13 +249,21 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
     }
 
     public void topArtists(View view) {
+        Bundle bundle = getIntent().getExtras();
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         context.startActivity(intent);
     }
     public void back(View view) {
+        Bundle bundle = getIntent().getExtras();
         Context context = view.getContext();
         Intent intent = new Intent(context, HomePage.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         context.startActivity(intent);
     }
     public void viewSaved(View view) {

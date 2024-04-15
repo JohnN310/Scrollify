@@ -355,14 +355,22 @@ public class Question1Activity extends AppCompatActivity {
             Toast.makeText(this, "You have no favorite artists!", Toast.LENGTH_SHORT).show();
         }
         else {
+            Bundle bundle = getIntent().getExtras();
             Context context = view.getContext();
             Intent intent = new Intent(context, Question2Activity.class);
+            if (bundle != null) {
+                intent.putExtras(bundle);
+            }
             context.startActivity(intent);
         }
     }
     public void back(View view) {
+        Bundle bundle = getIntent().getExtras();
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         context.startActivity(intent);
     }
 }

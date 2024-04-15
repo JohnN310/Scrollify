@@ -105,9 +105,13 @@ public class LoginPage extends AppCompatActivity  {
                 int result = accountsDatabaseHandler.authenticate(inputUsername.getText().toString(), inputPassword.getText().toString());
                 if (result == 3) {
                     Intent intent = new Intent(LoginPage.this, ProfilePagePlaceholder.class);
+                    Intent intent2 = new Intent(LoginPage.this, HomePage.class);
+                    Intent intent3 = new Intent(LoginPage.this, SpotifyApiHelper.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("username", inputUsername.getText().toString());
                     intent.putExtras(bundle);
+                    intent2.putExtras(bundle);
+                    intent3.putExtras(bundle);
                     System.out.println("Here we are");
                     startActivity(intent);
                 } else if (result == 2) {

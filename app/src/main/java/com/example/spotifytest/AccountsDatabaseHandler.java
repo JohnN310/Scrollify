@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 
@@ -23,6 +25,8 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     private static final String code = "code";
     private static final String friends = "friends";
     private static final String invites = "invites";
+
+    private static final String topTracks = "topTracks";
 
     public AccountsDatabaseHandler(@Nullable Context context) {
         super(context, databaseName, null, databaseVersion);
@@ -39,7 +43,8 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
                 + name + " TEXT,"
                 + code + " TEXT,"
                 + friends + " TEXT,"
-                + invites + " TEXT)";
+                + invites + " TEXT,"
+                + topTracks +" TEXT)";
 
 
         // at last we are calling a exec sql
@@ -67,7 +72,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         values.put(code, userCode);
         values.put(friends, "friends,");
         values.put(invites, "invites,");
-
+        values.put(topTracks, "topTracks,");
         // after adding all values we are passing
         // content values to our table.
         db.insert(tableName, null, values);
@@ -153,7 +158,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{username});
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{username});
         if (cursor.getCount() > 0) {
             db.close();
             return true;
@@ -164,11 +169,12 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    @SuppressLint("Recycle")
     public int authenticate(String username, String password) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("Select * from accounts where username = ? and password = ?", new String[]{username, password});
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("Select * from accounts where username = ? and password = ?", new String[]{username, password});
         if (cursor.getCount() > 0) {
             db.close();
             return 3;
@@ -208,27 +214,28 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 //        db.close();
 //
 //        return thisProfile;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM accounts WHERE username = ? LIMIT 1", new String[]{username});
         YourProfile thisProfile = new YourProfile();
+        if (userName != null) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery("SELECT * FROM accounts WHERE username = ? LIMIT 1", new String[]{userName});
 
-        if (cursor.moveToFirst()) {
-            int usernameInd = cursor.getColumnIndex("username");
-            thisProfile.setUsername(cursor.getString(usernameInd));
-            int passwordInd = cursor.getColumnIndex("password");
-            thisProfile.setPassword(cursor.getString(passwordInd));
-            int nameInd = cursor.getColumnIndex("name");
-            thisProfile.setName(cursor.getString(nameInd));
-            int friendsInd = cursor.getColumnIndex("friends");
-            thisProfile.setFriends(cursor.getString(friendsInd));
+            if (cursor.moveToFirst()) {
+                int usernameInd = cursor.getColumnIndex("username");
+                thisProfile.setUsername(cursor.getString(usernameInd));
+                int passwordInd = cursor.getColumnIndex("password");
+                thisProfile.setPassword(cursor.getString(passwordInd));
+                int nameInd = cursor.getColumnIndex("name");
+                thisProfile.setName(cursor.getString(nameInd));
+                int friendsInd = cursor.getColumnIndex("friends");
+                thisProfile.setFriends(cursor.getString(friendsInd));
+                int topTracksInd = cursor.getColumnIndex("topTracks");
+                thisProfile.setTop5SongList(cursor.getString(topTracksInd));
+                // we need these 2 lines
+            }
+
+            cursor.close();
         }
-
-        cursor.close();
         return thisProfile;
-
-
-
     }
 
     public void deleteAccount(String userUsername) {
@@ -240,6 +247,80 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 
         db.delete(tableName, "username=?", new String[]{userUsername});
         db.close();
+    }
+
+    public void saveTopTracks(List<String> topTrackNames) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // Convert the list of track names to a single string
+        String topTracksString = String.join(",", topTrackNames); // Using comma as delimiter
+
+        // Add the top tracks string to ContentValues
+        values.put("topTracks", topTracksString);
+
+        // Insert the ContentValues into the database
+        db.insert(tableName, null, values);
+
+        db.close();
+    }
+
+
+    public void addSavedWrapped(String userUsername, List<String> top5names) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{userUsername});
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (userUsername.equals(cursor.getString(0))) {
+                String prevWrappeds = cursor.getString(6);
+                String newWrapped = "";
+                List<String> currentList = new ArrayList<>(Arrays.asList(prevWrappeds.split(",")));
+                for (int i = 0; i < top5names.size(); i++) {
+                    String currString = top5names.get(i);
+                    if (!currentList.contains(currString)) {
+                        currentList.add(currString);
+                        if (i + 1 != top5names.size()) {
+                            newWrapped += currString + ",";
+                        } else {
+                            newWrapped += currString;
+                        }
+                    }
+                }
+                values.put("topTracks", prevWrappeds + newWrapped + ",");
+                db.update(tableName, values, "username=?", new String[]{userUsername});
+                break;
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+    }
+
+    public List<String> getSavedWrapped(String userUsername) {
+
+        List<String> savedWrappedList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT topTracks FROM " + tableName + " WHERE username = ?", new String[]{userUsername});
+
+        if (cursor.moveToFirst()) {
+            String savedWrappeds = cursor.getString(0);
+            String[] savedWrappedsArray = savedWrappeds.split(",");
+
+            for (String savedWrapped : savedWrappedsArray) {
+                String[] wrappedStrings = savedWrapped.split(",");
+                savedWrappedList.addAll(Arrays.asList(wrappedStrings));
+            }
+        }
+
+        cursor.close();
+        db.close();
+        return savedWrappedList;
     }
 
 
@@ -260,7 +341,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
             do {
                 // on below line we are adding the data from
                 // cursor to our array list.
-                profilesArrayList.add(new YourProfile(profileCursor.getString(0), profileCursor.getString(1), profileCursor.getString(2), profileCursor.getString(3), profileCursor.getString(4), profileCursor.getString(5)));
+                profilesArrayList.add(new YourProfile(profileCursor.getString(0), profileCursor.getString(1), profileCursor.getString(2), profileCursor.getString(3), profileCursor.getString(4), profileCursor.getString(5), profileCursor.getString(6)));
             } while (profileCursor.moveToNext());
             // moving our cursor to next.
         }

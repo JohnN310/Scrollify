@@ -142,14 +142,22 @@ public class Question2Activity extends AppCompatActivity {
         });
     }
     public void backToSongs(View view) {
+        Bundle bundle = getIntent().getExtras();
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivitySongs.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         context.startActivity(intent);
     }
 
     public void back(View view) {
+        Bundle bundle = getIntent().getExtras();
         Context context = view.getContext();
         Intent intent = new Intent(context, Question1Activity.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         context.startActivity(intent);
     }
 }

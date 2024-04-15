@@ -209,6 +209,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -233,6 +235,7 @@ public class HomePage extends AppCompatActivity {
     public static String publicToken;
     private TextView tokenTextView, codeTextView, profileTextView;
 
+    private YourProfile thisProfile;
 
 
         //mAccessCode = thisProfile.getCode();
@@ -249,16 +252,18 @@ public class HomePage extends AppCompatActivity {
         Button tokenBtn = (Button) findViewById(R.id.token_btn);
 
         Bundle bundle = getIntent().getExtras();
-
-//        username = bundle.getString("username");
-
-        YourProfile thisProfile = accountsDatabaseHandler.getAccount(username);
+        if (bundle != null) {
+            username = bundle.getString("username");
+        }
+        thisProfile = accountsDatabaseHandler.getAccount(username);
 
         Button settings = (Button) findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = getIntent().getExtras();
                 Intent intent = new Intent(HomePage.this, Settings.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -267,7 +272,14 @@ public class HomePage extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = getIntent().getExtras();
+                if (bundle != null) {
+                    username = bundle.getString("username");
+                }
                 Intent intent = new Intent(HomePage.this, ProfilePagePlaceholder.class);
+                if (bundle != null) {
+                    intent.putExtras(bundle);
+                }
                 startActivity(intent);
             }
         });
@@ -292,28 +304,23 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void showTopTracksPopup(View view) {
+        List<String> topTrackNames = new ArrayList<>();
+        if (SpotifyApiHelperActivitySongs.isSaved) {
+            SpotifyApiHelperActivitySongs.isSaved = false;
+            topTrackNames = accountsDatabaseHandler.getSavedWrapped(username);
+        }
+        System.out.println("AAAAAAA " + topTrackNames);
         PopupMenu popupMenu = new PopupMenu(this, view);
         Menu menu = popupMenu.getMenu();
-
+        if (topTrackNames.size() > 1) {
         // Add top track names to the popup menu
-        for (int i = 0; i < SpotifyApiHelper.topTrackNames.size(); i++) {
-            menu.add(Menu.NONE, i, Menu.NONE, SpotifyApiHelper.topTrackNames.get(i));
+        for (int i = 1; i < topTrackNames.size(); i++) {
+            menu.add(Menu.NONE, i, Menu.NONE, topTrackNames.get(i));
         }
-
-        // Set a click listener for the popup menu items
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                // Handle item click here
-                int position = item.getItemId();
-                String trackName = SpotifyApiHelper.topTrackNames.get(position);
-                // Do something with the selected track name
-                return true;
-            }
-        });
-
-        // Show the popup menu
-        popupMenu.show();
+            popupMenu.show();
+        } else {
+            Toast.makeText(getApplicationContext(), "You have no saved tracks", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -411,8 +418,12 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void toSongs(View view) {
+        Bundle bundle = getIntent().getExtras();
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivitySongs.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         context.startActivity(intent);
     }
     public void myAccount(View view) {

@@ -1,5 +1,6 @@
 package com.example.spotifytest;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +20,12 @@ public class Settings extends AppCompatActivity {
         goToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Settings.this, HomePage.class);
+                Bundle bundle = getIntent().getExtras();
+                Context context = v.getContext();
+                Intent intent = new Intent(context, HomePage.class);
+                if (bundle != null) {
+                    intent.putExtras(bundle);
+                }
                 startActivity(intent);
             }
         });

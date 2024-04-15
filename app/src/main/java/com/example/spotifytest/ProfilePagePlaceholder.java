@@ -40,8 +40,9 @@ public class ProfilePagePlaceholder extends AppCompatActivity
         setContentView(R.layout.profile_page);
 
         Bundle bundle = getIntent().getExtras();
-        username = bundle.getString("username");
-
+        if (bundle != null) {
+            username = bundle.getString("username");
+        }
 
         thisProfile = accountsDatabaseHandler.getAccount(username);
 

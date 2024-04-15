@@ -22,7 +22,7 @@ public class SeeInvites extends AppCompatActivity {
         ListView invitesListView = findViewById(R.id.invitesList);
         ArrayList<String> invitesList = new ArrayList<>();
 
-        if (invites.equals("invites,")) {
+        if (invites != null && invites.equals("invites,")) {
             Toast.makeText(SeeInvites.this, "You have no invites", Toast.LENGTH_SHORT).show();
 
         }
