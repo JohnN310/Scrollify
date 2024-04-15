@@ -122,20 +122,6 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
                 saveWrapped();
             }
         });
-
-//        Bundle bundle = getIntent().getExtras();
-//        if (bundle != null) {
-//            thisProfile = accountsDatabaseHandler.getAccount(bundle.getString("username"));
-//            Log.d("MyTag", "ITS NOT NULL");
-//
-//        }
-//        if (SpotifyApiHelper.topTrackNames != null) {
-//            accountsDatabaseHandler.saveTopTracks(SpotifyApiHelper.topTrackNames);
-//            String topTracksString = String.join(",", SpotifyApiHelper.topTrackNames); // Using comma as delimiter
-//            thisProfile.setTop5SongList(topTracksString);
-//            thisProfile.setListTop5SongList(SpotifyApiHelper.topTrackNames);
-//            Log.d("MyTag", "ITS NOT NULL");
-//        }
     }
 
     private void saveWrapped() {

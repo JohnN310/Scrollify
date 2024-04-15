@@ -164,6 +164,15 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
             }
         });
         changeBackgroundBasedOnSpecialDays();
+//        Bundle bundle = getIntent().getExtras();
+//        String username1 = "";
+//        if (bundle != null) {
+//            username1 = bundle.getString("username");
+//        }
+//        System.out.println(username1);
+//        List<String> topSongs = SpotifyApiHelper.topTrackNames;
+//        accountsDatabaseHandler.addSavedWrapped(username1, topSongs);
+//        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAa " + topSongs);
     }
 
     private void showPopupMenu() {
@@ -270,8 +279,12 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
             Toast.makeText(this, "You have no favorite tracks or artists!", Toast.LENGTH_SHORT).show();
         }
         else {
+            Bundle bundle = getIntent().getExtras();
             Context context = view.getContext();
             Intent intent = new Intent(context, SpotifyApiHelperActivityRecommendations.class);
+            if (bundle != null) {
+                intent.putExtras(bundle);
+            }
             context.startActivity(intent);
         }
     }

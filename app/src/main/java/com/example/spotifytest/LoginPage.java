@@ -106,7 +106,7 @@ public class LoginPage extends AppCompatActivity  {
                 if (result == 3) {
                     Intent intent = new Intent(LoginPage.this, ProfilePagePlaceholder.class);
                     Intent intent2 = new Intent(LoginPage.this, HomePage.class);
-                    Intent intent3 = new Intent(LoginPage.this, SpotifyApiHelper.class);
+                    Intent intent3 = new Intent(LoginPage.this, SpotifyApiHelperActivitySongs.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("username", inputUsername.getText().toString());
                     intent.putExtras(bundle);

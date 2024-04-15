@@ -304,11 +304,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     private void showTopTracksPopup(View view) {
-        List<String> topTrackNames = new ArrayList<>();
-        if (SpotifyApiHelperActivitySongs.isSaved) {
-            SpotifyApiHelperActivitySongs.isSaved = false;
-            topTrackNames = accountsDatabaseHandler.getSavedWrapped(username);
-        }
+        List<String> topTrackNames = accountsDatabaseHandler.getSavedWrapped(username);
         System.out.println("AAAAAAA " + topTrackNames);
         PopupMenu popupMenu = new PopupMenu(this, view);
         Menu menu = popupMenu.getMenu();
