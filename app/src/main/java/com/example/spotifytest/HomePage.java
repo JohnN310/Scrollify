@@ -182,9 +182,7 @@
 package com.example.spotifytest;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.content.Intent;
@@ -192,26 +190,14 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.spotifytest.R;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-import org.checkerframework.checker.units.qual.A;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class HomePage extends AppCompatActivity {
 
@@ -222,28 +208,22 @@ public class HomePage extends AppCompatActivity {
     public static final int AUTH_CODE_REQUEST_CODE = 1;
 
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
-    private String mAccessToken, mAccessCode, mUserProfile;
+    private String mAccessToken;
     Button pastMonth, pastSixMonths, pastYear, saved, profilePage, settings;
     AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(this);
     String username;
 
     public static String publicToken;
     private TextView tokenTextView, codeTextView, profileTextView;
-
-
-
-        //mAccessCode = thisProfile.getCode();
-        //getToken();
   
     private Call mCall;
 
-    Button my_accountBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simple_welcome_page);
         // Initialize the buttons
-        Button tokenBtn = (Button) findViewById(R.id.token_btn);
+        Button tokenBtn = (Button) findViewById(R.id.lastMonth);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -256,6 +236,9 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, Settings.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -265,18 +248,25 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, ProfilePagePlaceholder.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
 
-
-        my_accountBtn = (Button) findViewById(R.id.my_account_btn);
-
-        // Set the click listeners for the buttons
-
-        tokenBtn.setOnClickListener((v) -> {
-            getToken();
+        Button seeWraps = (Button) findViewById(R.id.savedWraps);
+        seeWraps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, ProfilePagePlaceholder.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         });
+
 
     }
 
@@ -322,7 +312,7 @@ public class HomePage extends AppCompatActivity {
         }
         Log.d("SpotifyApiHelper", "Token: "+publicToken);
         if (publicToken != null) {
-            Button tokenBtn1 = findViewById(R.id.token_btn);
+            Button tokenBtn1 = findViewById(R.id.lastMonth);
             toSongs(tokenBtn1);
         }
     }
@@ -376,6 +366,9 @@ public class HomePage extends AppCompatActivity {
     public void toSongs(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivitySongs.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("username", username);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
     public void myAccount(View view) {
