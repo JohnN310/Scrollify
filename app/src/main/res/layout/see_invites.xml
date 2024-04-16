@@ -5,7 +5,22 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfilePage" >
+    android:background="@color/mainBackground"
+    tools:context=".SeeInvites" >
+
+
+    <Button
+        android:id="@+id/goToHome"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/profile"
+        android:foreground="@drawable/profile"
+        android:backgroundTint="@color/mainBrown"
+        android:foregroundTint="@color/mainBrown"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/yourInvites"
@@ -13,10 +28,12 @@
         android:layout_height="wrap_content"
         android:text="@string/see_invites"
         android:textSize="28sp"
-        android:layout_marginTop="40dp"
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/goToHome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

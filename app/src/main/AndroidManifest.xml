@@ -37,13 +37,18 @@
         <activity android:name=".SpotifyApiHelperActivitySongs" />
         <activity android:name=".Question1Activity" />
         <activity android:name=".Question2Activity" />
-        <activity android:name=".ProfilePage" />
         <activity android:name=".ProfilePagePlaceholder" />
         <activity android:name=".LoginPage" />
         <activity android:name=".HomePage" />
         <activity android:name=".SeeInvites" />
         <activity android:name=".Settings" />
         <activity android:name=".ViewScreenshotActivity" />
+        <activity android:name=".Admin" />
+        <activity android:name=".SeeFriend" />
+        <activity android:name=".YourMajor" />
+
+
+
 
     </application>
 

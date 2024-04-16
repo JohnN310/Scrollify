@@ -97,6 +97,11 @@ public class SpotifyApiHelperArtists {
     private void cancelCall() {
         mOkHttpClient.dispatcher().cancelAll();
     }
+
+    public ArrayList<String> getTopGenres() {
+        return new ArrayList<>(topGenres);
+    }
+
 }
 
 

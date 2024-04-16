@@ -1,23 +1,24 @@
 package com.example.spotifytest;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.graphics.Typeface;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class AddFriendDialog extends AppCompatDialogFragment {
+public class DeleteProfileDialog extends AppCompatDialogFragment {
 
-    AddFriendDialogInterface dialogInterface;
+    DeleteProfileDialogInterface dialogInterface;
 
     @NonNull
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
@@ -25,22 +26,21 @@ public class AddFriendDialog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.add_friend_dialog, null);
-
-        EditText add_friend_username = (EditText) view.findViewById(R.id.add_friend_username);
+        View view = inflater.inflate(R.layout.accept_invite, null);
 
 
         builder.setView(view)
-                .setTitle("")
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                .setTitle("Are you sure you want to delete your account?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String friend = add_friend_username.getText().toString();
-                        dialogInterface.sendNewFriendInput(friend);
+                        dialogInterface.delProfile(true);
                     }
 
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        dialogInterface.delProfile(false);
+
                     }
                 });
 
@@ -51,11 +51,11 @@ public class AddFriendDialog extends AppCompatDialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        dialogInterface = (AddFriendDialogInterface) context;
+        dialogInterface = (DeleteProfileDialogInterface) context;
 
     }
-    public interface AddFriendDialogInterface {
-        void sendNewFriendInput(String friendUsername);
+    public interface DeleteProfileDialogInterface {
+        void delProfile(boolean bool);
     }
 
 }

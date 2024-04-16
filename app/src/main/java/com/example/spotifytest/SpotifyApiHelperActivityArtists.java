@@ -121,11 +121,17 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
 
     private Button btnCapture;
 
+    public String topSongs;
+    public String topArtists;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_api_helper_artists);
+
+        Bundle bundle = getIntent().getExtras();
+        topSongs = bundle.getString("top songs");
 
 
         // Initialize ListView
@@ -167,7 +173,11 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                captureScreen();
+//                captureScreen();
+
+
+
+
             }
         });
     }
@@ -326,6 +336,10 @@ public class SpotifyApiHelperActivityArtists extends AppCompatActivity {
         else {
             Context context = view.getContext();
             Intent intent = new Intent(context, SpotifyApiHelperActivityRecommendations.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("top songs", topSongs);
+            bundle.putString("top artists", topSongs);
+            intent.putExtras(bundle);
             context.startActivity(intent);
         }
     }

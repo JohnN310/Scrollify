@@ -104,16 +104,24 @@ public class LoginPage extends AppCompatActivity  {
 
                 int result = accountsDatabaseHandler.authenticate(inputUsername.getText().toString(), inputPassword.getText().toString());
                 if (result == 3) {
-                    Intent intent = new Intent(LoginPage.this, ProfilePagePlaceholder.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("username", inputUsername.getText().toString());
-                    intent.putExtras(bundle);
-                    System.out.println("Here we are");
-                    startActivity(intent);
+                    try {
+                        Intent intent = new Intent(LoginPage.this, ProfilePagePlaceholder.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("username", inputUsername.getText().toString());
+                        intent.putExtras(bundle);
+                        System.out.println("Here we are");
+                        startActivity(intent);
+
+                    } catch (Exception e) {
+                        Toast.makeText(LoginPage.this, "Failed to login, restart phone", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (result == 2) {
                     Toast.makeText(LoginPage.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                 } else if (result == 1) {
                     Toast.makeText(LoginPage.this, "This account does not exist!", Toast.LENGTH_SHORT).show();
+                } else if (result == 4) {
+                    Intent intent = new Intent(LoginPage.this, Admin.class);
+                    startActivity(intent);
                 }
 
 

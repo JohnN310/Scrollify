@@ -1,7 +1,6 @@
 package com.example.spotifytest;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,25 +9,14 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.spotifytest.R;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class SimpleWelcomePage_Testing extends AppCompatActivity {
 
@@ -50,7 +38,7 @@ public class SimpleWelcomePage_Testing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simple_welcome_page);
         // Initialize the buttons
-        Button tokenBtn = (Button) findViewById(R.id.token_btn);
+        Button tokenBtn = (Button) findViewById(R.id.lastMonth);
 
         tokenTextView = (TextView) findViewById(R.id.token_text_view);
 
@@ -103,7 +91,7 @@ public class SimpleWelcomePage_Testing extends AppCompatActivity {
         }
         Log.d("SpotifyApiHelper", "Token: "+publicToken);
         if (publicToken != null) {
-            Button tokenBtn1 = findViewById(R.id.token_btn);
+            Button tokenBtn1 = findViewById(R.id.lastMonth);
             toSongs(tokenBtn1);
         }
     }

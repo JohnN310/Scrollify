@@ -15,6 +15,8 @@ public class Settings extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.settings);
 
+
+
         goToHome = (Button) findViewById(R.id.goToHome);
         goToHome.setOnClickListener(new View.OnClickListener() {
             @Override

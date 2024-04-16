@@ -12,6 +12,7 @@ public class YourProfile {
     private String code;
     private String friends;
     private String invites;
+    private String wraps;
     private List<Song> top5SongList;
     private List<Artist> top5ArtistList;
     private List<Genre> top5GenreList;
@@ -22,7 +23,7 @@ public class YourProfile {
         top5GenreList = new ArrayList<>();
     }
 
-    public YourProfile(String username, String password, String name, String code, String friends, String invites) {
+    public YourProfile(String username, String password, String name, String code, String friends, String invites, String wraps) {
         this();
         this.username = username;
         this.password = password;
@@ -30,6 +31,7 @@ public class YourProfile {
         this.code = code;
         this.friends = friends;
         this.invites = invites;
+        this.wraps = wraps;
     }
 
     public YourProfile(String username, String password, String name, String code) {
@@ -66,6 +68,13 @@ public class YourProfile {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getWraps() {
+        return wraps;
+    }
+
+    public void setWraps(String password) {
+        this.wraps = wraps;
     }
 
     public String getPersonalToken() {

@@ -23,13 +23,39 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/token_btn"
+        android:id="@+id/lastMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:backgroundTint="@color/buttonBlue"
-        android:text="@string/my_wrapped"
+        android:text="@string/past_month"
         app:layout_constraintTop_toBottomOf="@id/homeText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/last6Months"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:backgroundTint="@color/buttonBlue"
+        android:text="@string/past_six_months"
+        app:layout_constraintTop_toBottomOf="@id/lastMonth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/lastYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:backgroundTint="@color/buttonBlue"
+        android:text="@string/past_year"
+        app:layout_constraintTop_toBottomOf="@id/last6Months"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="40dp"
@@ -63,7 +89,7 @@
         android:onClick="settings"/>
 
     <Button
-        android:id="@+id/viewButton"
+        android:id="@+id/savedWraps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="viewSaved"
@@ -71,8 +97,8 @@
         android:backgroundTint="@color/buttonBlue"
         android:fontFamily="monospace"
         android:textSize="20sp"
-        android:layout_marginTop="30sp"
-        app:layout_constraintTop_toBottomOf="@+id/token_btn"
+        android:layout_marginTop="40sp"
+        app:layout_constraintTop_toBottomOf="@+id/lastYear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

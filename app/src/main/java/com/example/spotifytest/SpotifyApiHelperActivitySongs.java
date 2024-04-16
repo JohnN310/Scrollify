@@ -2,56 +2,32 @@ package com.example.spotifytest;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.provider.MediaStore;
 
 
@@ -70,11 +46,16 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
     private static final int REQUEST_CODE = 101;
     private Button btnCapture;
     private ImageView imageView;
+    public String topSongs;
+    AccountsDatabaseHandler accountsDatabaseHandler = new AccountsDatabaseHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_api_helper_songs);
+
+        Bundle bundle = getIntent().getExtras();
+        String username = bundle.getString("username");
 
         // Initialize ListView
         listView = findViewById(R.id.listView);
@@ -116,7 +97,26 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             captureScreen();
+//             captureScreen();
+
+                int itemCount = listView.getCount();
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (int i = 0; i < itemCount; i++) {
+                    Object item = listView.getItemAtPosition(i);
+                    // Assuming each item in the ListView is a String
+                    if (item instanceof String) {
+                        String listItem = (String) item;
+                        stringBuilder.append(listItem).append(".");
+                        if (i < itemCount - 1) {
+                            stringBuilder.append(", "); // Add comma and space between items
+                        }
+                    }
+                }
+
+                topSongs = stringBuilder.toString();
+
+
             }
         });
     }
@@ -268,6 +268,9 @@ public class SpotifyApiHelperActivitySongs extends AppCompatActivity {
     public void topArtists(View view) {
         Context context = view.getContext();
         Intent intent = new Intent(context, SpotifyApiHelperActivityArtists.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("top songs", topSongs);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
     public void back(View view) {

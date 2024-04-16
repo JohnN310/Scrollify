@@ -54,14 +54,14 @@
         android:id="@+id/goToHome"
         android:layout_width="70dp"
         android:layout_height="60dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/home"
         android:foreground="@drawable/home"
         android:backgroundTint="@color/mainBrown"
         android:foregroundTint="@color/mainBrown"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

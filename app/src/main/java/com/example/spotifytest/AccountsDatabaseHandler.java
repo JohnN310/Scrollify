@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import android.util.Log;
+
 
 import androidx.annotation.Nullable;
 
@@ -23,6 +26,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     private static final String code = "code";
     private static final String friends = "friends";
     private static final String invites = "invites";
+    private static final String savedWraps = "wraps";
 
     public AccountsDatabaseHandler(@Nullable Context context) {
         super(context, databaseName, null, databaseVersion);
@@ -39,7 +43,8 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
                 + name + " TEXT,"
                 + code + " TEXT,"
                 + friends + " TEXT,"
-                + invites + " TEXT)";
+                + invites + " TEXT,"
+                + savedWraps + " TEXT)";
 
 
         // at last we are calling a exec sql
@@ -65,8 +70,9 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         values.put(password, userPassword);
         values.put(name, userName);
         values.put(code, userCode);
-        values.put(friends, "friends,");
-        values.put(invites, "invites,");
+        values.put(friends, "friends");
+        values.put(invites, "invites");
+        values.put(savedWraps, "wraps");
 
         // after adding all values we are passing
         // content values to our table.
@@ -112,8 +118,118 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 
             if (userUsername.equals(cursor.getString(0))) {
                 String prevInvites = cursor.getString(5);
-                values.put(invites, prevInvites + newFriend + ",");
+                values.put(invites, prevInvites + "," + newFriend);
                 db.update(tableName, values, "username=?", new String[]{userUsername});
+                break;
+            }
+            cursor.moveToNext();
+
+        }
+        cursor.close();
+        db.close();
+    }
+
+    public void removeInvite(String userUsername, String friendToRemove) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{userUsername});
+
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
+            if (userUsername.equals(cursor.getString(0))) {
+                String prevInvites = cursor.getString(5);
+
+                String newInvites;
+
+                int beginning = prevInvites.indexOf("," + friendToRemove);
+                // "invites,esha,david" -> beginning = 7
+
+                if (!prevInvites.contains(friendToRemove + ",")) {
+                    //if this invite is the last one
+                    newInvites = prevInvites.substring(0, beginning);
+                } else  {
+                    int len = friendToRemove.length() + 1;
+                    newInvites = prevInvites.substring(0, beginning) + prevInvites.substring(beginning + len);
+                }
+
+                System.out.println(newInvites);
+
+                values.put(invites, newInvites);
+                db.update(tableName, values, "username=?", new String[]{userUsername});
+                break;
+
+            }
+            cursor.moveToNext();
+
+        }
+
+        cursor.close();
+        db.close();
+    }
+
+    public void removeFriend(String userUsername, String friendToRemove) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{userUsername});
+
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
+            if (userUsername.equals(cursor.getString(0))) {
+                String prevFriends = cursor.getString(4);
+
+                String newFriends;
+
+                int beginning = prevFriends.indexOf("," + friendToRemove);
+                // "invites,esha,david" -> beginning = 7
+
+                if (!prevFriends.contains(friendToRemove + ",")) {
+                    //if this invite is the last one
+                    newFriends = prevFriends.substring(0, beginning);
+                } else  {
+                    int len = friendToRemove.length() + 1;
+                    newFriends = prevFriends.substring(0, beginning) + prevFriends.substring(beginning + len);
+                }
+
+                System.out.println(newFriends);
+
+                values.put(friends, newFriends);
+                db.update(tableName, values, "username=?", new String[]{userUsername});
+                break;
+
+            }
+            cursor.moveToNext();
+
+        }
+
+        cursor.close();
+        db.close();
+    }
+
+    public void addWrap(String username, String data) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{username});
+
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
+            if (username.equals(cursor.getString(0))) {
+                String prevWraps = cursor.getString(6);
+                values.put(savedWraps, prevWraps + "," + data );
+                db.update(tableName, values, "username=?", new String[]{username});
                 break;
             }
             cursor.moveToNext();
@@ -137,7 +253,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
 
             if (userUsername.equals(cursor.getString(0))) {
                 String prevFriends = cursor.getString(4);
-                values.put(friends, prevFriends + newFriend + ",");
+                values.put(friends, prevFriends + "," + newFriend);
                 db.update(tableName, values, "username=?", new String[]{userUsername});
                 break;
             }
@@ -156,30 +272,49 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{username});
         if (cursor.getCount() > 0) {
             db.close();
+
+            System.out.println(username + " exists!");
             return true;
 
         }
         db.close();
+        System.out.println("nonexistent");
         return false;
 
     }
 
     public int authenticate(String username, String password) {
 
+        if (username.equals("admin") && password.equals("admin")) {
+            return 4;
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("Select * from accounts where username = ? and password = ?", new String[]{username, password});
-        if (cursor.getCount() > 0) {
-            db.close();
-            return 3;
-        } else if (db.rawQuery("Select * from accounts where username = ?", new String[]{username}).getCount() > 0) {
-            db.close();
-            return 2;
+        Cursor cursor = db.rawQuery("Select * from accounts where username = ?", new String[]{username});
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
+            if (username.equals(cursor.getString(0))) {
+                if (cursor.getString(1).equals(password)) {
+                    return 3;
+                } else if (!cursor.getString(1).equals(password)) {
+                    return 2;
+                }
+            }
+
+            cursor.moveToNext();
+
         }
+
+        cursor.close();
         db.close();
+
         return 1;
 
     }
+
 
     public YourProfile getAccount(String userName) {
 
@@ -198,6 +333,7 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
                 thisProfile.setCode(cursor.getString(3));
                 thisProfile.setFriends(cursor.getString(4));
                 thisProfile.setInvites(cursor.getString(5));
+                thisProfile.setWraps(cursor.getString(6));
                 break;
             }
             cursor.moveToNext();
@@ -224,31 +360,26 @@ public class AccountsDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<YourProfile> readProfiles() {
-        // on below line we are creating a
-        // database for reading our database.
-        SQLiteDatabase database = this.getReadableDatabase();
+    public List<String> readProfiles() {
 
-        // on below line we are creating a cursor with query to
-        // read data from database.
-        Cursor profileCursor = database.rawQuery("SELECT * FROM " + tableName, null);
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        // on below line we are creating a new array list.
-        ArrayList<YourProfile> profilesArrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("Select * from accounts", null);
+        List<String> profiles = new ArrayList<>();
 
-        // moving our cursor to first position.
-        if (profileCursor.moveToFirst()) {
-            do {
-                // on below line we are adding the data from
-                // cursor to our array list.
-                profilesArrayList.add(new YourProfile(profileCursor.getString(0), profileCursor.getString(1), profileCursor.getString(2), profileCursor.getString(3), profileCursor.getString(4), profileCursor.getString(5)));
-            } while (profileCursor.moveToNext());
-            // moving our cursor to next.
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+                String thisProfile = cursor.getString(0) + " - ";
+                thisProfile += cursor.getString(2);
+                profiles.add(thisProfile);
+            cursor.moveToNext();
         }
-        // at last closing our cursor
-        // and returning our array list.
-        profileCursor.close();
-        return profilesArrayList;
+
+        cursor.close();
+        db.close();
+
+        return profiles;
+
     }
 
 
